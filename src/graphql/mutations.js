@@ -110,3 +110,14 @@ export const DELETE_RECORDATORIO =gql`
     deleteRecordatorio(id:$id)
   }
 `
+
+export const CREATE_MENSAJE = gql`
+  mutation($texto:String, $fecha:Date, $marca:String){
+    createMensaje(input:{texto:$texto, fecha:$fecha, marca:$marca}){
+      texto
+    user
+    marca
+    fecha
+    }
+  }
+`

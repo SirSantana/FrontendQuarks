@@ -7,6 +7,7 @@ import { Theme } from "../../theme";
 
 export default function ChatScreen(){
     let [visibleChat, setVisibleChat] = useState(false)
+    
 
     return(
         <>

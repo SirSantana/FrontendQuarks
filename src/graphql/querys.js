@@ -14,6 +14,18 @@ export const GET_ONE_GASTO = gql`
     }
   }
 `
+export const GET_MENSAJES = gql`
+  query getMensajes($marca:String){
+    getMensajes(marca:$marca){
+      texto
+    user
+    fecha
+    marca
+    avatar
+    name
+    }
+  }  
+`
 export const GET_RECORDATORIO = gql`
     query getOneRecordatorio($id:ID){
         getOneRecordatorio(id:$id){
