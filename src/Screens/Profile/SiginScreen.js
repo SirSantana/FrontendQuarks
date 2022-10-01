@@ -1,5 +1,5 @@
 
-import {View, Text, TextInput, Pressable, Image, Alert, Modal, ScrollView} from 'react-native'
+import {View, Text, TextInput, Pressable, Image, Alert, Modal, ScrollView, TouchableOpacity} from 'react-native'
 import { useMutation, gql } from '@apollo/client'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFormik } from 'formik'
@@ -19,7 +19,7 @@ const initialForm = {
   password:''
 }
 const validationSchema ={
-  email: Yup.string().required('Debes colocar un email'),
+  email: Yup.string().required('Debes colocar un email').email(),
   password: Yup.string().required('Debes colocar una password')
 
 }
@@ -37,9 +37,11 @@ export default function SignInScreen(){
       },
 
     })
+   useEffect(()=>{
     if(error){
-      Alert.alert('Ha ocurrido un error')
+      Alert.alert(error?.message)
     }
+   },[error])
 
     useEffect(()=>{
       if(data){
@@ -76,18 +78,18 @@ export default function SignInScreen(){
             style={Theme.input.basic}
            
             />
-            <Pressable
+            <TouchableOpacity
             onPress={formik.handleSubmit}
             disabled={loading}
             style={{width:'100%',backgroundColor:'#1b333d', height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
                 <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Iniciar Sesion</Text>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity
             disabled={loading}
             onPress={()=> navigation.navigate('SignUp')}
             style={{width:'100%', height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
                 <Text style={{color:'#1b333d', fontSize:18, fontWeight:"600"}}>No tienes una cuenta? Registrate</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
             
           {loading &&

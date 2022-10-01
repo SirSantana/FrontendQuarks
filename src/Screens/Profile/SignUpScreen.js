@@ -16,7 +16,7 @@ import { SIGN_UP } from '../../graphql/mutations'
 
 const initialForm = {
   name:'',
-  lastName:'',
+  apellido:'',
   email:'',
   password:'',
   confirmPassword:'',
@@ -24,7 +24,7 @@ const initialForm = {
 }
 const validationSchema ={
   name:Yup.string().required('Debes colocar un nombre'),
-  lastName:Yup.string().required('Debes colocar un apellido'),
+  apellido:Yup.string().required('Debes colocar un apellido'),
   email: Yup.string().required('Debes colocar un email').email(),
   password: Yup.string().required('Debes colocar una password'),
   confirmPassword:Yup.string()
@@ -43,7 +43,6 @@ export const SignUpScreen = () => {
   validationSchema:Yup.object(validationSchema),
   onSubmit:(formValue)=>{
     signUp({variables:formValue})
-    console.log(formValue);
   },
 
 })
@@ -60,7 +59,6 @@ useEffect(()=>{
     login(data?.signUp?.user)
   }
 },[data])
-const {height, width} = Dimensions.get('window')
 
     return(
       <KeyboardAwareScrollView 
@@ -82,14 +80,14 @@ const {height, width} = Dimensions.get('window')
 
             />
             
-          {formik.errors.lastName && <Text style={{color:'red'}}>{formik.errors.lastName}</Text>}
+          {formik.errors.apellido && <Text style={{color:'red'}}>{formik.errors.apellido}</Text>}
             <TextInput
-          value={formik.values.lastName}
+          value={formik.values.apellido}
             placeholder='Apellido'
             maxLength={15}
 
             style={Theme.input.basic}
-            onChangeText={(text)=> formik.setFieldValue('lastName', text)}
+            onChangeText={(text)=> formik.setFieldValue('apellido', text)}
             />
           {formik.errors.email && <Text style={{color:'red'}}>{formik.errors.email}</Text>}
             
@@ -136,7 +134,7 @@ const {height, width} = Dimensions.get('window')
          transparent={true}
 
        >
-          <ModalCargando text='Ingresando...'/>
+          <ModalCargando text='Registrando...'/>
        </Modal>
          }
         </View>

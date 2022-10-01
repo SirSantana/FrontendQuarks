@@ -73,13 +73,13 @@ export const CarScreen=({route}) =>{
 
 
       <View style={{  flexDirection:'row', justifyContent:'space-between', width:'60%', marginTop:20}}>
-          <Pressable onPress={()=>handleCreate('Carro')} style={Theme.containers.containerBox}>
+          <TouchableOpacity onPress={()=>handleCreate('Carro')} style={Theme.containers.containerBox}>
           <Image style={{width:80, height:80}} source={require('../../../assets/carroBlanco.png')}/>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable onPress={()=>handleCreate("Moto")}style={Theme.containers.containerBox}>
+          <TouchableOpacity onPress={()=>handleCreate("Moto")}style={Theme.containers.containerBox}>
           <Image style={{width:80, height:80}} source={require('../../../assets/motoBlanca.png')}/>
-          </Pressable>
+          </TouchableOpacity>
           
       </View>
       {data?.getCars?.length>0 &&

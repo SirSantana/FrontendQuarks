@@ -88,11 +88,12 @@ mutation signIn($email: String!, $password:String!) {
   }
 `  
 export const SIGN_UP = gql`
-mutation signUp($email: String!, $password:String!, $name:String!, $lastName:String!, $confirmPassword:String!) {
-  signUp(input:{email: $email, password:$password, name:$name, confirmPassword:$confirmPassword, lastName:$lastName}) {
+mutation signUp($email: String!, $password:String!, $name:String!, $apellido:String!, $confirmPassword:String!) {
+  signUp(input:{email: $email, password:$password, name:$name, confirmPassword:$confirmPassword, apellido:$apellido}) {
     user {
       email
       name
+      apellido
       id
     }
     token
