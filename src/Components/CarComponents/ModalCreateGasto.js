@@ -141,6 +141,7 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
               delete form[property]
         }
       }
+      
       setForm({...form})
       updateGasto({variables:{...form, id:item.id}})
       setForm(initialForm)

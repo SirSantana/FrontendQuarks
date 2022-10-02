@@ -25,10 +25,10 @@ const initialForm = {
 const validationSchema ={
   name:Yup.string().required('Debes colocar un nombre'),
   apellido:Yup.string().required('Debes colocar un apellido'),
-  email: Yup.string().required('Debes colocar un email').email(),
+  email: Yup.string().required('Debes colocar un email').email('Debe ser un email valido'),
   password: Yup.string().required('Debes colocar una password'),
   confirmPassword:Yup.string()
-  .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+  .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir'),
 
 }
 

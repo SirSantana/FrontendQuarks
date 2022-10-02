@@ -13,6 +13,8 @@ import VehiculeDataScreen from '../Screens/Car/VehiculeDataScreen';
 import GastosScreen from '../Screens/Car/GastosScreen';
 import ChatScreen from '../Screens/Home/ChatScreen';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import StoreScreen from '../Screens/Store/StoreScreen';
+import { MaterialIcons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -24,15 +26,20 @@ const TabBarIcon=({color, name})=>{
   if(name=== 'car'|| name ==='user-alt'){
     return <FontAwesome5 name={name} size={24} color={color} />
   }
+  if(name === 'store'){
+    return <MaterialIcons name="store" size={24} color={color} />
+  }
 }
 
 export const Navigation=()=>{
   return(
     <NavigationContainer >
       <Tab.Navigator barStyle={{backgroundColor:'white'}} screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="Store" component={StackStore} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='store'/>}}/>
         <Tab.Screen name="Car" component={StackCar} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='car'/>}}/>
-        <Tab.Screen name="Home" component={StackHome} options={{tabBarIcon:()=><Image  style={{width:30, height:30}} source={require('../../assets/Logo.png')}/>}} />
+        <Tab.Screen name="Home" component={StackHome} options={{tabBarIcon:()=><Image  style={{width:20, height:20}} source={require('../../assets/Logo.png')}/>}} />
         <Tab.Screen name="Profile" component={StackProfile} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='user-alt'/>}}/>
+
       </Tab.Navigator>
     </NavigationContainer>
   )
@@ -44,6 +51,14 @@ function StackHome() {
       <Stack.Navigator >
         <Stack.Screen name="Inicio" component={HomeScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Chat" component={ChatScreen} options={{tabBarVisible:false}}/>
+
+      </Stack.Navigator>
+    );
+  }
+  function StackStore() {
+    return (
+      <Stack.Navigator >
+        <Stack.Screen name="Stores" component={StoreScreen} options={{headerShown:false}}/>
 
       </Stack.Navigator>
     );

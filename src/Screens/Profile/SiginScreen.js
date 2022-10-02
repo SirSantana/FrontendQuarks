@@ -19,7 +19,7 @@ const initialForm = {
   password:''
 }
 const validationSchema ={
-  email: Yup.string().required('Debes colocar un email').email(),
+  email: Yup.string().required('Debes colocar un email').email('Debe ser un Email Valido'),
   password: Yup.string().required('Debes colocar una password')
 
 }
