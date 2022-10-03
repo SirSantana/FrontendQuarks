@@ -15,6 +15,7 @@ import ChatScreen from '../Screens/Home/ChatScreen';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import StoreScreen from '../Screens/Store/StoreScreen';
 import { MaterialIcons } from '@expo/vector-icons';
+import IndexStores from '../Screens/Store/IndexStores';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -57,8 +58,9 @@ function StackHome() {
   }
   function StackStore() {
     return (
-      <Stack.Navigator >
+      <Stack.Navigator  >
         <Stack.Screen name="Stores" component={StoreScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="IndexStores" component={IndexStores}/>
 
       </Stack.Navigator>
     );
