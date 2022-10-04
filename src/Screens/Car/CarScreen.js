@@ -8,6 +8,7 @@ import { marcasCarros } from '../../Components/CarComponents/marcasCarros'
 import Vehiculo from '../../Components/CarComponents/Vehiculo'
 import { GET_USER } from '../../Context/AuthContext'
 import { GET_VEHICLES } from '../../graphql/querys'
+import { ActivityIndicator } from 'react-native-paper'
 
 
 
@@ -17,6 +18,8 @@ export const CarScreen=({route}) =>{
     const {user} = useAuth()
     const [create, setCreate] = useState(false)
     const {data, error, loading} = useQuery(GET_VEHICLES)
+  const [loadingImage,setLoadingImage] = useState(true)
+
   const handleCreate=(tipo)=>{
     setCreate(false)
     if(user){
@@ -65,7 +68,8 @@ export const CarScreen=({route}) =>{
 
       :
       <>
-          <Image style={{width:'90%', height:'50%', marginBottom:20}} source={require('../../../assets/CarBack.png')}/>
+          <Image onLoadEnd={()=> setLoadingImage(false)} style={{width:'90%', height:'50%', marginBottom:20}} source={require('../../../assets/CarBack.png')}/>
+          {loadingImage && <ActivityIndicator color={Theme.colors.primary}/>}
 
         <Text style={[Theme.fonts.titleBlue,{width:'90%', textAlign:'center', fontSize:26}]}>Crea tu Vehiculo</Text>
     <Text style={[Theme.fonts.descriptionGray]}>Y empieza a llevar tus gastos!</Text>

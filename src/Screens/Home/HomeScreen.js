@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, {useState} from "react";
-import { SafeAreaView, Text, TouchableOpacity, Image, View, Pressable, FlatList} from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, Image, View, Pressable, FlatList, ActivityIndicator} from "react-native";
 import { marcasCarros } from "../../Components/CarComponents/marcasCarros";
 import { marcasMotos } from "../../Components/CarComponents/marcasMotos";
 import useAuth from "../../hooks/useAuth";
@@ -16,11 +16,13 @@ export const HomeScreen = () => {
   const [tipo,setTipo] = useState('Carro')
   const [marca, setMarca] = useState(null)
 
- 
+  const [loading,setLoading] = useState(true)
   return (
     <SafeAreaView style={[Theme.containers.containerParent, {justifyContent:'center', alignItems:'center'}]}>
           <>
-              <Image style={{width:'100%', height:'70%', marginBottom:'5%'}} source={require('../../../assets/ComunityImage.png')}/>
+              <Image onLoadEnd={()=> setLoading(false)} style={{width:'100%', height:'70%', marginBottom:'5%'}} source={require('../../../assets/ComunityImage.png')}/>
+         {loading && <ActivityIndicator color={Theme.colors.primary}/>}
+
           <Text style={[Theme.fonts.titleBlue,{width:'90%', textAlign:'center', fontSize:26}]}>Bienvenido a la Comunidad</Text>
           <Text style={[Theme.fonts.descriptionGray,{width:'90%', marginBottom:20, textAlign:'center'}]}>Aqui podras colocar tus dudas, y compartir con los demas, pasala bien!</Text>
 

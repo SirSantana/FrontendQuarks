@@ -3,7 +3,7 @@ import { Image } from 'react-native';
 import { Foundation } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import {CarScreen} from '../Screens/Car/CarScreen'
-import { NavigationContainer } from '@react-navigation/native';
+import { getFocusedRouteNameFromRoute, NavigationContainer } from '@react-navigation/native';
 import SignInScreen from '../Screens/Profile/SiginScreen';
 import { SignUpScreen } from '../Screens/Profile/SignUpScreen';
 import { HomeScreen } from '../Screens/Home/HomeScreen';
@@ -16,6 +16,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import StoreScreen from '../Screens/Store/StoreScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 import IndexStores from '../Screens/Store/IndexStores';
+import DetailsStore from '../Components/StoreComponent/DetailsStore';
+import { useLayoutEffect } from 'react';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -35,8 +37,8 @@ const TabBarIcon=({color, name})=>{
 export const Navigation=()=>{
   return(
     <NavigationContainer >
-      <Tab.Navigator barStyle={{backgroundColor:'white'}} screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Store" component={StackStore} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='store'/>}}/>
+      <Tab.Navigator initialRouteName='Profile' barStyle={{backgroundColor:'white'}} screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="Store" component={StackStore} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='store'/> }}/>
         <Tab.Screen name="Car" component={StackCar} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='car'/>}}/>
         <Tab.Screen name="Home" component={StackHome} options={{tabBarIcon:()=><Image  style={{width:20, height:20}} source={require('../../assets/Logo.png')}/>}} />
         <Tab.Screen name="Profile" component={StackProfile} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='user-alt'/>}}/>
@@ -48,6 +50,7 @@ export const Navigation=()=>{
 }
 
 function StackHome() {
+
     return (
       <Stack.Navigator >
         <Stack.Screen name="Inicio" component={HomeScreen} options={{headerShown:false}}/>
@@ -56,11 +59,12 @@ function StackHome() {
       </Stack.Navigator>
     );
   }
-  function StackStore() {
+  function StackStore({ navigation, route }) {
     return (
       <Stack.Navigator  >
         <Stack.Screen name="Stores" component={StoreScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="IndexStores" component={IndexStores}/>
+        <Stack.Screen name="IndexStores" component={IndexStores} />
+        <Stack.Screen name="DetailStore" component={DetailsStore}/>
 
       </Stack.Navigator>
     );

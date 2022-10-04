@@ -9,11 +9,12 @@ export const Negocios = [
         tipo:'Almacen',
         marcas:['Mazda', 'Chevrolet'],
         descripcion:'',
-        servicios:[],
-        premium:false,
+        servicios:['Frenos', 'Suspension', 'Motor', 'Electricos', 'Inyeccion','Frenos', 'Suspension', 'Motor', 'Electricos', 'Inyeccion'],
+        premium:true,
         ciudad:'Bogota',
         pais:'Colombia',
         precio:'',
+        id:1,
     },
     {
         nombre:'Marcar',
@@ -23,11 +24,14 @@ export const Negocios = [
         tipo:'Taller',
         marcas:['Mazda', 'Chevrolet', 'Ford'],
         descripcion:'',
-        servicios:[],
+        servicios:['Cambio de Aceite', 'Cambio de Arrastre'],
         premium:true,
         ciudad:'Bogota',
         pais:'Colombia',
         precio:'',
+        fecha:'3-10-2022',
+        id:2
+
     },
     {
         nombre:'Impocolrep',
@@ -38,31 +42,39 @@ export const Negocios = [
         marcas:['Mazda', 'Chevrolet', 'Ford'],
         descripcion:'',
         servicios:[],
-        premium:true,
+        premium:false,
         ciudad:'Bogota',
         pais:'Colombia',
         precio:'',
+        fecha:'3-10-2022',
+        id:3
+
+
     },
     {
         nombre:'Auto Brasil',
         celular:3134344344,
         direccion: 'cra21a #69a-45',
         imagen:'',
-        tipo:'Taller',
+        tipo:'Lavadero',
         marcas:['Mazda', 'Chevrolet', 'Ford'],
         descripcion:'',
         servicios:[],
-        premium:true,
+        premium:false,
         ciudad:'Bogota',
         pais:'Colombia',
         precio:'',
+        fecha:'3-10-2022',
+        id:4
+
+
     },
     {
         nombre:'Importadora Celeste',
         celular:3134344344,
         direccion: 'cra21a #69a-45',
         imagen:'',
-        tipo:'Taller',
+        tipo:'CDA',
         marcas:['Mazda', 'Chevrolet', 'Ford'],
         descripcion:'',
         servicios:[],
@@ -70,6 +82,8 @@ export const Negocios = [
         ciudad:'Bogota',
         pais:'Colombia',
         precio:'',
+        fecha:'3-10-2022',
+        id:5
     },
     {
         nombre:'Boada',
@@ -84,5 +98,9 @@ export const Negocios = [
         ciudad:'Bogota',
         pais:'Colombia',
         precio:'',
+        fecha:'3-10-2022',
+        id:6
+
+
     }
 ]

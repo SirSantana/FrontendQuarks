@@ -5,13 +5,13 @@ import { SearchBar } from "react-native-screens";
 import { Theme } from "../../theme";
 import { Negocios } from "../../utils/Negocios";
 
-let filtros = [
-    'Talleres', 'Almacenes', 'CDA', 'Lavaderos','Accesorios',
-]
-export default function Buscador(){
-    const [filtro, setFiltro] = useState('Almacenes')
 
-    
+let filtros = [
+    'Taller', 'Almacen', 'CDA', 'Lavadero','Accesorios',
+]
+export default function Buscador({setFiltro, filtro}){
+
+    console.log(filtro);
    
     const render =(item)=>{
         return(

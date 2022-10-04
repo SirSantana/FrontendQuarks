@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { View, Text, Pressable, BackHandler, Modal,TouchableOpacity, ScrollView, Dimensions, Image, SafeAreaView } from 'react-native'
 import { client } from '../../../apollo'
 import EditProfile from '../../Components/Profile/EditProfile'
@@ -21,12 +21,12 @@ export const ProfileScreen = () => {
   }
   const {height, width} = Dimensions.get('window')
   
-  useEffect(()=>{
-    console.log('hola');
-    if(!user){
-      navigation.navigate('SignIn')
-    }
-  },[user])
+  // useLayoutEffect(()=>{
+  //   console.log('hola');
+  //   if(!user){
+  //     navigation.navigate('SignIn')
+  //   }
+  // },[user])
   return (
     <SafeAreaView style={{flexGrow:1}}>
       {user ?
