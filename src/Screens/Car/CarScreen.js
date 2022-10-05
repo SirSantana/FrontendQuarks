@@ -32,8 +32,9 @@ export const CarScreen=({route}) =>{
   
   return (
     <SafeAreaView style={[Theme.containers.containerParent,]}>
-        
-        {data?.getCars?.length>0 && user && !create?
+        {loading ? <ActivityIndicator color={Theme.colors.primary}/>
+        :  
+        data?.getCars?.length>0 && user && !create?
         <View style={{width:'100%',shadowColor: "#000",
         height:"100%",
         paddingTop:'20%',
@@ -86,7 +87,7 @@ export const CarScreen=({route}) =>{
           </TouchableOpacity>
           
       </View>
-      {data?.getCars?.length>0 &&
+      {data?.getCars?.length>0 && user &&
           <Pressable onPress={()=> setCreate(false)} style={[Theme.buttons.primary,{width:'90%', marginTop:20}]}>
                 <Text style={Theme.fonts.titleWhite}>Ver mis Vehiculos</Text>
             </Pressable>}

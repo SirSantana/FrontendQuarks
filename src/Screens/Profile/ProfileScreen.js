@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { View, Text, Pressable, BackHandler, Modal,TouchableOpacity, ScrollView, Dimensions, Image, SafeAreaView } from 'react-native'
+import { View, Text, Pressable, BackHandler, Modal,TouchableOpacity, ScrollView, Dimensions, Image, SafeAreaView, Button } from 'react-native'
 import { client } from '../../../apollo'
 import EditProfile from '../../Components/Profile/EditProfile'
 import Recordatorios from '../../Components/Profile/Recordatorios'
@@ -10,7 +10,7 @@ import UserInfo from '../../Components/Profile/UserInfo'
 import useAuth from '../../hooks/useAuth'
 import { Theme } from '../../theme'
 import SignInScreen from './SiginScreen'
-
+import { Feather } from '@expo/vector-icons';
 
 export const ProfileScreen = () => {
   const navigation = useNavigation()
@@ -27,6 +27,17 @@ export const ProfileScreen = () => {
   //     navigation.navigate('SignIn')
   //   }
   // },[user])
+  useLayoutEffect(()=>{
+    if(user){
+      navigation.setOptions({
+        headerRight:()=>(
+          <Feather onPress={handleLogout} name="log-out" size={24} color="white" />
+          
+        ),
+      })   
+    }
+      
+  },[user])
   return (
     <SafeAreaView style={{flexGrow:1}}>
       {user ?
@@ -49,11 +60,7 @@ export const ProfileScreen = () => {
 
        <Recordatorios name={user?.name}/>
 
-       <Pressable
-      onPress={handleLogout}
-      style={[Theme.buttons.primaryOutlined,{width:'90%'}]}>
-          <Text style={{color:Theme.colors.primary, fontSize:18, fontWeight:"600"}}>Cerrar Sesion</Text>
-      </Pressable>
+       
       </View>
 
       </>
