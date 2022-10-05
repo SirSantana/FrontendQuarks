@@ -11,11 +11,10 @@ let filtros = [
 ]
 export default function Buscador({setFiltro, filtro}){
 
-    console.log(filtro);
    
     const render =(item)=>{
         return(
-            <TouchableOpacity onPress={()=> setFiltro(item)} style={{borderRadius:10,justifyContent:'center', alignItems:'center', backgroundColor: filtro === item ?  Theme.colors.primary: '#f1f1f1',height:50, padding:10,marginHorizontal:10}}>
+            <TouchableOpacity onPress={()=> setFiltro(item)} style={{borderRadius:10,justifyContent:'center', alignItems:'center', backgroundColor: filtro === item ?  Theme.colors.primary: '#f1f1f1',height:50, padding:10,marginHorizontal:5}}>
             <Text style={[Theme.fonts.description,{color:filtro === item ? 'white':'gray'}]}>{item}</Text>
            </TouchableOpacity>
         )

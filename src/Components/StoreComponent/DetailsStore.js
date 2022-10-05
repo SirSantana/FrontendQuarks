@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import { View, Text, Image, ActivityIndicator, ScrollView, FlatList, Dimensions } from "react-native";
+import { View, Text, Image, ActivityIndicator, ScrollView, FlatList, Dimensions, Pressable, Linking, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Theme } from "../../theme";
 import { Negocios } from "../../utils/Negocios";
@@ -14,7 +14,17 @@ export default function DetailsStore({route}){
     const [loading, setLoading] = useState({image:true, marcas:true})
     const navigation = useNavigation()
 
-
+    const sendWhatsapp=(celular)=>{
+        let text = 'Buenos dias, encontre su anuncio en Quarks, estoy interesado en...'
+        const link = `https://wa.me/${celular}?text=${text}`
+        Linking.canOpenURL(link).then((supported)=>{
+            if(!supported){
+                Alert.alert('Este numero no tiene WhatsApp')
+                return
+            }
+            return Linking.openURL(link)
+    })
+    }
     useLayoutEffect(()=>{
     const store = Negocios.find(el=> el?.id == route?.params?.id)
         setStore(store)
@@ -24,10 +34,10 @@ export default function DetailsStore({route}){
     },[])
     const {height, } = Dimensions.get('screen')
     return(
-        <View style={{backgroundColor:'white', padding:10}}>
+        <ScrollView  contentContainerStyle={{backgroundColor:'white', flexGrow:1}} >
 
             {store &&
-            <ScrollView contentContainerStyle={{flexGrow: 1, height:height}}>
+            <View style={{padding:10}}>
             <Text style={Theme.fonts.titleBlue}>{store?.nombre}</Text>
             <Text style={Theme.fonts.descriptionGray}>{store?.direccion}. {store.ciudad}, {store.pais} </Text>
             <Text style={Theme.fonts.descriptionGray}>{store.tipo} de  Autopartes</Text>
@@ -38,11 +48,11 @@ export default function DetailsStore({route}){
                 <View style={{width:'20%'}}>
                 <FontAwesome5 name="car-alt" size={24} color={Theme.colors.primary}  />
                </View >
-            {store.marcas.map(el=>{
+            {store?.marcas?.map(el=>{
                 let src = marcasCarros.find(ele=> ele.marca === el)
                 return(
                     <>
-                    <Image key={el.id} onLoadEnd={()=> setLoading({marcas:false})}  style={{width:40, height:40, marginHorizontal:2}} source={src.src}/>
+                    <Image key={src} onLoadEnd={()=> setLoading({marcas:false})}  style={{width:40, height:40, marginHorizontal:2}} source={src.src}/>
                     {loading.marcas && <ActivityIndicator color={Theme.colors.primary}/>}
                     </>
                     )
@@ -65,12 +75,16 @@ export default function DetailsStore({route}){
             <View style={{width:'20%'}}>
             <FontAwesome name="whatsapp" size={26} color={Theme.colors.primary} />
             </View>
-            <Text style={Theme.fonts.descriptionGray}>+57 {store?.celular} </Text>
+            <Text style={Theme.fonts.descriptionGray}>+{store?.celular} </Text>
             
             </View>
-            <View style={{height:1, width:'100%', backgroundColor:'#f1f1f1'}}/>
+            <View style={{ width:'100%', backgroundColor:'#f1f1f1'}}/>
 
-            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'flex-start', padding:10}}>
+            {store.servicios.length>0 &&
+            
+            <ScrollView  >
+                <View style={{flexDirection:'row', alignItems:'center', padding:10}}>
+
             <View style={{width:'20%'}}>
             <MaterialIcons name="car-repair" size={26} color={Theme.colors.primary} />
             </View>
@@ -82,9 +96,19 @@ export default function DetailsStore({route}){
                 </View>
                 
             
+                </View>
             
+            </ScrollView>}
+            <View style={{ width:'100%', backgroundColor:'#f1f1f1'}}/>
+
+            {store?.celular &&
+            <Pressable onPress={()=> sendWhatsapp(store.celular)} style={[Theme.buttons.primary,{width:'100%', flexDirection:'row'}]}>
+            <FontAwesome name="whatsapp" size={26} color={'white'}  style={{marginRight:20}}/>
+
+            <Text style={Theme.fonts.titleWhite}>Enviar Mensaje</Text>
+
+            </Pressable>}
             </View>
-            </ScrollView>
 
 
             
@@ -92,6 +116,6 @@ export default function DetailsStore({route}){
             
             }
 
-        </View>
+        </ScrollView>
     )
 }

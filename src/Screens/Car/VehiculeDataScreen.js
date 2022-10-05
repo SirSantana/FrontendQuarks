@@ -1,4 +1,4 @@
-import { View, Text, Image, Button, TouchableOpacity, Pressable,StyleSheet, Modal, Alert, Dimensions, } from 'react-native'
+import { View, Text, Image, Button, TouchableOpacity, Pressable,StyleSheet, Modal, Alert, Dimensions, ActivityIndicator, TouchableHighlight, } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { marcasCarros } from '../../Components/CarComponents/marcasCarros';
 import { Theme } from '../../theme';
@@ -13,6 +13,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { marcasMotos } from '../../Components/CarComponents/marcasMotos';
 import ModalCargando from '../../utils/ModalCargando';
 import { GET_GASTOS } from '../../graphql/querys';
+import ModalImage from '../../utils/ModalImage';
 
 
 export default function VehiculeDataScreen({route}) {
@@ -20,6 +21,8 @@ export default function VehiculeDataScreen({route}) {
     const item = route?.params?.item
   const marca = marcasCarros.find(el=> el.marca === item?.marca)
   const marcaMoto = marcasMotos.find(el=> el.marca === item?.marca)
+  const [loading, setLoading] = useState({image:true, marcas:true})
+  const [image, setImage] = useState({visible:false, image:null})
 
 const [modalVisible2, setModalVisible2] = useState(false);
 
@@ -51,15 +54,18 @@ console.log(item.id);
         <View style={{backgroundColor:'#f1f1fb',height:height,marginBottom:'10%'}}>
          
           {item?.imagen
-           ?<Image   style={{
-           width: '100%',
-           height: '40%', borderBottomLeftRadius:20, borderBottomRightRadius:20,}} source={{uri:'data:image/png;base64,'+ item.imagen}}/>
+           ?
+           <TouchableHighlight onPress={()=> setImage({image:item?.imagen, visible:true})} style={{width:'100%',height: '35%'}}>
+          <Image style={{height:'100%'}} resizeMode='cover' onLoadEnd={()=> setLoading({image:false})}  source={{uri:'data:image/png;base64,'+ item.imagen}}/>
+           </TouchableHighlight>
+           
           :
-          <Image resizeMode='contain'  style={{position: 'absolute',opacity:.8, tintColor:'rgba(242,241,239,0.8)',
+          <Image resizeMode='contain' onLoadEnd={()=> setLoading({image:false})} style={{position: 'absolute',opacity:.8, tintColor:'rgba(242,241,239,0.8)',
             top: 30,
             right:-50,
             width: width,
             height: 200}} source={require('../../../assets/carroBlanco.png')}/>}
+           {loading.image && <ActivityIndicator color={Theme.colors.primary}/>}
           
           
           <View style={{margin:20, flexDirection:'row', alignItems:'center',}}>
@@ -139,6 +145,18 @@ console.log(item.id);
         visible={modalVisible2}
       >
           <ModalCreateGasto setModalVisible2={setModalVisible2} id={item.id} />
+      </Modal>}
+      
+      {image &&
+      <Modal
+      animationType="fade"
+      visible={image.visible}
+      transparent={true}
+      onRequestClose={() => {
+        setImage({visible:false})
+      }}
+      >
+          <ModalImage image={image.image}/>
       </Modal>}
 
     </View>

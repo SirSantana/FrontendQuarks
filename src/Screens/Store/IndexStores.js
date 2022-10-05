@@ -25,7 +25,10 @@ export default function IndexStores(){
             <Buscador setFiltro={setFiltro} filtro={filtro}/>
             <View style={{height:10, backgroundColor:'#f1f1fb', marginTop:10}}/>
 
+            <ScrollView contentContainerStyle={{paddingBottom:100}}>
             <RenderNegocios filtro={filtro}/>
+
+            </ScrollView>
         </SafeAreaView>
     )
 }

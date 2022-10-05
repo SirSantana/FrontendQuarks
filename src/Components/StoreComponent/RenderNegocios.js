@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native"
 import { useEffect, useState } from "react"
-import { TouchableOpacity, Text, FlatList, View,Image, SafeAreaView, ScrollView, ActivityIndicator } from "react-native"
+import { TouchableOpacity, Text, FlatList, View,Image, SafeAreaView, ScrollView, ActivityIndicator, Dimensions } from "react-native"
 import { Theme } from "../../theme"
 import { Negocios } from "../../utils/Negocios"
 import { marcasCarros } from "../CarComponents/marcasCarros"
@@ -23,50 +23,49 @@ export default function RenderNegocios({filtro}){
     useEffect(()=>{
         setLoading({image:true, marcas:true})
         
+      
     },[filtro])
+    const {height} = Dimensions.get('screen')
     return(
-        <ScrollView contentContainerStyle={{flexGrow: 1, height:'100%'}}
-        >
-        <Text style={[Theme.fonts.descriptionGray,{margin:10}]}>Resultados</Text>
+        <ScrollView >
+        <Text style={[Theme.fonts.descriptionGray,{margin:10}]}>Resultados {filtro}</Text>
+
         {filterPremium.map(el=>(
             <>
-            <TouchableOpacity onPress={()=>visibleDetails(el.id)} key={el.id} style={{marginHorizontal:10}}>
-            <Image onLoadEnd={()=> setLoading({image:false})} style={{width:'100%',borderRadius:10, height:150,marginVertical:10,}} source={require('../../../assets/taller.jpg')}/>
             
-            {loading.image && <ActivityIndicator color={Theme.colors.primary}/>}
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+            <TouchableOpacity onPress={()=>visibleDetails(el.id)}  style={{margin:10, flexDirection:'row',}} key={el.id}>
+            
+            <Image onLoadEnd={()=> setLoading({image:false})} style={{width:100,borderRadius:10, height:100}} source={require('../../../assets/taller.jpg')}/>
+            <View style={{marginLeft:20,flexShrink:1}}>
             <Text style={Theme.fonts.titleBlue}>{el.nombre}</Text>
-            <Text style={Theme.fonts.descriptionGray}>Ver mas</Text>
-
-                </View>
-            <View>
-            <Text style={Theme.fonts.descriptionGray}>{el.pais}, {el.ciudad}</Text>
-            <View style={{flexDirection:'row',}}>
+            <View style={{flexDirection:'row'}}>
             {el.marcas.map(el=>{
                 let src = marcasCarros.find(ele=> ele.marca === el)
-                console.log(src);
                 return(
                     <>
-                    <Image key={el.id} onLoadEnd={()=> setLoading({marcas:false})}  style={{width:40, height:40, marginHorizontal:2}} source={src.src}/>
+                    <Image key={el.id} onLoadEnd={()=> setLoading({marcas:false})}  style={{width:30, height:30, marginHorizontal:2}} source={src.src}/>
                     {loading.marcas && <ActivityIndicator color={Theme.colors.primary}/>}
                     </>
 
                     )
             })
             }
+            
             </View>
+            <Text style={Theme.fonts.descriptionGray}>{el.ciudad}, {el.pais}</Text>
+
+            <Text style={Theme.fonts.descriptionGray}>Ver mas...</Text>
+            
             </View>
- 
+
             </TouchableOpacity>
-            <View style={{height:10, backgroundColor:'#f1f1fb', marginTop:10}}/>
+            <View style={{height:2, backgroundColor:'#f1f1fb', marginHorizontal:10}}/>
 
             </>
 
-
         ))}
-
         {filterNormal.map(el=>(
-            <TouchableOpacity key={el.id} style={{marginHorizontal:10}}>
+            <TouchableOpacity onPress={()=>visibleDetails(el.id)} key={el.id} style={{marginHorizontal:10}}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
             <Text style={Theme.fonts.titleBlue}>{el.nombre}</Text>
             <Text style={Theme.fonts.descriptionGray}>Ver mas</Text>

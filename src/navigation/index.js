@@ -60,10 +60,13 @@ function StackHome() {
     );
   }
   function StackStore({ navigation, route }) {
+    
     return (
       <Stack.Navigator  >
         <Stack.Screen name="Stores" component={StoreScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="IndexStores" component={IndexStores} />
+        <Tab.Screen name="IndexStores" component={IndexStores} options={{
+            tabBarStyle: { display: "none" },
+          }}/>
         <Stack.Screen name="DetailStore" component={DetailsStore}/>
 
       </Stack.Navigator>
