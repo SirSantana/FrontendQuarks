@@ -51,7 +51,7 @@ console.log(item.id);
     resetScrollToCoords={{ x: 0, y: 0 }}
         keyboardShouldPersistTaps= 'always'
         style= {{ flex:1, height:'100%' }}>
-        <View style={{backgroundColor:'#f1f1fb',height:height,marginBottom:'10%'}}>
+        <View style={{backgroundColor:'white',height:height,marginBottom:'10%'}}>
          
           {item?.imagen
            ?
@@ -105,6 +105,7 @@ console.log(item.id);
           if(el.tipo === 'Repuestos'){tipoGasto = 'car-wrench'}
           if(el.tipo === 'Mantenimiento'){tipoGasto = 'car-repair'}
               return(
+                <View>
         <View key={el.id} style={styles.containerGasto}>
             <View style={{flexDirection:'row', alignItems:'center'}}>
             {tipoGasto === 'fuel' || tipoGasto === 'car-brake-parking' || tipoGasto === "car-wrench"?
@@ -120,6 +121,8 @@ console.log(item.id);
               </View> 
       
           </View>
+            <View   style={{ width:'100%',height:1, backgroundColor:'#f1f1f1'}}/>
+                </View>
               )
             }) 
             

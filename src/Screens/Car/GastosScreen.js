@@ -14,12 +14,12 @@ export default function GastosScreen({route}){
     const [getAll, {loading,data, error}] = useLazyQuery(GET_ALL_GASTOS)
     const [tiempo, setTiempo] = useState('Todo')
     const id = route?.params?.id
-    let yearsData = [[],[],[],[],[]]
+    let yearsData = [[],[],[],[],[],[],[],[],[],[],[],[]]
     
     let monthActual = new Date().getMonth()
     let yearActual = new Date().getFullYear()
     
-
+    console.log('reder',data?.getAllGastos);
     let dataMonthActual
     if(data?.getAllGastos){
       dataMonthActual = data.getAllGastos.filter(el=>{
@@ -28,21 +28,19 @@ export default function GastosScreen({route}){
         if(year === yearActual){
           yearsData[0].push(el)
         }else if(year === 2023){
-          console.log('hodasldlas');
           yearsData[1].push(el)
         }
         return fecha === monthActual && year === yearActual
       })
     }
-    console.log(yearsData);
     useLayoutEffect(()=>{
         if(id){
             getAll({variables:{id:id}})
         }
       },[])
     return(
-        <View style={{backgroundColor:'#f1f1fb', height:'100%', alignItems:'center'}}>
-        <View style={{backgroundColor:"#f1f1f1",marginBottom:20,paddingHorizontal:10, height:'10%', width:'90%', flexDirection:'row', justifyContent:'space-between', alignItems:'center', borderRadius:10,shadowRadius: 5.46,
+        <View style={{backgroundColor:'#f1f1fb', alignItems:'center'}}>
+        <View style={{backgroundColor:"#f1f1f1",marginBottom:20,paddingHorizontal:10, height:50, width:'90%', flexDirection:'row', justifyContent:'space-between', alignItems:'center', borderRadius:10,shadowRadius: 5.46,
         shadowOpacity: 0.3,
         shadowOffset: {
           width: 2,
@@ -62,21 +60,21 @@ export default function GastosScreen({route}){
         </View>
 
         {data?.getAllGastos && tiempo === 'Todo' &&
-        <View style={styles.viewTime}>
+        <ScrollView contentContainerStyle={{flexGrow:1}} style={styles.viewTime}>
         <AllGastos data={data?.getAllGastos}/>
-        </View>
+        </ScrollView>
         }
 
         {data?.getAllGastos && tiempo === 'EsteMes' &&
-        <View style={styles.viewTime}>
+        <ScrollView contentContainerStyle={{flexGrow:1}} style={styles.viewTime}>
         <MesGastos data={dataMonthActual}/>
-        </View>
+        </ScrollView>
         }
 
         {data?.getAllGastos && tiempo === 'EsteAño' &&
-        <View style={styles.viewTime}>
+        <ScrollView contentContainerStyle={{flexGrow:1}} style={styles.viewTime}>
           <AñoGastos data={yearsData} />
-        </View>
+        </ScrollView>
         }
 
       {loading &&
@@ -95,7 +93,7 @@ export default function GastosScreen({route}){
 
 const styles = StyleSheet.create({
   viewTime:{
-    width:'90%', marginHorizontal:20, borderRadius:20,shadowOpacity: 0.3,
+    width:'90%', marginHorizontal:20,shadowOpacity: 0.3,marginBottom:80,
     shadowRadius: 5.46,
     shadowOffset: {
       width: 2,

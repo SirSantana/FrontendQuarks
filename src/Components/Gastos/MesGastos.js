@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import {Text, View, Pressable, Image, FlatList, Modal} from 'react-native'
+import {Text, View, Pressable, Image, FlatList, Modal, ScrollView} from 'react-native'
 import { Theme } from '../../theme'
 import GastosIndividuales from './GastosIndividuales';
 import ModalDetailsGasto from './ModalDetailsGasto';
@@ -18,7 +18,6 @@ export default function MesGastos({data, month}){
     if(data.length >0){
        mesActual = month || new Date(data[0]?.fecha).getMonth()
     }
-    console.log('fecah',data[1]?.fecha);
     let tipos = {
         Mantenimiento:[],
         Parqueadero:[],
@@ -39,7 +38,7 @@ export default function MesGastos({data, month}){
       
     return(
         
-        <View style={{justifyContent:'center', height:month ? null: "100%"}}>
+        <View >
             <Pressable onPress={()=> setCollapse(collapse ? false: true)} style={{backgroundColor:Theme.colors.primary, borderRadius:10,marginBottom:20, padding:10, justifyContent:'center', width:'100%'}}>
                 <View>
                 <Text style={Theme.fonts.description}>{meses[mesActual]}</Text>

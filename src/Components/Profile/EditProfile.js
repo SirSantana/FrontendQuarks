@@ -68,7 +68,7 @@ export default function EditProfile({user, setVisibleEdit}){
         <Pressable onPress={()=> setVisibleEdit(false)}style={[styles.centeredView,{height:height, justifyContent:'center'}]}>
           <View style={styles.modalView}>
           <View style={{flexDirection:'column', justifyContent:'space-between', marginBottom:20}}>
-            <Text style={Theme.fonts.titleBlue}>Hola Miguel</Text>
+            <Text style={Theme.fonts.titleBlue}>Hola {user.name}</Text>
             <Text style={[Theme.fonts.descriptionGray,{lineHeight:18}]}>Edita tu perfil</Text>
             </View>
 

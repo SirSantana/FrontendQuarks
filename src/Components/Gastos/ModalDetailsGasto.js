@@ -77,7 +77,7 @@ export default function ModalDetailsGasto({id, setModalVisible}){
                 {getOneGasto?.description &&
                 <View style={[styles.viewDetail,{width:'100%', alignItems:'center',justifyContent:'space-between' }]}>
                 <Text style={Theme.fonts.descriptionGray}>Descripcion</Text>
-                <Text style={[Theme.fonts.descriptionBlue,{width:'60%'}]}> {getOneGasto.description}</Text>
+                <Text style={[Theme.fonts.descriptionBlue,{flexShrink:1, marginLeft:10}]}> {getOneGasto.description}</Text>
                  </View>
                 }
                 {getOneGasto?.lugar &&

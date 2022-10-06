@@ -20,7 +20,7 @@ export default function ModalDetailsRecordatorio({id, setModalVisible}){
             getOne({variables:{id:id}})
         }
       },[])
-      
+      let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return(
         <>
         <Pressable onPress={()=> setModalVisible(false)}  style={styles.centeredView}>
@@ -44,14 +44,14 @@ export default function ModalDetailsRecordatorio({id, setModalVisible}){
 
                 <View style={styles.viewDetail}>
                <Text style={Theme.fonts.descriptionGray}>Fecha</Text>
-               <Text style={Theme.fonts.descriptionBlue}>{fecha.toDateString()}</Text>
+               <Text style={Theme.fonts.descriptionBlue}>{fecha.toLocaleDateString('es-ES', options)}</Text>
                 </View>
                 
 
                 {getOneRecordatorio?.description &&
                 <View style={[styles.viewDetail,{width:'100%', alignItems:'center',justifyContent:'space-between' }]}>
                 <Text style={Theme.fonts.descriptionGray}>Descripcion</Text>
-                <Text style={[Theme.fonts.descriptionBlue,{width:'60%'}]}> {getOneRecordatorio.description}</Text>
+                <Text style={[Theme.fonts.descriptionBlue,{flexShrink:1, marginLeft:10}]}> {getOneRecordatorio.description}</Text>
                  </View>
                 }
                 

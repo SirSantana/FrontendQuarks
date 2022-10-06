@@ -18,15 +18,12 @@ export const ProfileScreen = () => {
   const [visibleEdit, setVisibleEdit] = useState(false)
   const handleLogout=()=>{
     AsyncStorage.clear().then(()=> logout())
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Profile' }]
+ })
   }
-  const {height, width} = Dimensions.get('window')
   
-  // useLayoutEffect(()=>{
-  //   console.log('hola');
-  //   if(!user){
-  //     navigation.navigate('SignIn')
-  //   }
-  // },[user])
   useLayoutEffect(()=>{
     if(user){
       navigation.setOptions({

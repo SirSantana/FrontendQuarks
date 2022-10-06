@@ -228,6 +228,7 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
                     onConfirm={handleConfirm}
                     onCancel={hideDatePicker}
                     maximumDate={new Date(2022, 11, 31)}
+                    minimumDate={new Date(2022, 0, 1)}
                     /> 
             </Pressable>
 
@@ -277,13 +278,25 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
             
             
 
+            
+            {item ?
             <Pressable
+            disabled={loading && true}
+               style={[Theme.buttons.primary,{width:'100%', backgroundColor:form === initialForm? 'gray': Theme.colors.primary}]}
+               onPress={handleSubmit}
+             >
+               <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Editar Gasto</Text>
+             </Pressable>
+             :
+             <Pressable
            disabled={form.dineroGastado === initialForm.dineroGastado ? true:false || loading && true}
               style={[Theme.buttons.primary,{width:'100%', backgroundColor:form.dineroGastado === initialForm.dineroGastado? 'gray': Theme.colors.primary}]}
               onPress={handleSubmit}
             >
               <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>{item?'Editar Gasto':'Confirmar Gasto'}</Text>
             </Pressable>
+            }
+            
 
             <Button onPress={()=> setModalVisible2(false)} title='Cancelar'/>
 

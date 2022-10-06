@@ -95,8 +95,8 @@ export const Theme = {
     containerTiempo: {
       margin: 0,
       width: "30%",
-      height: 30,
-      borderRadius: 10,
+      height: 35,
+      borderRadius: 5,
       alignItems: "center",
       justifyContent: "center",
     },

@@ -65,13 +65,13 @@ export default function FormRecordatorio({setVisibleCreate, name}){
             <Text style={[Theme.fonts.descriptionGray,{textAlign:'left'}]}>Titulo</Text>
             <Pressable style={{backgroundColor:'white', width:'100%', height:50, paddingHorizontal:5, alignItems:'center', flexDirection:'row', marginBottom:10}}>
             {/* <FontAwesome5 name="store" size={20} color="#1b333d" style={{marginLeft:5}}/> */}
-            <TextInput maxLength={15} onChangeText={(text)=> setForm({...form, titulo:text})} placeholder={"Bogotá"} multiline style={[Theme.fonts.descriptionGray,{width:'80%', marginHorizontal:10}]}  />
+            <TextInput maxLength={20} onChangeText={(text)=> setForm({...form, titulo:text})} placeholder={"Pago de Impuestos"} multiline style={[Theme.fonts.descriptionGray,{width:'80%', marginHorizontal:10}]}  />
             </Pressable>
 
             <Text style={[Theme.fonts.descriptionGray,{textAlign:'left'}]}>Descripcion</Text>
             <Pressable style={{backgroundColor:'white', width:'100%', height:50, paddingHorizontal:5, alignItems:'center', flexDirection:'row', marginBottom:10}}>
             {/* <FontAwesome5 name="store" size={20} color="#1b333d" style={{marginLeft:5}}/> */}
-            <TextInput maxLength={100} onChangeText={(text)=> setForm({...form, description:text})} placeholder={"Colombia"} multiline style={[Theme.fonts.descriptionGray,{width:'80%', marginHorizontal:10}]}  />
+            <TextInput maxLength={100} onChangeText={(text)=> setForm({...form, description:text})} multiline style={[Theme.fonts.descriptionGray,{width:'80%', marginHorizontal:10}]}  />
             </Pressable>
 
             <Text style={Theme.fonts.descriptionGray}>Fecha</Text>

@@ -105,7 +105,7 @@ export default function DetailsStore({route}){
             <Pressable onPress={()=> sendWhatsapp(store.celular)} style={[Theme.buttons.primary,{width:'100%', flexDirection:'row'}]}>
             <FontAwesome name="whatsapp" size={26} color={'white'}  style={{marginRight:20}}/>
 
-            <Text style={Theme.fonts.titleWhite}>Enviar Mensaje</Text>
+            <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Enviar Mensaje</Text>
 
             </Pressable>}
             </View>

@@ -1,4 +1,4 @@
-import {View, Text, FlatList, Pressable} from 'react-native'
+import {View, Text, FlatList, Pressable, Dimensions, ScrollView} from 'react-native'
 import { Theme } from '../../theme'
 import MesGastos from './MesGastos'
 import { useState } from 'react'
@@ -6,6 +6,7 @@ import { useState } from 'react'
 export default function AñoGastos({data}){
     let meses =[[],[],[],[],[],[],[],[],[],[],[],[]]
     let totalesGastos = [[],[],[],[],[],[],[],[],[],[],[],[]]
+    console.log(data);
     let [year, setYear] = useState(0)
     data[year]?.filter(el=> {
         let month = new Date(el.fecha).getMonth()
@@ -23,19 +24,9 @@ export default function AñoGastos({data}){
             totalesGastos[month].push(total)
         }
         }
-        
-    function Render(item){
-        let month;
-        if(item.length >0){
-             month = new Date(item[0]?.fecha).getMonth()
-        }
-            return(
-                item.length >0 &&
-                    <MesGastos data={item} month={month}/>
-            )
-        }
+   
     return(
-        <>
+        <View>
         <View style={{backgroundColor:"#f1f1f1",marginBottom:20,paddingHorizontal:10, height:30, width:'100%', flexDirection:'row', justifyContent:'space-between', alignItems:'center', borderRadius:10,shadowRadius: 5.46,
         shadowOpacity: 0.3,
         shadowOffset: {
@@ -54,12 +45,19 @@ export default function AñoGastos({data}){
             } */}
            
         </View>
-        <FlatList
-            style={{width:'100%', height:'100%'}}
-            renderItem={({ item })=> Render(item) }
-            data={meses}
-            />
-            </>
+    
+        
+            {meses?.map(el=>{
+                 let month;
+                 if(el.length >0){
+                      month = new Date(el[0]?.fecha).getMonth()
+                 }
+                 return(
+                    el.length >0 &&
+                    <MesGastos data={el} month={month}/>
+                 )
+            })}
+            </View>
             
             
             
