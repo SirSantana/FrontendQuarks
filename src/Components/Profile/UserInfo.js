@@ -9,7 +9,7 @@ export default function UserInfo({user}){
     return(
         <View style={{width:'90%',marginVertical:20, flexDirection:'row', alignItems:'center'}}>
             <View style={{marginRight:'5%'}}>
-            {user?.avatar
+            {/* {user?.avatar
            ?<Image style={{
              resizeMode:'cover',
              borderRadius:50,
@@ -19,7 +19,10 @@ export default function UserInfo({user}){
             <View style={{backgroundColor:'#b1b1b1',width:60,borderRadius:50, height:60, alignItems:'center', justifyContent:'center'}}>
           <FontAwesome5  name={'user-alt'} size={30} color={"white"} />
                 </View>
-           }
+           } */}
+            <View style={{backgroundColor:'#b1b1b1',width:60,borderRadius:50, height:60, alignItems:'center', justifyContent:'center'}}>
+            <Text style={Theme.fonts.titleWhite}>{user.name[0]}</Text> 
+                </View>
             </View>
             <View>
                 <Text style={Theme.fonts.titleBlue}>{user?.name} {user?.apellido}</Text>

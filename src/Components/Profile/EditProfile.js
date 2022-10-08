@@ -97,7 +97,7 @@ export default function EditProfile({user, setVisibleEdit}){
             <TextInput maxLength={15} onChangeText={(text)=> setForm({...form, pais:text.trim()})} placeholder={"Colombia"} multiline style={[Theme.fonts.descriptionGray,{width:'80%', marginHorizontal:10}]}  />
             </Pressable>
 
-            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
+            {/* <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
            {user?.avatar &&!image && <Image source={{uri:'data:image/png;base64,'+ user.avatar}} style={{ width: 50, height: 50 }} />}
 
            <Pressable
@@ -113,7 +113,7 @@ export default function EditProfile({user, setVisibleEdit}){
             </Pressable>
             {image && <AntDesign name="close" size={24} color={Theme.colors.primary} onPress={()=> setImage(null)} />}
 
-           </View>
+           </View> */}
             <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:20}}>
             <TouchableOpacity onPress={()=> handleEdit()} disabled={form == initialForm ? true: false || loading && true} style={[Theme.buttons.primary, {backgroundColor: form == initialForm ? 'gray': Theme.colors.primary}]}>
                 <Text style={Theme.fonts.description}>Editar</Text>

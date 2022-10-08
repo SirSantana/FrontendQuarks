@@ -38,9 +38,9 @@ export const Navigation=()=>{
   return(
     <NavigationContainer >
       <Tab.Navigator initialRouteName='Profile' barStyle={{backgroundColor:'white'}} screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Store" component={StackStore} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='store'/> }}/>
+      <Tab.Screen name="Store" component={StackStore} options={{tabBarIcon:()=><Image  style={{width:20, height:20}} source={require('../../assets/Logo.png')}/> }}/>
         <Tab.Screen name="Car" component={StackCar} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='car'/>}}/>
-        <Tab.Screen name="Home" component={StackHome} options={{tabBarIcon:()=><Image  style={{width:20, height:20}} source={require('../../assets/Logo.png')}/>}} />
+        {/* <Tab.Screen name="Home" component={StackHome} options={{tabBarIcon:()=><Image  style={{width:20, height:20}} source={require('../../assets/Logo.png')}/>}} /> */}
         <Tab.Screen name="Profile" component={StackProfile} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='user-alt'/>}}/>
 
       </Tab.Navigator>

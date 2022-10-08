@@ -54,7 +54,10 @@ export default function AñoGastos({data}){
                  }
                  return(
                     el.length >0 &&
+                    <View key={Math.random()}>
                     <MesGastos data={el} month={month}/>
+
+                    </View>
                  )
             })}
             </View>

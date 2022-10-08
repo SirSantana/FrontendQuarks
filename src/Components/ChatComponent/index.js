@@ -119,7 +119,6 @@ export default function ChatComponent(){
     const [form, setForm] = useState(initialForm)
     const myTextInput = createRef()
     const {user} = useAuth()
-    console.log(user);
 
     const [createMensaje,{loading, data, error}] = useMutation(CREATE_MENSAJE, {refetchQueries:[{query:GET_MENSAJES, variables:{marca:'Mazda'}}]})
     const result = useQuery(GET_MENSAJES, {variables:{marca:'Mazda'}})
