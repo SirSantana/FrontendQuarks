@@ -27,7 +27,7 @@ mutation updateCar($marca:String, $tipo:String, $referencia:String, $modelo:Stri
 }
 `
 export const CREATE_GASTO = gql`
-  mutation createGasto($dineroGastado:String, $tipo:String,$lugar:String, $description:String, $imagen:String, $fecha:Date, $vehiculo:ID){
+  mutation createGasto($dineroGastado:String, $tipo:String,$lugar:String, $description:String, $imagen:String, $fecha:Date, $vehiculo:ID,){
     createGasto(input:{dineroGastado:$dineroGastado,tipo:$tipo,lugar:$lugar, description:$description, imagen:$imagen, fecha:$fecha, vehiculo:$vehiculo}){
       tipo
       dineroGastado

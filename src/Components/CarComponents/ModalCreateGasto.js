@@ -14,7 +14,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ModalCargando from '../../utils/ModalCargando';
 import { CREATE_GASTO, UPDATE_GASTO } from '../../graphql/mutations';
 import { GET_ALL_GASTOS, GET_GASTOS } from '../../graphql/querys';
-
+import {Buffer} from 'buffer'
 
 let tiposGastos = [
     {tipo:'Lavada', icon:"local-car-wash"},
@@ -32,7 +32,8 @@ let initialForm ={
     imagen:'',
     description:'',
     vehiculo:'',
-    id:''
+    id:'',
+    binaryImage:''
 }
 export default function ModalCreateGasto({ setModalVisible2, id, item}){
     const [selectedDate, setSelectedDate] = useState(item ? new Date(item.fecha):new Date());
@@ -43,7 +44,7 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
     const [modalVisible, setModalVisible] = useState(false);
     const [tipoGasto,setTipoGasto] = useState("fuel")
     const [updateGasto, result] = useMutation(UPDATE_GASTO)
-
+  console.log(form);
     
     const [createGasto, {loading, error, data}] = useMutation(CREATE_GASTO,{
       update(cache, {data}){
@@ -112,9 +113,10 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
           quality: 1,
+          
           base64:true
         });
-    
+        // setForm({...form, binaryImage:binaryImage.data.toString()})
       const fileInfo = await getFileInfo(result.uri)
 
       if (!fileInfo?.size) {
@@ -123,13 +125,13 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
       }
         if (!result.cancelled) {
           const isLt15MB = isLessThanTheMB(fileInfo.size, 2)
-          console.log('dannn',isLt15MB);
             if (!isLt15MB) {
               Alert.alert(`Elige una imagen con un tamaño inferior a 2MB!`)
               return
             }
           setImage(result.uri);
-          setForm({...form, imagen:result.base64})
+          setForm({...form, imagen:result.uri,})
+          console.log('for',form);
         }
       };
       
@@ -153,6 +155,7 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
     
     if(error|| result?.error){
       Alert.alert(error?.message)
+      console.log(error?.message);
     }
     useEffect(()=>{
       if(data || result?.data){
