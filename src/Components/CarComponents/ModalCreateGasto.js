@@ -14,7 +14,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ModalCargando from '../../utils/ModalCargando';
 import { CREATE_GASTO, UPDATE_GASTO } from '../../graphql/mutations';
 import { GET_ALL_GASTOS, GET_GASTOS } from '../../graphql/querys';
-import {Buffer} from 'buffer'
 
 let tiposGastos = [
     {tipo:'Lavada', icon:"local-car-wash"},
