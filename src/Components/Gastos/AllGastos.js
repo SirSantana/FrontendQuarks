@@ -35,7 +35,7 @@ export default function AllGastos({data}){
               }}
             />
             </View>
-            {data.map(item=>{
+            {data?.map(item=>{
               let fecha = new Date(item.fecha)
               let tipoGasto;
                 if(item.tipo === 'Tanqueada'){tipoGasto = 'fuel'}

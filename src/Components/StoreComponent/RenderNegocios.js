@@ -11,15 +11,20 @@ export default function RenderNegocios({filtro}){
     const premium = Negocios.filter(el=> el.premium)
     const normal = Negocios.filter(el=> !el.premium)
     const [loading, setLoading] = useState({image:true, marcas:true})
-    const filterPremium = premium.filter(el=> el.tipo === filtro)
-    const filterNormal = normal.filter(el=> el.tipo === filtro)
+    const filterPremium = premium.filter(el=>{
+       let result =  el.tipo === filtro 
+       let result2 = el.nombre.toLocaleLowerCase().includes(filtro.toLocaleLowerCase())
+       let result3 = el.marcas.toString().toLocaleLowerCase().includes(filtro.toLocaleLowerCase())
+       return result || result2 || result3
+    } )
+    const filterNormal = normal.filter(el=> el.tipo === filtro|| el.nombre.includes(filtro))
     const [details, setDetails] = useState({visible:false, id:null})
     const navigation = useNavigation()
     const visibleDetails=(id)=>{
         setDetails({visible:true, id:id})
         navigation.navigate('DetailStore',{id})
     }
-
+    
     useEffect(()=>{
         setLoading({image:true, marcas:true})
         
@@ -54,7 +59,7 @@ export default function RenderNegocios({filtro}){
             </View>
             <Text style={Theme.fonts.descriptionGray}>{el.ciudad}, {el.pais}</Text>
 
-            <Text style={Theme.fonts.descriptionGray}>Ver mas...</Text>
+            <Text style={Theme.fonts.descriptionGray}>{el.tipo}</Text>
             
             </View>
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Theme } from '../../theme'
-import {View, Text, TextInput, Pressable, Image, Alert, Modal, Dimensions} from 'react-native'
+import {View, Text, TextInput, Pressable, Image, Alert, Modal, Dimensions, TouchableOpacity} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import * as Yup  from 'yup'
 import { useFormik } from 'formik'
@@ -115,16 +115,16 @@ useEffect(()=>{
             style={Theme.input.basic}
             onChangeText={(text)=> formik.setFieldValue('confirmPassword', text)}
             />
-            <Pressable
+            <TouchableOpacity
             onPress={formik.handleSubmit}
             style={{width:'100%',backgroundColor:'#1b333d', height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
                 <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Registrate</Text>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity
             onPress={()=> navigation.navigate('SignIn')}
             style={{width:'100%', height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
                 <Text style={{color:'#1b333d', fontSize:18, fontWeight:"600"}}>Ya tienes una cuenta? Inicia Sesion</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
             
           {loading &&

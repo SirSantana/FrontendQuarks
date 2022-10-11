@@ -15,10 +15,13 @@ export default function IndexStores(){
             headerTitle:'Busca',
             headerSearchBarOptions:{
                 placeholder:'Talleres, Almacenes, Lavaderos y mas',
-
-            }
+                onChangeText:(event)=>(
+                    setFiltro(event.nativeEvent.text)
+                )
+            },
         })
     },[])
+    console.log('filt',filtro);
     return(
         <SafeAreaView style={{justifyContent:'space-between', backgroundColor:'white'}}>
             

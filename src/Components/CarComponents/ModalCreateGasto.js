@@ -129,7 +129,7 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
               return
             }
           setImage(result.uri);
-          setForm({...form, imagen:result.uri,})
+          setForm({...form, imagen:result.base64})
           console.log('for',form);
         }
       };
