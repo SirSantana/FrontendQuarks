@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "1.0.17",
+  "version": "1.0.19",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -13,6 +13,7 @@
     "@expo/vector-icons": "13.0.0",
     "@react-native-async-storage/async-storage": "1.17.10",
     "@react-native-community/datetimepicker": "6.2.0",
+    "@react-native-community/netinfo": "^9.3.0",
     "@react-navigation/bottom-tabs": "6.3.3",
     "@react-navigation/native": "6.0.12",
     "@react-navigation/native-stack": "6.9.0",

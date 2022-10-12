@@ -48,10 +48,8 @@ export default function RenderNegocios({filtro}){
                 let src = marcasCarros.find(ele=> ele.marca === el)
                 return(
                     <>
-                    <Image key={el.id} onLoadEnd={()=> setLoading({marcas:false})}  style={{width:30, height:30, marginHorizontal:2}} source={src.src}/>
-                    {loading.marcas && <ActivityIndicator color={Theme.colors.primary}/>}
+                    <Image key={el.id}  style={{width:30, height:30, marginHorizontal:2}} source={src.src}/>
                     </>
-
                     )
             })
             }

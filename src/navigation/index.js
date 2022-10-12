@@ -17,7 +17,7 @@ import StoreScreen from '../Screens/Store/StoreScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 import IndexStores from '../Screens/Store/IndexStores';
 import DetailsStore from '../Components/StoreComponent/DetailsStore';
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +35,8 @@ const TabBarIcon=({color, name})=>{
 }
 
 export const Navigation=()=>{
+  
+
   return(
     <NavigationContainer >
       <Tab.Navigator initialRouteName='Profile' barStyle={{backgroundColor:'white'}} screenOptions={{ headerShown: false }}>
@@ -44,6 +46,7 @@ export const Navigation=()=>{
         <Tab.Screen name="Profile" component={StackProfile} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='user-alt'/>}}/>
 
       </Tab.Navigator>
+
     </NavigationContainer>
   )
 
