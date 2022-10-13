@@ -10,6 +10,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ModalCargando from "../../utils/ModalCargando";
 import { CREATE_CAR, UPDATE_CAR } from "../../graphql/mutations";
 import { GET_VEHICLES } from "../../graphql/querys";
+import { getFileInfo, isLessThanTheMB } from "../../utils/actions";
 
 
 const initialForm ={
@@ -33,17 +34,28 @@ export default function FormCreateVehicule({ route }) {
   const [createVehicule, {data, error, loading}] = useMutation(CREATE_CAR, {refetchQueries:[{query:GET_VEHICLES}]})
   const [updateCar, result] = useMutation(UPDATE_CAR)
 
+  
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       quality: 1,
+      
       base64:true
     });
-
-
+    // setForm({...form, binaryImage:binaryImage.data.toString()})
+  const fileInfo = await getFileInfo(result.uri)
+  if (!fileInfo?.size) {
+    alert("Can't select this file as the size is unknown.")
+    return
+  }
     if (!result.cancelled) {
+      const isLt15MB = isLessThanTheMB(fileInfo.size, 2)
+        if (!isLt15MB) {
+          Alert.alert(`Elige una imagen con un tamaño inferior a 2MB!`)
+          return
+        }
       setImage(result.uri);
       setForm({...form, imagen:result.base64})
     }
@@ -63,7 +75,6 @@ export default function FormCreateVehicule({ route }) {
       }
   }
  
-  console.log(form, initialForm);
   const handleChange=(itemMarca)=>{
     setForm({...form, marca:itemMarca})
     setMarca(itemMarca)
@@ -71,7 +82,7 @@ export default function FormCreateVehicule({ route }) {
   if(error){
     Alert.alert('ERROR', error?.message)
   }
-
+  console.log(image);
   useLayoutEffect(()=>{
       navigation.setOptions({
         title:itemData ? 'Editar mi Vehiculo': 'Crear Vehiculo'
@@ -151,10 +162,10 @@ export default function FormCreateVehicule({ route }) {
             />
             }
             
-      <Text style={Theme.fonts.descriptionGray}>Referencia</Text>
+      <Text style={Theme.fonts.descriptionGray}>Referencia/Nombre</Text>
       
       <TextInput
-            placeholder={itemData ?  itemData?.marca : tipo === 'Carro' ? 'Aveo': 'Mt-03' }
+            placeholder={itemData && itemData?.marca }
             onChangeText={(text)=> setForm({...form, referencia:text.trim()})}
             style={Theme.input.basic}
             maxLength={15}

@@ -1,5 +1,6 @@
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import * as FileSystem from 'expo-file-system'
 
 export const getToken =async()=>{
 
@@ -58,4 +59,14 @@ export function timeSince(date) {
     return Math.floor(interval) + " minutes";
   }
   return Math.floor(seconds) + " seconds";
+}
+
+export const getFileInfo = async (fileURI) => {
+  const fileInfo = await FileSystem.getInfoAsync(fileURI)
+  return fileInfo
+}
+
+export const isLessThanTheMB = (fileSize, smallerThanSizeMB) => {
+  const isOk = fileSize / 1024 / 1024 < smallerThanSizeMB
+  return isOk
 }

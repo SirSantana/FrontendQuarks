@@ -1,4 +1,4 @@
-import {Modal, View, Text, StyleSheet, Pressable, TextInput, Image, Alert,TouchableOpacity} from 'react-native'
+import {Modal, View, Text, StyleSheet, Pressable, TextInput, Image, Alert,TouchableOpacity, ActivityIndicator} from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, {useEffect, useLayoutEffect, useState} from "react";
@@ -25,6 +25,11 @@ export default function ModalDetailsRecordatorio({id, setModalVisible}){
         <>
         <Pressable onPress={()=> setModalVisible(false)}  style={styles.centeredView}>
               <View style={styles.modalView}>
+              {loading &&
+              <View style={{justifyContent:'center', alignItems:'center'}}>
+                <ActivityIndicator style={{width:80, height:80, }} color={Theme.colors.primary}/>
+              </View>
+                }
                {getOneRecordatorio &&
                <>
                <View style={{width:'100%', flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>

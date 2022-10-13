@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const URI = 'https://quarkssss.azurewebsites.net/'
 const URI = 'https://quarks-api.vercel.app/'
+// const URI = 'http://192.168.0.3:4000/'
+
 
 const httpLink = createHttpLink({
     uri:URI  

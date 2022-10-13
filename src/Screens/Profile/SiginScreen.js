@@ -13,6 +13,7 @@ import ModalCargando from '../../utils/ModalCargando';
 import {useEffect, useState} from 'react'
 import { client } from '../../../apollo';
 import { SIGN_IN_MUTATION } from '../../graphql/mutations';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const initialForm = {
   email:'',
@@ -26,6 +27,7 @@ const validationSchema ={
 export default function SignInScreen(){
   const navigation = useNavigation()
   const {login} = useAuth()
+  const [visiblePassword, setVisiblePassword] = useState(false)
   const [signIn, {data, error, loading}] = useMutation(SIGN_IN_MUTATION, {refetchQueries:[{query:GET_USER}]})
 
     const formik = useFormik({
@@ -62,7 +64,7 @@ export default function SignInScreen(){
           {formik.errors.email && <Text style={{color:'red'}}>{formik.errors.email}</Text>}
             <TextInput
             autoCapitalize='none'
-            placeholder='Email'
+            placeholder='Correo'
             value={formik.values.email}
             onChangeText={(text)=> formik.setFieldValue('email', text)}
             style={Theme.input.basic}
@@ -70,14 +72,23 @@ export default function SignInScreen(){
 
             />
           {formik.errors.password && <Text style={{color:'red'}}>{formik.errors.password}</Text>}
-            <TextInput
-            placeholder='Password'
+          <View style={Theme.containers.containerInputPassword}>
+          <TextInput
+            placeholder='Contraseña'
             value={formik.values.password}
             onChangeText={(text)=> formik.setFieldValue('password', text)}
-            secureTextEntry
-            style={Theme.input.basic}
+            secureTextEntry={visiblePassword ? false:true}
+            style={Theme.input.inputPassword}
            
             />
+            {visiblePassword ? 
+          <MaterialIcons onPress={()=> setVisiblePassword(false)} name="visibility" size={24} color={Theme.colors.secondary} />
+          :
+          <MaterialIcons onPress={()=> setVisiblePassword(true)} name="visibility-off" size={24} color={Theme.colors.secondary} />
+
+        }
+          </View>
+            
             <TouchableOpacity
             onPress={formik.handleSubmit}
             disabled={loading}

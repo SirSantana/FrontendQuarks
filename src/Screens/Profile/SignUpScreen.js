@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Theme } from '../../theme'
 import {View, Text, TextInput, Pressable, Image, Alert, Modal, Dimensions, TouchableOpacity} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -11,6 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ModalCargando from '../../utils/ModalCargando'
 import { client } from '../../../apollo'
 import { SIGN_UP } from '../../graphql/mutations'
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 
@@ -34,14 +35,16 @@ const validationSchema ={
 
 export const SignUpScreen = () => {
   const [signUp, {data, error, loading}] = useMutation(SIGN_UP)
+  const [visiblePassword, setVisiblePassword] = useState(false)
+
 
   const {login} = useAuth()
   const navigation = useNavigation()
   const formik = useFormik({
     initialValues:initialForm,
-  validateOnChange:false,
-  validationSchema:Yup.object(validationSchema),
-  onSubmit:(formValue)=>{
+    validateOnChange:false,
+    validationSchema:Yup.object(validationSchema),
+    onSubmit:(formValue)=>{
     signUp({variables:formValue})
   },
 
@@ -99,22 +102,42 @@ useEffect(()=>{
             onChangeText={(text)=> formik.setFieldValue('email', text)}
             />
           {formik.errors.password && <Text style={{color:'red'}}>{formik.errors.password}</Text>}
-
-            <TextInput
-          value={formik.values.password}
+          <View style={Theme.containers.containerInputPassword}>
+          <TextInput
             placeholder='Contraseña'
-            secureTextEntry
-            style={Theme.input.basic}
+            value={formik.values.password}
             onChangeText={(text)=> formik.setFieldValue('password', text)}
+            secureTextEntry={visiblePassword ? false:true}
+            style={Theme.input.inputPassword}
+           
             />
+            {visiblePassword ? 
+          <MaterialIcons onPress={()=> setVisiblePassword(false)} name="visibility" size={24} color={Theme.colors.secondary} />
+          :
+          <MaterialIcons onPress={()=> setVisiblePassword(true)} name="visibility-off" size={24} color={Theme.colors.secondary} />
+
+        }
+          </View>
+
+            
           {formik.errors.confirmPassword && <Text style={{color:'red'}}>{formik.errors.confirmPassword}</Text>}
-            <TextInput
-          value={formik.values.confirmPassword}
+          <View style={Theme.containers.containerInputPassword}>
+          <TextInput
             placeholder='Confirmar Contraseña'
-            secureTextEntry
-            style={Theme.input.basic}
+            value={formik.values.password}
             onChangeText={(text)=> formik.setFieldValue('confirmPassword', text)}
+            secureTextEntry={visiblePassword ? false:true}
+            style={Theme.input.inputPassword}
+           
             />
+            {visiblePassword ? 
+          <MaterialIcons onPress={()=> setVisiblePassword(false)} name="visibility" size={24} color={Theme.colors.secondary} />
+          :
+          <MaterialIcons onPress={()=> setVisiblePassword(true)} name="visibility-off" size={24} color={Theme.colors.secondary} />
+
+        }
+          </View>
+            
             <TouchableOpacity
             onPress={formik.handleSubmit}
             style={{width:'100%',backgroundColor:'#1b333d', height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>

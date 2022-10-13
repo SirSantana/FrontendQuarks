@@ -18,14 +18,17 @@ export default function Recordatorios({name}){
         setModalVisible(true)
         setDetails(el?.id)
     }
-    if(result.error){
+    console.log(result?.error);
+    useEffect(()=>{
+      if(result?.error){
         Alert.alert('Ha ocurrido un error')
     }
+    },[result?.error])
     useEffect(()=>{
-      if(result.data){
+      if(result?.data){
         setRecordatorios(result?.data?.getRecordatorios)
       }
-    },[result.data])
+    },[result?.data])
     return(
         
         <ScrollView style={{backgroundColor:'#f1f1fb', width:'95%'}}>

@@ -62,7 +62,7 @@ export const Theme = {
       borderRadius: 10,
       justifyContent: "center",
       alignItems: "center",
-      width:140
+      width: 140,
     },
     primaryOutlined: {
       borderColor: "#f50057",
@@ -72,8 +72,7 @@ export const Theme = {
       borderRadius: 10,
       justifyContent: "center",
       alignItems: "center",
-      width:140
-
+      width: 140,
     },
     secondary: {
       height: 50,
@@ -86,7 +85,7 @@ export const Theme = {
     },
   },
   containers: {
-      containerParent: {
+    containerParent: {
       justifyContent: "center",
       alignItems: "center",
       height: "100%",
@@ -121,6 +120,16 @@ export const Theme = {
       borderRadius: 10,
       backgroundColor: "#f50057",
     },
+    containerInputPassword: {
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      paddingHorizontal: 10,
+      backgroundColor: "#fff",
+      borderRadius: 10,
+      marginBottom: 10,
+    },
   },
   input: {
     basic: {
@@ -130,6 +139,15 @@ export const Theme = {
       paddingHorizontal: 10,
       borderColor: "black",
       borderRadius: 10,
+    },
+    inputPassword: {
+      flex: 1,
+      paddingTop: 10,
+      paddingRight: 10,
+      paddingBottom: 10,
+      paddingLeft: 0,
+      backgroundColor: "#fff",
+      color: "#424242",
     },
   },
   shadow: {

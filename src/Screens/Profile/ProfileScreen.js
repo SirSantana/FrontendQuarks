@@ -68,7 +68,7 @@ export const ProfileScreen = () => {
      <Text style={[Theme.fonts.titleBlue,{width:'90%', textAlign:'center', fontSize:26}]}>Crea tu Perfil Gratis!</Text>
      <Text style={[Theme.fonts.descriptionGray,{width:'90%', marginBottom:20, textAlign:'center'}]}>No te demoraras mas de 2 minutos.</Text>
 
-     <Pressable onPress={()=>navigation.navigate('SignIn')} style={[Theme.buttons.primary,{width:'90%'}]}>
+     <Pressable onPress={()=>navigation.navigate('SignUp')} style={[Theme.buttons.primary,{width:'90%'}]}>
       <Text style={Theme.fonts.titleWhite}>Registrate</Text>
      </Pressable>
 

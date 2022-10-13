@@ -1,4 +1,4 @@
-import {Modal, View, Text, StyleSheet, Pressable, Image} from 'react-native'
+import {Modal, View, Text, StyleSheet, Pressable, Image, ActivityIndicator} from 'react-native'
 import { Theme } from '../theme';
 
 
@@ -7,7 +7,7 @@ export default function ModalCargando({text}){
         
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-          <Image  style={{width:30, height:30}} source={require('../../assets/LogoQuarks1PNG.png')}/>
+          <ActivityIndicator  color={Theme.colors.primary}/>
               <Text style={Theme.fonts.titleRed}>{text}</Text>
           </View>
         </View>
