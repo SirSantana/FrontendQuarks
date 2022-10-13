@@ -2,7 +2,8 @@ import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const URI = 'https://quarkssss.azurewebsites.net/'
+// const URI = 'https://quarkssss.azurewebsites.net/'
+const URI = 'https://quarks-api.vercel.app/'
 
 const httpLink = createHttpLink({
     uri:URI  

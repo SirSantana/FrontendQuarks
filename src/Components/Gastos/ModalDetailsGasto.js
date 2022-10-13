@@ -10,6 +10,7 @@ import ModalCreateGasto from "../CarComponents/ModalCreateGasto";
 import ModalCargando from "../../utils/ModalCargando";
 import ModalConfirmDelete from "../../utils/ModalConfirmDelete";
 import { GET_ONE_GASTO } from "../../graphql/querys";
+import { options } from "../../utils/dateEs";
 
 
 export default function ModalDetailsGasto({id, setModalVisible}){
@@ -67,7 +68,7 @@ export default function ModalDetailsGasto({id, setModalVisible}){
                 </View>
                 <View style={styles.viewDetail}>
                <Text style={Theme.fonts.descriptionGray}>Fecha</Text>
-               <Text style={Theme.fonts.descriptionBlue}>{fecha.toDateString()}</Text>
+               <Text style={Theme.fonts.descriptionBlue}>{fecha.toLocaleDateString('es-ES', options)}</Text>
                 </View>
                 <View style={styles.viewDetail}>
                <Text style={Theme.fonts.descriptionGray}>Dinero Gastado</Text>

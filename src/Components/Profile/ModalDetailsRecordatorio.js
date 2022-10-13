@@ -7,6 +7,7 @@ import { Theme } from '../../theme';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import ModalConfirmDelete from '../../utils/ModalConfirmDelete';
 import { GET_RECORDATORIO } from '../../graphql/querys';
+import { options } from '../../utils/dateEs';
 
 
 export default function ModalDetailsRecordatorio({id, setModalVisible}){
@@ -20,7 +21,6 @@ export default function ModalDetailsRecordatorio({id, setModalVisible}){
             getOne({variables:{id:id}})
         }
       },[])
-      let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return(
         <>
         <Pressable onPress={()=> setModalVisible(false)}  style={styles.centeredView}>

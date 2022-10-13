@@ -12,7 +12,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 export default function AllGastos({data}){
     const [modalVisible, setModalVisible] = useState(false)
     const [details, setDetails] = useState(null)
-
     const handleDetails=(item)=>{
         setModalVisible(false)
         setDetails(item?.id)
@@ -21,7 +20,6 @@ export default function AllGastos({data}){
     const {height, width} = Dimensions.get('screen')
     return(
         <>
-        <View style={{ alignItems:'center'}}>
 
         <View style={{borderRadius:10,marginBottom:5, height:'7%', padding:5, justifyContent:'center', width:'100%'}}>
               <View style={{justifyContent:'space-between', flexDirection:'row'}}>
@@ -73,7 +71,6 @@ export default function AllGastos({data}){
       >
           <ModalDetailsGasto id={details} setModalVisible={setModalVisible}/>
       </Modal>
-        </View>
 
         </>
     )

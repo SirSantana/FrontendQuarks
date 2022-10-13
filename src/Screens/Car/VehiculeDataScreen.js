@@ -54,18 +54,19 @@ console.log(item.id);
         <View style={{backgroundColor:'white',height:height,marginBottom:'10%'}}>
          
           {item?.imagen
-           ?
+           &&
            <TouchableHighlight onPress={()=> setImage({image:item?.imagen, visible:true})} style={{width:'100%',height: '35%'}}>
           <Image style={{height:'100%'}} resizeMode='cover' onLoadEnd={()=> setLoading({image:false})}  source={{uri:'data:image/png;base64,'+ item.imagen}}/>
            </TouchableHighlight>
            
-          :
-          <Image resizeMode='contain' onLoadEnd={()=> setLoading({image:false})} style={{position: 'absolute',opacity:.8, tintColor:'rgba(242,241,239,0.8)',
-            top: 30,
-            right:-50,
-            width: width,
-            height: 200}} source={require('../../../assets/carroBlanco.png')}/>}
-           {loading.image && <ActivityIndicator color={Theme.colors.primary}/>}
+          // :
+          // <Image resizeMode='contain' onLoadEnd={()=> setLoading({image:false})} style={{position: 'absolute',opacity:.8, tintColor:'rgba(242,241,239,0.8)',
+          //   top: 30,
+          //   right:-50,
+          //   width: width,
+          //   height: 200}} source={require('../../../assets/carroBlanco.png')}/>}
+          //  {loading.image && <ActivityIndicator color={Theme.colors.primary}/>
+           }
           
           
           <View style={{margin:20, flexDirection:'row', alignItems:'center',}}>

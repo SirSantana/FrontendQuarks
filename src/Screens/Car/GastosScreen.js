@@ -1,5 +1,5 @@
 import AllGastos from "../../Components/Gastos/AllGastos";
-import {Text, View, Pressable, Modal, StyleSheet, ScrollView} from 'react-native'
+import {Text, View, Pressable, Modal, StyleSheet, ScrollView, ActivityIndicator} from 'react-native'
 import { gql, useLazyQuery } from "@apollo/client";
 import { useLayoutEffect, useState } from "react";
 import ModalCargando from "../../utils/ModalCargando";
@@ -19,7 +19,6 @@ export default function GastosScreen({route}){
     let monthActual = new Date().getMonth()
     let yearActual = new Date().getFullYear()
     
-    console.log('reder',data?.getAllGastos);
     let dataMonthActual
     if(data?.getAllGastos){
       dataMonthActual = data.getAllGastos.filter(el=>{
@@ -33,28 +32,29 @@ export default function GastosScreen({route}){
         return fecha === monthActual && year === yearActual
       })
     }
-    useLayoutEffect(()=>{
+console.log(loading);    useLayoutEffect(()=>{
         if(id){
             getAll({variables:{id:id}})
         }
       },[])
     return(
-        <View style={{backgroundColor:'#f1f1fb', alignItems:'center'}}>
-        <View style={{backgroundColor:"#f1f1f1",marginBottom:20,paddingHorizontal:10, height:50, width:'90%', flexDirection:'row', justifyContent:'space-between', alignItems:'center', borderRadius:10,shadowRadius: 5.46,
+      
+      <View style={{backgroundColor: "#f1f1fb", alignItems:'center'}}>
+        <View style={{backgroundColor:"white",marginBottom:20,paddingHorizontal:10, height:50, width:'90%', flexDirection:'row', justifyContent:'space-between', alignItems:'center', borderRadius:10,shadowRadius: 5.46,
         shadowOpacity: 0.3,
         shadowOffset: {
           width: 2,
           height: 2,
           shadowColor: "#000",
         }}}>
-            <Pressable onPress={()=> setTiempo('Todo')} style={[Theme.containers.containerTiempo, {backgroundColor:tiempo === 'Todo' ? 'white': null}]}>
-            <Text style={Theme.fonts.descriptionBlue}>Todo</Text>
+            <Pressable onPress={()=> setTiempo('Todo')} style={[Theme.containers.containerTiempo, {backgroundColor:tiempo === 'Todo' ? Theme.colors.primary: null}]}>
+            <Text style={[Theme.fonts.descriptionBlue,{color:tiempo === 'Todo' ? 'white': null}]}>Todo</Text>
             </Pressable>
-            <Pressable onPress={()=> setTiempo('EsteMes')} style={[Theme.containers.containerTiempo, {backgroundColor:tiempo === 'EsteMes' ?'white': null}]}>
-            <Text style={Theme.fonts.descriptionBlue}>Este Mes</Text>
+            <Pressable onPress={()=> setTiempo('EsteMes')} style={[Theme.containers.containerTiempo, {backgroundColor:tiempo === 'EsteMes' ?Theme.colors.primary: null}]}>
+            <Text style={[Theme.fonts.descriptionBlue,{color:tiempo === 'EsteMes' ? 'white': null}]}>Este Mes</Text>
             </Pressable>
-            <Pressable onPress={()=> setTiempo('EsteAño')} style={[Theme.containers.containerTiempo, {backgroundColor:tiempo === 'EsteAño' ? 'white': null}]}>
-            <Text style={Theme.fonts.descriptionBlue}>Este Año</Text>
+            <Pressable onPress={()=> setTiempo('EsteAño')} style={[Theme.containers.containerTiempo, {backgroundColor:tiempo === 'EsteAño' ? Theme.colors.primary: null}]}>
+            <Text style={[Theme.fonts.descriptionBlue,{color:tiempo === 'EsteAño' ? 'white': null}]}>Este Año</Text>
             </Pressable>
 
         </View>
@@ -77,16 +77,8 @@ export default function GastosScreen({route}){
         </ScrollView>
         }
 
-      {loading &&
-         <Modal
-         animationType="fade"
-         visible={loading}
-         transparent={true}
+    {loading && <ActivityIndicator color={Theme.colors.primary}/>}
 
-       >
-          <ModalCargando text='Cargando Datos...'/>
-       </Modal>
-         }
         </View>
     )
 }
