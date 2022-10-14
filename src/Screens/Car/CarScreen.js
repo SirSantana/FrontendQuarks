@@ -82,9 +82,9 @@ export const CarScreen=({route}) =>{
           <Image style={{width:80, height:80}} source={require('../../../assets/carroBlanco.png')}/>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={()=>handleCreate("Moto")}style={Theme.containers.containerBox}>
+          {/* <TouchableOpacity onPress={()=>handleCreate("Moto")}style={Theme.containers.containerBox}>
           <Image style={{width:80, height:80}} source={require('../../../assets/motoBlanca.png')}/>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           
       </View>
       {data?.getCars?.length>0 && user &&

@@ -1,4 +1,4 @@
-import { View, Text, Image, Button, TouchableOpacity, Pressable,StyleSheet, Modal, Alert, Dimensions, ActivityIndicator, TouchableHighlight, } from 'react-native'
+import { View, Text, Image, Button, TouchableOpacity, Pressable,StyleSheet, Modal, Alert, Dimensions, ActivityIndicator, TouchableHighlight, ScrollView, } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { marcasCarros } from '../../Components/CarComponents/marcasCarros';
 import { Theme } from '../../theme';
@@ -28,7 +28,6 @@ const [modalVisible2, setModalVisible2] = useState(false);
 
 const  result = useQuery(GET_GASTOS,{variables:{id:item.id}})
 const {height, width} = Dimensions.get('window')
-console.log(item.id);
 
   useLayoutEffect(()=>{
     if(item){
@@ -156,11 +155,9 @@ console.log(item.id);
       animationType="fade"
       visible={image.visible}
       transparent={true}
-      onRequestClose={() => {
-        setImage({visible:false})
-      }}
+     
       >
-          <ModalImage image={image.image}/>
+          <ModalImage image={image.image} setImage={setImage}/>
       </Modal>}
 
     </View>

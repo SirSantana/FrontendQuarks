@@ -85,7 +85,7 @@ console.log(loading);    useLayoutEffect(()=>{
 
 const styles = StyleSheet.create({
   viewTime:{
-    width:'90%', marginHorizontal:20,shadowOpacity: 0.3,marginBottom:80,
+    width:'90%', marginHorizontal:20,shadowOpacity: 0.3,marginBottom:60,
     shadowRadius: 5.46,
     shadowOffset: {
       width: 2,

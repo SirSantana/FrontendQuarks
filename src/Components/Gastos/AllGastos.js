@@ -21,7 +21,7 @@ export default function AllGastos({data}){
     return(
         <>
 
-        <View style={{borderRadius:10,marginBottom:5, height:'7%', padding:5, justifyContent:'center', width:'100%'}}>
+        <View style={{borderRadius:10,marginBottom:20, padding:5, justifyContent:'center', width:'100%'}}>
               {/* <View style={{justifyContent:'space-between', flexDirection:'row'}}>
               <Text style={[Theme.fonts.titleBig,{fontSize:20}]}>Gastos </Text>
               </View> */}

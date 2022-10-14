@@ -14,6 +14,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ModalCargando from '../../utils/ModalCargando';
 import { CREATE_GASTO, UPDATE_GASTO } from '../../graphql/mutations';
 import { GET_ALL_GASTOS, GET_GASTOS } from '../../graphql/querys';
+import { getFileInfo, isLessThanTheMB } from "../../utils/actions";
+import ModalSuccesfull from '../../utils/ModalSuccesfull';
 
 let tiposGastos = [
     {tipo:'Lavada', icon:"local-car-wash"},
@@ -43,7 +45,8 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
     const [modalVisible, setModalVisible] = useState(false);
     const [tipoGasto,setTipoGasto] = useState("fuel")
     const [updateGasto, result] = useMutation(UPDATE_GASTO)
-  console.log(form);
+    const [visibleSuccesfull, setVisibleSuccesfull] = useState(false)
+
     
     const [createGasto, {loading, error, data}] = useMutation(CREATE_GASTO,{
       update(cache, {data}){
@@ -61,7 +64,6 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
     })
     let cah = cache.readQuery({query:GET_ALL_GASTOS,variables:{id:id}})
     if(cah !== null){
-      console.log('dadas');
       cache.writeQuery({
         query:GET_ALL_GASTOS,
         variables:{id:id},
@@ -70,29 +72,10 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
         }
       })
     }
-    // const {getAllGastos} = cache.readQuery({
-    //   query:GET_ALL_GASTOS,
-    //   variables:{id:id}
-    // })
-    
-    setModalVisible2(false)
-
-    
   }
 }
 )
-
   
-      const getFileInfo = async (fileURI) => {
-        const fileInfo = await FileSystem.getInfoAsync(fileURI)
-        return fileInfo
-      }
-
-      const isLessThanTheMB = (fileSize, smallerThanSizeMB) => {
-        const isOk = fileSize / 1024 / 1024 < smallerThanSizeMB
-        return isOk
-      }
-
     const showDatePicker = () => {
       setDatePickerVisible(true);
     };
@@ -130,7 +113,6 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
             }
           setImage(result.uri);
           setForm({...form, imagen:result.base64})
-          console.log('for',form);
         }
       };
       
@@ -154,11 +136,19 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
     
     if(error|| result?.error){
       Alert.alert(error?.message)
-      console.log(error?.message);
     }
     useEffect(()=>{
-      if(data || result?.data){
+      if(data){
+        setVisibleSuccesfull(true)
+        setTimeout(()=>{
+        setVisibleSuccesfull(false)
         setModalVisible2(false)
+
+        },3000)
+      }
+      if(result?.data){
+        setModalVisible2(false)
+        
       }
     },[data, result?.data])
     
@@ -350,10 +340,21 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
        >
           <ModalCargando text='Creando Gasto...'/>
        </Modal>
+       
          }
+         
           </View>
         </KeyboardAwareScrollView>
-        
+        {visibleSuccesfull &&
+         <Modal
+         animationType="fade"
+         visible={visibleSuccesfull}
+         transparent={true}
+
+       >
+          <ModalSuccesfull text={'Felicidades!'} description={'Gasto Creado'}/>
+       </Modal>
+         }
         </Pressable>
       </>
 

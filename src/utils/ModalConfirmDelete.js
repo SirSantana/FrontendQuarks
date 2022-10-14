@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import {Modal, View, Text, StyleSheet, Pressable, Image} from 'react-native'
+import {Modal, View, Text, StyleSheet, Pressable, Image,TouchableOpacity} from 'react-native'
 import { Theme } from '../theme';
 import ModalCargando from './ModalCargando';
 import { useEffect } from 'react';
@@ -58,9 +58,10 @@ export default function ModalConfirmDelete({setVisibleDelete, id, idVehiculo, se
           <View style={styles.modalView}>
           <Image  style={{width:30, height:30}} source={require('../../assets/LogoQuarks1PNG.png')}/>
               <Text style={[Theme.fonts.descriptionRed,{marginVertical:20}]}>¿Estas seguro de eliminarlo?</Text>
-              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-              <Pressable disabled={loading} onPress={()=>Delete()}  style={Theme.buttons.primary}><Text style={Theme.fonts.description}>Eliminar</Text></Pressable>
-              <Pressable onPress={()=> setVisibleDelete(false)} style={Theme.buttons.primaryOutlined}><Text style={Theme.fonts.descriptionRed}>Cancelar</Text></Pressable>
+              <View style={{flexDirection:'row', justifyContent:'space-between', width:'100%'}}>
+              <TouchableOpacity onPress={()=> setVisibleDelete(false)} style={[Theme.buttons.primaryOutlined,{width:"45%"}]}><Text style={Theme.fonts.descriptionRed}>Cancelar</Text></TouchableOpacity>
+              <TouchableOpacity disabled={loading} onPress={()=>Delete()}  style={[Theme.buttons.primary,{width:"45%"}]}><Text style={Theme.fonts.description}>Eliminar</Text></TouchableOpacity>
+              
               </View>
           </View>
           {loading || result?.loading &&

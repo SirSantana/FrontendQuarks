@@ -140,7 +140,7 @@ useEffect(()=>{
             
             <TouchableOpacity
             onPress={formik.handleSubmit}
-            style={{width:'100%',backgroundColor:'#1b333d', height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
+            style={{width:'100%',backgroundColor:Theme.colors.primary, height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
                 <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Registrate</Text>
             </TouchableOpacity>
             <TouchableOpacity

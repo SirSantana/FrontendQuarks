@@ -11,6 +11,7 @@ import ModalCargando from "../../utils/ModalCargando";
 import { CREATE_CAR, UPDATE_CAR } from "../../graphql/mutations";
 import { GET_VEHICLES } from "../../graphql/querys";
 import { getFileInfo, isLessThanTheMB } from "../../utils/actions";
+import ModalSuccesfull from "../../utils/ModalSuccesfull";
 
 
 const initialForm ={
@@ -33,7 +34,7 @@ export default function FormCreateVehicule({ route }) {
   const { width,height } = Dimensions.get('window');
   const [createVehicule, {data, error, loading}] = useMutation(CREATE_CAR, {refetchQueries:[{query:GET_VEHICLES}]})
   const [updateCar, result] = useMutation(UPDATE_CAR)
-
+  const [visibleSuccesfull, setVisibleSuccesfull] = useState(false)
   
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -82,7 +83,6 @@ export default function FormCreateVehicule({ route }) {
   if(error){
     Alert.alert('ERROR', error?.message)
   }
-  console.log(image);
   useLayoutEffect(()=>{
       navigation.setOptions({
         title:itemData ? 'Editar mi Vehiculo': 'Crear Vehiculo'
@@ -100,10 +100,14 @@ export default function FormCreateVehicule({ route }) {
         
   useEffect(()=>{
      if(result?.data){
-            navigation.navigate('Vehiculo', {item: result?.data?.updateCar})
+      navigation.navigate('Vehiculo', {item: result?.data?.updateCar})
       }
     if(data){
-            navigation.navigate('Mi Vehiculo',{data:data.createCar})
+        setVisibleSuccesfull(true)
+        setTimeout(()=>{
+        setVisibleSuccesfull(false)
+        navigation.navigate('Mi Vehiculo',{data:data.createCar})
+        },5000)
       }
    },[result?.data, data])
 
@@ -219,7 +223,16 @@ export default function FormCreateVehicule({ route }) {
             
            </View>
       </View>
-      
+      {visibleSuccesfull &&
+         <Modal
+         animationType="fade"
+         visible={visibleSuccesfull}
+         transparent={true}
+
+       >
+          <ModalSuccesfull text={'Felicidades!'} description={'Vehiculo Creado'}/>
+       </Modal>
+         }
       
     </SafeAreaView>
         </KeyboardAwareScrollView>

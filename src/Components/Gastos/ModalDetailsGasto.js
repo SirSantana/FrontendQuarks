@@ -11,12 +11,15 @@ import ModalCargando from "../../utils/ModalCargando";
 import ModalConfirmDelete from "../../utils/ModalConfirmDelete";
 import { GET_ONE_GASTO } from "../../graphql/querys";
 import { options } from "../../utils/dateEs";
+import ModalImage from "../../utils/ModalImage";
 
 
 export default function ModalDetailsGasto({id, setModalVisible}){
     const [getOne, {loading, data, error}] = useLazyQuery(GET_ONE_GASTO)
     const [modalVisible2, setModalVisible2] = useState(false)
     const [visibleDelete, setVisibleDelete] = useState(false)
+    const [loadingImage, setLoading] = useState({image:true, marcas:true})
+  const [image, setImage] = useState({visible:false, image:null})
 
     useLayoutEffect(()=>{
       if(id){
@@ -38,7 +41,6 @@ export default function ModalDetailsGasto({id, setModalVisible}){
     const handleEdit=()=>{
       setModalVisible2(true)
     }
-    
 
     return(
       <>
@@ -88,12 +90,13 @@ export default function ModalDetailsGasto({id, setModalVisible}){
                  </View>
                 }
                 {getOneGasto?.imagen &&
-                <View style={{flexDirection:'column'}}>
+                <Pressable onPress={()=> setImage({image:getOneGasto.imagen, visible:true})} style={{flexDirection:'column'}}>
                 <Text style={Theme.fonts.descriptionGray}>Factura</Text>
-                    <Image   style={{
+                {loadingImage.image && <ActivityIndicator/>}
+                    <Image resizeMode='cover' onLoadEnd={()=> setLoading({image:false})}   style={{
                     width: '100%',
                     height: 300, borderBottomLeftRadius:20, borderBottomRightRadius:20,}} source={{uri:'data:image/png;base64,'+ getOneGasto.imagen}}/>
-                </View>
+                </Pressable>
                 }
                 
                 
@@ -119,6 +122,15 @@ export default function ModalDetailsGasto({id, setModalVisible}){
          >
              <ModalConfirmDelete setVisibleDelete={setVisibleDelete} id={id} idVehiculo={getOneGasto?.vehiculo} setModalVisible={setModalVisible}/>
          </Modal>
+         {image &&
+      <Modal
+      animationType="fade"
+      visible={image.visible}
+      transparent={true}
+     
+      >
+          <ModalImage image={image.image} setImage={setImage}/>
+      </Modal>}
          </>
     )
 }

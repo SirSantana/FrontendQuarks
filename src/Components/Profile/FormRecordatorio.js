@@ -91,12 +91,13 @@ export default function FormRecordatorio({setVisibleCreate, name}){
             
 
             <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:20}}>
-            <TouchableOpacity onPress={()=> handleCreate()} disabled={form.titulo == initialForm.titulo || form.fecha == initialForm.fecha ? true: false} style={[Theme.buttons.primary,{backgroundColor:form.titulo == initialForm.titulo || form.fecha == initialForm.fecha ? 'gray': Theme.colors.primary}]}>
-                <Text style={Theme.fonts.description}>Crear</Text>
-            </TouchableOpacity>
             <TouchableOpacity  onPress={()=> setVisibleCreate(false)} style={Theme.buttons.primaryOutlined}>
                 <Text style={Theme.fonts.descriptionRed}>Cancelar</Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={()=> handleCreate()} disabled={form.titulo == initialForm.titulo || form.fecha == initialForm.fecha ? true: false} style={[Theme.buttons.primary,{backgroundColor:form.titulo == initialForm.titulo || form.fecha == initialForm.fecha ? 'gray': Theme.colors.primary}]}>
+                <Text style={Theme.fonts.description}>Crear</Text>
+            </TouchableOpacity>
+            
             </View>
           </View>
           {loading &&

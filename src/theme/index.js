@@ -148,6 +148,7 @@ export const Theme = {
       paddingLeft: 0,
       backgroundColor: "#fff",
       color: "#424242",
+      height:50
     },
   },
   shadow: {

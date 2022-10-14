@@ -18,7 +18,6 @@ export default function Recordatorios({name}){
         setModalVisible(true)
         setDetails(el?.id)
     }
-    console.log(result?.error);
     useEffect(()=>{
       if(result?.error){
         Alert.alert('Ha ocurrido un error')
@@ -39,6 +38,7 @@ export default function Recordatorios({name}){
               {/* <Text onPress={()=> navigation.navigate('Gastos', {id:item.id})} style={Theme.fonts.descriptionBlue}>Ver Todo</Text> */}
               </View>
             {result.loading && <ActivityIndicator color={Theme.colors.primary}/>}
+            {recordatorios?.length=== 0 && <Text style={Theme.fonts.descriptionGray}>Sin recordatorios</Text>}
             { recordatorios?.map(el=>{
           let fecha = new Date(el.fecha) 
           const dateActual = new Date()
