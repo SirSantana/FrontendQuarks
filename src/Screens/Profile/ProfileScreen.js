@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { View, Text, Pressable, BackHandler, Modal,TouchableOpacity, ScrollView, Dimensions, Image, SafeAreaView, Button } from 'react-native'
+import { View, Text, Pressable, BackHandler, Modal,TouchableOpacity, ScrollView, Dimensions, Image, SafeAreaView, Button, Linking } from 'react-native'
 import { client } from '../../../apollo'
 import EditProfile from '../../Components/Profile/EditProfile'
 import Recordatorios from '../../Components/Profile/Recordatorios'
@@ -11,11 +11,14 @@ import useAuth from '../../hooks/useAuth'
 import { Theme } from '../../theme'
 import SignInScreen from './SiginScreen'
 import { Feather } from '@expo/vector-icons';
+import Sugerencias from '../../Components/Profile/Sugerencias'
 
 export const ProfileScreen = () => {
   const navigation = useNavigation()
   const{user, logout} = useAuth()
   const [visibleEdit, setVisibleEdit] = useState(false)
+  const [visibleSugerencia, setVisibleSugerencia] = useState(false)
+
   const handleLogout=()=>{
     AsyncStorage.clear().then(()=> logout())
     navigation.reset({
@@ -23,6 +26,8 @@ export const ProfileScreen = () => {
       routes: [{ name: 'Profile' }]
  })
   }
+  
+
   
   useLayoutEffect(()=>{
     if(user){
@@ -56,7 +61,20 @@ export const ProfileScreen = () => {
        </Modal>
 
        <Recordatorios name={user?.name}/>
+        {visibleSugerencia&&
+      <Modal
+         animationType="fade"
+         visible={visibleSugerencia}
+         transparent={true}
+       >
+        <Sugerencias setVisibleSugerencia={setVisibleSugerencia} />
+       </Modal>
+        }
+       
 
+       <TouchableOpacity onPress={()=> setVisibleSugerencia(true)}  style={{width:'90%', height:40,borderRadius:10, backgroundColor:"#b1b1b1", alignItems:'center', justifyContent:'center'}}>
+        <Text style={Theme.fonts.description}>Enviar Sugerencias</Text>
+      </TouchableOpacity>
        
       </View>
 

@@ -21,7 +21,6 @@ export default function IndexStores(){
             },
         })
     },[])
-    console.log('filt',filtro);
     return(
         <SafeAreaView style={{justifyContent:'space-between', backgroundColor:'white'}}>
             
