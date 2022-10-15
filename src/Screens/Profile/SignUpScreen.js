@@ -124,7 +124,7 @@ useEffect(()=>{
           <View style={Theme.containers.containerInputPassword}>
           <TextInput
             placeholder='Confirmar Contraseña'
-            value={formik.values.password}
+            value={formik.values.confirmPassword}
             onChangeText={(text)=> formik.setFieldValue('confirmPassword', text)}
             secureTextEntry={visiblePassword ? false:true}
             style={Theme.input.inputPassword}

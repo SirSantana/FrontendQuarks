@@ -21,7 +21,7 @@ export default function ModalImage({image, setImage}){
       const mediaResult = await MediaLibrary.saveToLibraryAsync(filename);
     setVisibleSuccesfull(true)
     }else{
-      Alert.alert('Error')
+      Alert.alert('Acceso Denegado, Error al Descargar')
     }
 
 }

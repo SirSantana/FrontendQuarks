@@ -27,7 +27,7 @@ export default function UserInfo({user}){
             <View>
                 <Text style={Theme.fonts.titleBlue}>{user?.name} {user?.apellido}</Text>
                 <Text style={Theme.fonts.descriptionGray}>{user?.ciudad ? user?.ciudad: 'Ciudad'}, {user?.pais ? user?.pais: 'Pais'}</Text>
-                <Text style={Theme.fonts.descriptionGray}>{user?.role}</Text>
+                {/* <Text style={Theme.fonts.descriptionGray}>{user?.role}</Text> */}
             </View>
         </View>
     )
