@@ -100,6 +100,16 @@ mutation signUp($email: String!, $password:String!, $name:String!, $apellido:Str
   }
 }
 `
+export const SEND_MESSAGE_PASSWORD = gql`
+mutation sendMessagePassword($email:String!, $codigo:Int){
+  sendMessagePassword(email:$email, codigo:$codigo)
+}
+`
+export const CHANGE_PASSWORD = gql`
+  mutation changePassword($email:String,$password:String, $confirmPassword:String){
+    changePassword(email:$email,password:$password, confirmPassword:$confirmPassword)
+  }
+`
 export const DELETE_GASTO = gql`
   mutation deleteGasto($id:ID!, $idVehiculo:ID!){
     deleteGasto(id:$id, idVehiculo:$idVehiculo)

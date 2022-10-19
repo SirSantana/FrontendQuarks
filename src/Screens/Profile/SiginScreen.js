@@ -101,6 +101,8 @@ export default function SignInScreen(){
             style={{width:'100%', height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
                 <Text style={{color:'#1b333d', fontSize:18, fontWeight:"600"}}>No tienes una cuenta? Registrate</Text>
             </TouchableOpacity>
+            
+                <Text onPress={()=> navigation.navigate('ForgotPassword')} style={{color:'#1b333d', fontSize:16, fontWeight:"600", textAlign:'center'}}>Olvidaste tu contraseña?</Text>
           </View>
             
           {loading &&

@@ -1,8 +1,8 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { View, Text, Pressable, BackHandler, Modal,TouchableOpacity, ScrollView, Dimensions, Image, SafeAreaView, Button, Linking } from 'react-native'
+import { View, Text, Pressable, BackHandler, Modal,TouchableOpacity, ScrollView,TextInput, Dimensions, Image, SafeAreaView, Button, Linking } from 'react-native'
 import { client } from '../../../apollo'
 import EditProfile from '../../Components/Profile/EditProfile'
 import Recordatorios from '../../Components/Profile/Recordatorios'
@@ -12,12 +12,16 @@ import { Theme } from '../../theme'
 import SignInScreen from './SiginScreen'
 import { Feather } from '@expo/vector-icons';
 import Sugerencias from '../../Components/Profile/Sugerencias'
+import { CHANGE_PASSWORD } from '../../graphql/mutations'
+
+
 
 export const ProfileScreen = () => {
   const navigation = useNavigation()
   const{user, logout} = useAuth()
   const [visibleEdit, setVisibleEdit] = useState(false)
   const [visibleSugerencia, setVisibleSugerencia] = useState(false)
+  // const [changePassword, {data, error,loading}] = useMutation(CHANGE_PASSWORD)
 
   const handleLogout=()=>{
     AsyncStorage.clear().then(()=> logout())
@@ -26,9 +30,7 @@ export const ProfileScreen = () => {
       routes: [{ name: 'Profile' }]
  })
   }
-  
 
-  
   useLayoutEffect(()=>{
     if(user){
       navigation.setOptions({
@@ -70,7 +72,6 @@ export const ProfileScreen = () => {
         <Sugerencias setVisibleSugerencia={setVisibleSugerencia} />
        </Modal>
         }
-       
 
        <TouchableOpacity onPress={()=> setVisibleSugerencia(true)}  style={{width:'90%', height:40,borderRadius:10, backgroundColor:"#b1b1b1", alignItems:'center', justifyContent:'center'}}>
         <Text style={Theme.fonts.description}>Enviar Sugerencias</Text>

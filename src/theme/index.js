@@ -150,6 +150,14 @@ export const Theme = {
       color: "#424242",
       height:50
     },
+    inputCode:{
+      height: 50,
+      backgroundColor: "white",
+      borderColor: "black",
+      borderRadius: 10,
+      textAlign:'center',
+      width:'10%',fontSize:30, marginHorizontal:5
+    }
   },
   shadow: {
     basic: {

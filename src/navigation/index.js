@@ -18,6 +18,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import IndexStores from '../Screens/Store/IndexStores';
 import DetailsStore from '../Components/StoreComponent/DetailsStore';
 import { useEffect, useLayoutEffect, useState } from 'react';
+import PruebaCarScreen from '../Screens/Car/PruebaCarScreen';
+import ForgotPasswordScreen from '../Screens/Profile/ForgotPasswordScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -91,6 +93,8 @@ function StackProfile() {
           <Stack.Screen name="Perfil" component={ProfileScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+
 
         </Stack.Navigator>
       );
@@ -104,7 +108,8 @@ function StackProfile() {
             backgroundColor:'white'
           },headerTintColor: '#1b333d'
           }}>
-        <Stack.Screen name="Mi Vehiculo" component={CarScreen} options={{headerShown:false}}/>
+        {/* <Stack.Screen name="Mi Vehiculo" component={CarScreen} options={{headerShown:false}}/> */}
+        <Stack.Screen name="Mi Vehiculo" component={PruebaCarScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Creando mi Vehiculo" component={FormCreateVehicule}  />
         <Stack.Screen name="Vehiculo" component={VehiculeDataScreen}  />
         <Stack.Screen name="Gastos" component={GastosScreen}  />
