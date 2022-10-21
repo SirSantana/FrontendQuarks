@@ -19,17 +19,12 @@ export default function Vehiculo({item}){
           }}>
 
           {item?.imagen
-           ?<Image   style={{
+           &&<Image   style={{
              resizeMode:'cover',
              borderRadius:20,
            width: '100%',
            height: 230}} source={{uri:'data:image/png;base64,'+ item.imagen}}/>
-          :
-          <Image resizeMode='contain'  style={{position: 'absolute',opacity:.8, tintColor:'rgba(242,241,239,0.8)',
-            top: 30,
-            right:-50,
-            width: width,
-            height: 200}} source={require('../../../assets/carroBlanco.png')}/>}
+          }
           </View>
           <View style={{width:'100%', padding:20, position:'absolute', top:'65%'}}>
             <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>

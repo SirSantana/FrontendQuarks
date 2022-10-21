@@ -13,13 +13,12 @@ import PruebaCarScreen from './PruebaCarScreen'
 
 
 
-export const CarScreen=({route}) =>{
+export const CarScreen=() =>{
   
     const navigation = useNavigation()
     const {user} = useAuth()
     const [create, setCreate] = useState(false)
     const {data, error, loading} = useQuery(GET_VEHICLES)
-  const [loadingImage,setLoadingImage] = useState(true)
 
   const handleCreate=()=>{
     if(user){
@@ -69,7 +68,7 @@ export const CarScreen=({route}) =>{
         </View>
         </SafeAreaView>
      :
-     <PruebaCarScreen vehiculos={data.getCars.length > 0 ?true: false}/>
+     <PruebaCarScreen/>
     //   <>
     //       <Image onLoadEnd={()=> setLoadingImage(false)} style={{width:'90%', height:'50%', marginBottom:20}} source={require('../../../assets/CarBack.png')}/>
     //       {loadingImage && <ActivityIndicator color={Theme.colors.primary}/>}

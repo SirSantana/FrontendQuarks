@@ -32,7 +32,7 @@ export default function GastosScreen({route}){
         return fecha === monthActual && year === yearActual
       })
     }
-console.log(loading);    useLayoutEffect(()=>{
+   useLayoutEffect(()=>{
         if(id){
             getAll({variables:{id:id}})
         }

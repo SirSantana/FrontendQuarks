@@ -120,6 +120,23 @@ export const Theme = {
       borderRadius: 10,
       backgroundColor: "#f50057",
     },
+    containerViewTipo:{
+      backgroundColor:'#f50057' ,marginVertical:'5%',shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      flexDirection:'row',
+      justifyContent:'center',
+      alignItems:'center', 
+      width:'70%',
+      marginLeft:'30%',
+       borderTopLeftRadius:20,
+        borderBottomLeftRadius:20,
+  },
     containerInputPassword: {
       flex: 1,
       flexDirection: "row",
