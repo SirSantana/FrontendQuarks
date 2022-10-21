@@ -16,7 +16,7 @@ const initialForm={
 export default function ForgotPasswordScreen(){
     const [email, setEmail] = useState('')
     const [sendCheck, setSendCheck] = useState(false)
-    const [ sendMessagePassword,{loading, data, error}] = useMutation(SEND_MESSAGE_PASSWORD)
+    const [sendMessagePassword,{loading, data, error}] = useMutation(SEND_MESSAGE_PASSWORD)
     const [ changePassword,result] = useMutation(CHANGE_PASSWORD)
     const navigation = useNavigation()
 
@@ -35,7 +35,6 @@ export default function ForgotPasswordScreen(){
     const sendEmail=()=>{
         if(email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
             if(codigo !== null){
-
                 sendMessagePassword({variables:{email:email, codigo:codigo}})
                 setSendCheck(true)
             }
@@ -49,6 +48,7 @@ export default function ForgotPasswordScreen(){
     useEffect(()=>{
         if(error){
             Alert.alert(error?.message)
+            setSendCheck(false)
         }
     },[error])
     useEffect(()=>{
@@ -60,7 +60,6 @@ export default function ForgotPasswordScreen(){
     useEffect(()=>{
         if(data?.sendMessagePassword){
             Alert.alert('Mensaje Enviado')
-
         }
     },[data])
     useEffect(()=>{
@@ -78,10 +77,8 @@ export default function ForgotPasswordScreen(){
 
         if(code.toString().replace(/,/g, "") == codigo){
             setVisibleChange(true)
-            console.log('doce',code);
         }else{
             Alert.alert('Codigo invalido')
-            
         }
     }
 
@@ -144,7 +141,6 @@ export default function ForgotPasswordScreen(){
             />
                 </View>
                 <TouchableOpacity
-                
                 disabled={visibleChange}
                 onPress={()=> verify()}
             style={{width:'90%',backgroundColor:visibleChange?'gray':Theme.colors.primary, height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>

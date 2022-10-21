@@ -9,6 +9,7 @@ import Vehiculo from '../../Components/CarComponents/Vehiculo'
 import { GET_USER } from '../../Context/AuthContext'
 import { GET_VEHICLES } from '../../graphql/querys'
 import { ActivityIndicator } from 'react-native-paper'
+import PruebaCarScreen from './PruebaCarScreen'
 
 
 
@@ -20,10 +21,9 @@ export const CarScreen=({route}) =>{
     const {data, error, loading} = useQuery(GET_VEHICLES)
   const [loadingImage,setLoadingImage] = useState(true)
 
-  const handleCreate=(tipo)=>{
-    setCreate(false)
+  const handleCreate=()=>{
     if(user){
-      return navigation.navigate('Creando mi Vehiculo',{tipo})
+      return navigation.navigate('Crear Vehiculo')
     }
     else{
       return navigation.navigate('Profile')
@@ -31,10 +31,11 @@ export const CarScreen=({route}) =>{
   }
   
   return (
-    <SafeAreaView style={[Theme.containers.containerParent,]}>
+      <>
         {loading ? <ActivityIndicator color={Theme.colors.primary}/>
         :  
         data?.getCars?.length>0 && user && !create?
+        <SafeAreaView style={[Theme.containers.containerParent,]}>
         <View style={{width:'100%',shadowColor: "#000",
         height:"100%",
         paddingTop:'20%',
@@ -61,40 +62,41 @@ export const CarScreen=({route}) =>{
         data={data?.getCars}
         />
         <Pressable
-            onPress={()=> setCreate(true)}
+            onPress={()=> handleCreate()}
             style={[Theme.buttons.primary,{width:'80%'}]}>
                 <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Crear otro Vehiculo</Text>
         </Pressable>
         </View>
+        </SafeAreaView>
+     :
+     <PruebaCarScreen vehiculos={data.getCars.length > 0 ?true: false}/>
+    //   <>
+    //       <Image onLoadEnd={()=> setLoadingImage(false)} style={{width:'90%', height:'50%', marginBottom:20}} source={require('../../../assets/CarBack.png')}/>
+    //       {loadingImage && <ActivityIndicator color={Theme.colors.primary}/>}
 
-      :
-      <>
-          <Image onLoadEnd={()=> setLoadingImage(false)} style={{width:'90%', height:'50%', marginBottom:20}} source={require('../../../assets/CarBack.png')}/>
-          {loadingImage && <ActivityIndicator color={Theme.colors.primary}/>}
-
-        <Text style={[Theme.fonts.titleBlue,{width:'90%', textAlign:'center', fontSize:26}]}>Crea tu Vehiculo</Text>
-    <Text style={[Theme.fonts.descriptionGray]}>Y empieza a llevar tus gastos!</Text>
-    <Text style={[Theme.fonts.descriptionGray]}>Elige tu tipo de Vehiculo, Carro o Moto</Text>
+    //     <Text style={[Theme.fonts.titleBlue,{width:'90%', textAlign:'center', fontSize:26}]}>Crea tu Vehiculo</Text>
+    // <Text style={[Theme.fonts.descriptionGray]}>Y empieza a llevar tus gastos!</Text>
+    // <Text style={[Theme.fonts.descriptionGray]}>Elige tu tipo de Vehiculo, Carro o Moto</Text>
 
 
-      <View style={{  flexDirection:'row', justifyContent:'space-between', width:'60%', marginTop:20}}>
-          <TouchableOpacity onPress={()=>handleCreate('Carro')} style={Theme.containers.containerBox}>
-          <Image style={{width:80, height:80}} source={require('../../../assets/carroBlanco.png')}/>
-          </TouchableOpacity>
+    //   <View style={{  flexDirection:'row', justifyContent:'space-between', width:'60%', marginTop:20}}>
+    //       <TouchableOpacity onPress={()=>handleCreate('Carro')} style={Theme.containers.containerBox}>
+    //       <Image style={{width:80, height:80}} source={require('../../../assets/carroBlanco.png')}/>
+    //       </TouchableOpacity>
 
-          {/* <TouchableOpacity onPress={()=>handleCreate("Moto")}style={Theme.containers.containerBox}>
-          <Image style={{width:80, height:80}} source={require('../../../assets/motoBlanca.png')}/>
-          </TouchableOpacity> */}
+    //       {/* <TouchableOpacity onPress={()=>handleCreate("Moto")}style={Theme.containers.containerBox}>
+    //       <Image style={{width:80, height:80}} source={require('../../../assets/motoBlanca.png')}/>
+    //       </TouchableOpacity> */}
           
-      </View>
-      {data?.getCars?.length>0 && user &&
-          <Pressable onPress={()=> setCreate(false)} style={[Theme.buttons.primary,{width:'90%', marginTop:20}]}>
-                <Text style={Theme.fonts.titleWhite}>Ver mis Vehiculos</Text>
-            </Pressable>}
-    </>
+    //   </View>
+    //   {data?.getCars?.length>0 && user &&
+    //       <Pressable onPress={()=> setCreate(false)} style={[Theme.buttons.primary,{width:'90%', marginTop:20}]}>
+    //             <Text style={Theme.fonts.titleWhite}>Ver mis Vehiculos</Text>
+    //         </Pressable>}
+    // </>
       }
         
+        </>
     
-    </SafeAreaView>
   )
 }

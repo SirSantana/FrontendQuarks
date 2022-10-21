@@ -108,8 +108,8 @@ function StackProfile() {
             backgroundColor:'white'
           },headerTintColor: '#1b333d'
           }}>
-        {/* <Stack.Screen name="Mi Vehiculo" component={CarScreen} options={{headerShown:false}}/> */}
-        <Stack.Screen name="Mi Vehiculo" component={PruebaCarScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="Mi Vehiculo" component={CarScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="Crear Vehiculo" component={PruebaCarScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Creando mi Vehiculo" component={FormCreateVehicule}  />
         <Stack.Screen name="Vehiculo" component={VehiculeDataScreen}  />
         <Stack.Screen name="Gastos" component={GastosScreen}  />
