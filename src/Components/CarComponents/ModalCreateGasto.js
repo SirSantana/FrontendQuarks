@@ -85,9 +85,9 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
     };
   
     const handleConfirm = (date) => {
+      hideDatePicker();
       setSelectedDate(date);
       setForm({...form, fecha:date})
-      hideDatePicker();
     };
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library

@@ -10,7 +10,7 @@ import { GET_RECORDATORIO } from '../../graphql/querys';
 import { options } from '../../utils/dateEs';
 
 
-export default function ModalDetailsRecordatorio({id, setModalVisible}){
+export default function ModalDetailsRecordatorio({id, setModalVisible, idVehiculo}){
     const [getOne, {data, loading, error}] = useLazyQuery(GET_RECORDATORIO)
     let fecha = new Date(data?.getOneRecordatorio?.fecha)
     const [visibleDelete, setVisibleDelete] = useState(false)
@@ -75,7 +75,7 @@ export default function ModalDetailsRecordatorio({id, setModalVisible}){
            transparent={true}
            visible={visibleDelete}
          >
-             <ModalConfirmDelete setVisibleDelete={setVisibleDelete} id={id}  setModalVisible={setModalVisible}/>
+             <ModalConfirmDelete setVisibleDelete={setVisibleDelete} id={id}  setModalVisible={setModalVisible} idVehiculo2={idVehiculo}/>
          </Modal>
         </>
     )

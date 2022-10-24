@@ -1,32 +1,33 @@
-import { View, Text, TouchableOpacity, Image, } from "react-native";
-import { Theme } from "../../../theme";
-import { marcasCarros } from "../marcasCarros";
-import { marcasMotos } from "../marcasMotos";
+
+import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
+import { Buttons } from "../../../Themes/buttons";
+import { Colors } from "../../../Themes/colors";
+import { Inputs } from "../../../Themes/inputs";
+import { Texts } from "../../../Themes/text";
 
 
-export default function Screen3({handleChange, vehiculo, marca}){
+export default function Screen3({setForm, vehiculo, form, logo, setScreens}){
 
     return(
-        <View style={{height:'60%'}}>
-                <View style={{elevation:5, justifyContent:'center', alignItems:'center',}}>
-                <Image  style={{width:200, height:100,resizeMode:'contain'}} source={vehiculo=== 'Carro' ? require(`../../../../assets/Carro.png`):require(`../../../../assets/Moto.png`)}/>
+        <View style={{height:'60%', alignItems:'center'}}>
+            <View style={{elevation:5,flexDirection:'row', justifyContent:'center', alignItems:'center',}}>
+                <Image style={{width:200, height:100,resizeMode:'contain'}} source={vehiculo=== 'Carro' ? require(`../../../../assets/Carro.png`):require(`../../../../assets/Moto.png`)}/>
+                <Image style={{width:50, height:50}} source={logo?.src}/>
+                
                 </View>
-               <Text style={[Theme.fonts.titleBlue, {textAlign:'center', marginVertical:'5%'}]}>Selecciona la marca de tu Vehiculo</Text>
-                <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent:'center'}}>
-                {vehiculo === 'Carro' ?
-            marcasCarros.map(el=>(
-                <TouchableOpacity key={el.marca} onPressOut={()=>handleChange(el.marca, el.src)} style={{width:60, height:60, margin:10, backgroundColor:marca === el.marca ? '#1b333d': 'white',justifyContent:'center', alignItems:'center', borderRadius:10}}>
-                <Image style={{width:40, height:40}} source={el.src}/>
-                </TouchableOpacity>
-            ))    
-            :
-            marcasMotos.map(el=>(
-                <TouchableOpacity key={el.marca} onPressOut={()=>handleChange(el.marca, el.src)} style={{width:60, height:60, margin:10, backgroundColor:marca === el.marca ? '#1b333d': 'white',justifyContent:'center', alignItems:'center', borderRadius:10}}>
-                <Image style={{width:40, height:40}} source={el.src}/>
-                </TouchableOpacity>
-            ))
-            }
+                <Text style={[Texts.title2BoldBlue,{marginVertical:'5%'}]}>Agrega la Referencia</Text>
+      
+      <TextInput
+            // placeholder={itemData && itemData?.marca }
+            onChangeText={(text)=> setForm({...form, referencia:text})}
+            style={[Inputs.basic,{width:"90%",marginVertical:'5%'}]}
+            maxLength={20}
+                value={form.referencia}
+            />
+            <TouchableOpacity  onPress={()=>setScreens(4)} disabled={form.referencia.length<2 ? true: false} style={[Buttons.primary,{width:'90%', marginTop:'5%', backgroundColor:form.referencia != ''? Colors.primary:'gray'}]}>
+        <Text style={Texts.title2RegularWhite}>Siguiente</Text>
+
+        </TouchableOpacity>
                 </View>
-            </View>
     )
 }

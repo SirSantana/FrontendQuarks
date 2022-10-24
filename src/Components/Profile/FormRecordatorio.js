@@ -1,6 +1,6 @@
 import {Modal, View, Text, StyleSheet, Pressable, TextInput, Image, Alert, Dimensions,TouchableOpacity} from 'react-native'
 import { Theme } from '../../theme';
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useLayoutEffect} from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Fontisto } from '@expo/vector-icons';
@@ -14,14 +14,15 @@ const initialForm={
     titulo:"",
     description:"",
     fecha:"",
+    vehiculo:''
 }
 
-export default function FormRecordatorio({setVisibleCreate, name}){
+export default function FormRecordatorio({setVisibleCreate, name, id}){
     const { width,height } = Dimensions.get('window');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [datePickerVisible, setDatePickerVisible] = useState(false);
     const [form, setForm] = useState(initialForm)
-    const [createRecordatorio, {loading, data, error}] = useMutation(CREATE_RECORDATORIO, {refetchQueries:[{query:GET_RECORDATORIOS}]})
+    const [createRecordatorio, {loading, data, error}] = useMutation(CREATE_RECORDATORIO, {refetchQueries:[{query:GET_RECORDATORIOS,variables:{id:id}}]})
     const showDatePicker = () => {
         setDatePickerVisible(true);
       };
@@ -29,13 +30,16 @@ export default function FormRecordatorio({setVisibleCreate, name}){
       const hideDatePicker = () => {
         setDatePickerVisible(false);
       };
-    
       const handleConfirm = (date) => {
-        setSelectedDate(date);
-        setForm({...form, fecha:date})
         hideDatePicker();
+        setSelectedDate(date);
+        setForm({...form, fecha:date, })
       };
-    
+      useLayoutEffect(()=>{
+        if(id){
+          setForm({...form,vehiculo:id })
+        }
+      },[])
       const handleCreate= ()=>{
         createRecordatorio({variables:form})
       }
@@ -65,13 +69,13 @@ export default function FormRecordatorio({setVisibleCreate, name}){
             <Text style={[Theme.fonts.descriptionGray,{textAlign:'left'}]}>Titulo</Text>
             <Pressable style={{backgroundColor:'white', width:'100%', height:50, paddingHorizontal:5, alignItems:'center', flexDirection:'row', marginBottom:10}}>
             {/* <FontAwesome5 name="store" size={20} color="#1b333d" style={{marginLeft:5}}/> */}
-            <TextInput maxLength={20} onChangeText={(text)=> setForm({...form, titulo:text})} placeholder={"Pago de Impuestos"} multiline style={[Theme.fonts.descriptionGray,{width:'80%', marginHorizontal:10}]}  />
+            <TextInput maxLength={20} onChangeText={(text)=> setForm({...form, titulo:text.trim()})} placeholder={"Pago de Impuestos"} multiline style={[Theme.fonts.descriptionGray,{width:'80%', marginHorizontal:10}]}  />
             </Pressable>
 
             <Text style={[Theme.fonts.descriptionGray,{textAlign:'left'}]}>Descripcion</Text>
             <Pressable style={{backgroundColor:'white', width:'100%', height:50, paddingHorizontal:5, alignItems:'center', flexDirection:'row', marginBottom:10}}>
             {/* <FontAwesome5 name="store" size={20} color="#1b333d" style={{marginLeft:5}}/> */}
-            <TextInput maxLength={100} onChangeText={(text)=> setForm({...form, description:text})} multiline style={[Theme.fonts.descriptionGray,{width:'80%', marginHorizontal:10}]}  />
+            <TextInput maxLength={100} onChangeText={(text)=> setForm({...form, description:text.trim()})} multiline style={[Theme.fonts.descriptionGray,{width:'80%', marginHorizontal:10}]}  />
             </Pressable>
 
             <Text style={Theme.fonts.descriptionGray}>Fecha</Text>
@@ -85,7 +89,6 @@ export default function FormRecordatorio({setVisibleCreate, name}){
                     onConfirm={handleConfirm}
                     onCancel={hideDatePicker}
                     minimumDate={new Date()}
-                    maximumDate={new Date(2022, 12, 31)}
                     /> 
             </Pressable>
             

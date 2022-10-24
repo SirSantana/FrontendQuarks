@@ -65,8 +65,8 @@ export const EDIT_USER = gql`
     }
 `
 export const CREATE_RECORDATORIO = gql`
-    mutation createRecordatorio($titulo:String, $description:String, $fecha:Date){
-        createRecordatorio(input:{titulo:$titulo, description:$description, fecha:$fecha}){
+    mutation createRecordatorio($titulo:String, $description:String, $fecha:Date, $vehiculo:ID){
+        createRecordatorio(input:{titulo:$titulo, description:$description, fecha:$fecha, vehiculo:$vehiculo}){
             titulo
             description
             fecha

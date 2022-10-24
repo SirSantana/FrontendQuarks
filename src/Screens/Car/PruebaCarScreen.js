@@ -14,8 +14,10 @@ import useAuth from "../../hooks/useAuth";
 import Screen1 from "../../Components/CarComponents/ScreensCreateCar/Screen1";
 import Screen2 from "../../Components/CarComponents/ScreensCreateCar/Screen2";
 import Screen3 from "../../Components/CarComponents/ScreensCreateCar/Screen3";
-import Screen4 from "../../Components/CarComponents/ScreensCreateCar/Screen4";
-import Screen5 from "../../Components/CarComponents/ScreensCreateCar/Screens5";
+import Screen4 from "../../Components/CarComponents/ScreensCreateCar/Screens4";
+import { Texts } from "../../Themes/text";
+import { Colors } from "../../Themes/colors";
+import { Buttons } from "../../Themes/buttons";
 
 
 const initialForm ={
@@ -87,7 +89,7 @@ export default function PruebaCarScreen(){
     const handleChange=(itemMarca, src)=>{
         setForm({...form, marca:itemMarca})
         setMarca({marca:itemMarca, src:src})
-        setScreens(4)
+        setScreens(3)
       }
       const crearVehiculo=()=>{
         if(user){
@@ -118,23 +120,22 @@ export default function PruebaCarScreen(){
 
                </View>
                
-            {screens === 1 &&<Screen1 crearVehiculo={crearVehiculo}/>}
 
-            {screens === 2 &&<Screen2 setScreens={setScreens} setVehiculo={setVehiculo} setForm={setForm} form={form}/>}
+            {screens === 1 &&<Screen1 setScreens={setScreens} setVehiculo={setVehiculo} setForm={setForm} form={form}/>}
            
-            {screens === 3 &&<Screen3 handleChange={handleChange} vehiculo={vehiculo} marca={marca}/>}
+            {screens === 2 &&<Screen2 handleChange={handleChange} vehiculo={vehiculo} marca={marca}/>}
             
-            {screens === 4 &&<Screen4 setForm={setForm} vehiculo={vehiculo} form={form} logo={logo} setScreens={setScreens}/>}
+            {screens === 3 &&<Screen3 setForm={setForm} vehiculo={vehiculo} form={form} logo={logo} setScreens={setScreens}/>}
 
-            {screens === 5 &&<Screen5 pickImage={pickImage} image={image} vehiculo={vehiculo} logo={logo} form={form}/>}
+            {screens === 4 &&<Screen4 pickImage={pickImage} image={image} vehiculo={vehiculo} logo={logo} form={form}/>}
 
-            <View style={{justifyContent:'center', alignItems:'center', flexDirection:'row', width:'100%'}}>
-            <Text style={[Theme.fonts.titleRed,{width:'50%', textAlign:'center'}]} onPress={()=>setScreens(screens-1)}>Volver</Text>
-            </View>
-            {screens === 5
+            <TouchableOpacity style={{justifyContent:'center', alignItems:'center', flexDirection:'row', width:'100%'}}>
+            <Text style={[Texts.title2RegularRed,{width:'50%', textAlign:'center'}]} onPress={()=>screens===1 ?navigation.navigate('Mi Vehiculo'):setScreens(screens-1)}>Volver</Text>
+            </TouchableOpacity>
+            {screens === 4
             ?
-            <TouchableOpacity onPress={()=> handleSubmit()} style={[Theme.buttons.primary,{width:'90%', marginHorizontal:'5%', marginVertical:10}]}>
-            <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Guardar Vehiculo</Text>
+            <TouchableOpacity onPress={()=> handleSubmit()} style={[Buttons.primary,{width:'90%', marginHorizontal:'5%', marginVertical:10}]}>
+            <Text style={Texts.title2RegularWhite}>Guardar Vehiculo</Text>
 
             </TouchableOpacity>
         :
@@ -150,7 +151,6 @@ export default function PruebaCarScreen(){
                     <View style={{width:20, height:2,backgroundColor:screens>=3 ? Theme.colors.primary : 'gray'}}/>
                     
                     <View style={{width:20, height:20, backgroundColor:screens>=4 ? Theme.colors.primary : 'gray'}}/>
-                    <View style={{width:20, height:2,backgroundColor:screens>=4 ? Theme.colors.primary : 'gray'}}/>
                     
 
                 

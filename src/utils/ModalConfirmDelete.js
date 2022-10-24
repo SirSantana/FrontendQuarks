@@ -8,7 +8,7 @@ import { GET_ALL_GASTOS, GET_GASTOS, GET_RECORDATORIOS } from '../graphql/querys
 
 
 
-export default function ModalConfirmDelete({setVisibleDelete, id, idVehiculo, setModalVisible}){
+export default function ModalConfirmDelete({setVisibleDelete, id, idVehiculo, setModalVisible,idVehiculo2 }){
   const [deleteGasto, {data, loading, error}] = useMutation(DELETE_GASTO,{
     update(cache, {data}){
   const {getAllGastos} = cache.readQuery({
@@ -34,10 +34,10 @@ export default function ModalConfirmDelete({setVisibleDelete, id, idVehiculo, se
     }
   })
 }})
-  const [deleteRecordatorio, result] = useMutation(DELETE_RECORDATORIO, {refetchQueries:[{query:GET_RECORDATORIOS}]})
+  const [deleteRecordatorio, result] = useMutation(DELETE_RECORDATORIO, {refetchQueries:[{query:GET_RECORDATORIOS, variables:{id:idVehiculo2}}]})
 
   const Delete=()=>{
-    if(!idVehiculo){
+    if(idVehiculo2){
       deleteRecordatorio({variables:{id:id}})
 
     }else{

@@ -1,56 +1,33 @@
-import { useState } from "react";
-import { View, Text, TouchableOpacity, Image, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Image, } from "react-native";
 import { Theme } from "../../../theme";
+import { Texts } from "../../../Themes/text";
+import { marcasCarros } from "../marcasCarros";
+import { marcasMotos } from "../marcasMotos";
 
-export default function Screen2({ setScreens, setVehiculo, setForm, form }) {
-  const [loadingImage, setLoadingImage] = useState(true);
 
-  const onSubmit = (vehiculo) => {
-    setScreens(3);
-    setVehiculo(vehiculo);
-    setForm({ ...form, tipo: vehiculo });
-  };
-  return (
-    <View style={{ height: "60%" }}>
-      <Text
-        style={[
-          Theme.fonts.titleBlue,
-          { textAlign: "center", marginVertical: "5%" },
-        ]}
-      >
-        Selecciona el tipo de Vehiculo
-      </Text>
+export default function Screen2({handleChange, vehiculo, marca}){
 
-      <TouchableOpacity
-        onPress={() => onSubmit("Carro")}
-        style={[
-          Theme.containers.containerViewTipo,
-          {marginLeft: 0,borderTopRightRadius: 20,borderBottomRightRadius: 20,borderTopLeftRadius: 0,borderBottomLeftRadius: 0,
-          },
-        ]}
-      >
-        <Image
-          onLoadEnd={() => setLoadingImage(false)}
-          style={{ width: 200, height: 100, resizeMode: "contain" }}
-          source={require("../../../../assets/Carro.png")}
-        />
-        {loadingImage && <ActivityIndicator color={Theme.colors.secondary} />}
-        <Text style={[Theme.fonts.titleWhite]}>Carro</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => onSubmit("Moto")}
-        style={Theme.containers.containerViewTipo}
-      >
-        <Text style={[Theme.fonts.titleWhite]}>Moto</Text>
-
-        <Image
-          onLoadEnd={() => setLoadingImage(false)}
-          style={{ width: 200, height: 100, resizeMode: "contain" }}
-          source={require("../../../../assets/Moto.png")}
-        />
-        {loadingImage && <ActivityIndicator color={Theme.colors.secondary} />}
-      </TouchableOpacity>
-    </View>
-  );
+    return(
+        <View style={{height:'60%'}}>
+                <View style={{elevation:5, justifyContent:'center', alignItems:'center',}}>
+                <Image  style={{width:200, height:100,resizeMode:'contain'}} source={vehiculo=== 'Carro' ? require(`../../../../assets/Carro.png`):require(`../../../../assets/Moto.png`)}/>
+                </View>
+               <Text style={[Texts.title2BoldBlue,{marginVertical:'5%'}]}>Selecciona la marca de tu Vehiculo</Text>
+                <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent:'center'}}>
+                {vehiculo === 'Carro' ?
+            marcasCarros.map(el=>(
+                <TouchableOpacity key={el.marca} onPressOut={()=>handleChange(el.marca, el.src)} style={{width:60, height:60, margin:10, backgroundColor:marca === el.marca ? '#1b333d': 'white',justifyContent:'center', alignItems:'center', borderRadius:10, elevation:5}}>
+                <Image style={{width:40, height:40}} source={el.src}/>
+                </TouchableOpacity>
+            ))    
+            :
+            marcasMotos.map(el=>(
+                <TouchableOpacity key={el.marca} onPressOut={()=>handleChange(el.marca, el.src)} style={{width:60, height:60, margin:10, backgroundColor:marca === el.marca ? '#1b333d': 'white',justifyContent:'center', alignItems:'center', borderRadius:10, elevation:5}}>
+                <Image style={{width:40, height:40}} source={el.src}/>
+                </TouchableOpacity>
+            ))
+            }
+                </View>
+            </View>
+    )
 }

@@ -1,24 +1,48 @@
-import { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Theme } from '../../../theme';
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import { Containers } from "../../../Themes/containers";
+import { Texts } from "../../../Themes/text";
 
+export default function Screen1({ setScreens, setVehiculo, setForm, form }) {
 
-export default function Screen1({crearVehiculo}){
-    const [loadingImage, setLoadingImage] = useState(true)
-    
-    return(
-        <View style={Theme.containers.containerParent}>
-            <Image onLoadEnd={()=> setLoadingImage(false)} style={{width:'100%', height:'30%'}} source={require('../../../../assets/CarBack.png')}/>
-          {loadingImage && <ActivityIndicator color={Theme.colors.secondary}/>}
+  const onSubmit = (vehiculo) => {
+    setScreens(2);
+    setVehiculo(vehiculo);
+    setForm({ ...form, tipo: vehiculo });
+  };
+  return (
+    <View style={{ height: "60%" }}>
+      <Text
+        style={[Texts.title2BoldBlue,{marginVertical:'5%'}]}
+      >
+        Selecciona el tipo de Vehiculo
+      </Text>
 
-        <Text style={[Theme.fonts.titleBlue,{width:'90%', textAlign:'center', fontSize:26}]}>Crea tu Vehiculo</Text>
-        <Text style={[Theme.fonts.descriptionGray]}>Y empieza a llevar tus gastos!</Text>
+      <TouchableOpacity
+        onPress={() => onSubmit("Carro")}
+        style={[
+          Containers.containerViewTipo,
+          {marginLeft: 0,borderTopRightRadius: 20,borderBottomRightRadius: 20,borderTopLeftRadius: 0,borderBottomLeftRadius: 0,
+          },
+        ]}
+      >
+        <Image
+          style={{ width: 200, height: 100, resizeMode: "contain" }}
+          source={require("../../../../assets/Carro.png")}
+        />
+        <Text style={Texts.title2BoldWhite}>Carro</Text>
+      </TouchableOpacity>
 
+      <TouchableOpacity
+        onPress={() => onSubmit("Moto")}
+        style={Containers.containerViewTipo}
+      >
+        <Text  style={Texts.title2BoldWhite}>Moto</Text>
 
-        <TouchableOpacity onPress={()=>crearVehiculo()} style={[Theme.buttons.primary,{width:'90%', marginTop:20}]}>
-        <Text style={Theme.fonts.titleWhite}>Crear mi Vehiculo</Text>
-
-        </TouchableOpacity>
-            </View>
-    )
+        <Image
+          style={{ width: 200, height: 100, resizeMode: "contain" }}
+          source={require("../../../../assets/Moto.png")}
+        />
+      </TouchableOpacity>
+    </View>
+  );
 }

@@ -6,7 +6,6 @@ import { useState } from 'react'
 export default function AñoGastos({data}){
     let meses =[[],[],[],[],[],[],[],[],[],[],[],[]]
     let totalesGastos = [[],[],[],[],[],[],[],[],[],[],[],[]]
-    console.log(data);
     let [year, setYear] = useState(0)
     data[year]?.filter(el=> {
         let month = new Date(el.fecha).getMonth()

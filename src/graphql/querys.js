@@ -37,8 +37,8 @@ export const GET_RECORDATORIO = gql`
     }
 `
 export const GET_RECORDATORIOS =gql`
-    query getRecordatorios{
-        getRecordatorios{
+    query getRecordatorios($id:ID){
+        getRecordatorios(id:$id){
             titulo
             description
             fecha

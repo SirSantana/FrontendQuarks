@@ -14,6 +14,11 @@ import {useEffect, useState} from 'react'
 import { client } from '../../../apollo';
 import { SIGN_IN_MUTATION } from '../../graphql/mutations';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Buttons } from '../../Themes/buttons';
+import { Texts } from '../../Themes/text';
+import { Containers } from '../../Themes/containers';
+import { Inputs } from '../../Themes/inputs';
+import { Colors } from '../../Themes/colors';
 
 const initialForm = {
   email:'',
@@ -55,11 +60,11 @@ export default function SignInScreen(){
     return(
       <ScrollView contentContainerStyle={{flexGrow: 1}}
   keyboardShouldPersistTaps='handled' >
-        <View style={Theme.containers.containerParent}>
+        <View style={Containers.containerParent}>
           <Image style={{width:40, height:40}} source={require('../../../assets/LogoQuarks1PNG.png')}/>
-          <Text style={{fontSize:30, fontWeight:"700", color:'#f50057' }}>Inicia Sesion</Text>
+          <Text style={Texts.titleBoldRed}>Inicia Sesion</Text>
 
-          <View style={{width:'90%', marginTop:20,}}>
+          <View style={{width:'90%', marginTop:'5%'}}>
 
           {formik.errors.email && <Text style={{color:'red'}}>{formik.errors.email}</Text>}
             <TextInput
@@ -67,24 +72,24 @@ export default function SignInScreen(){
             placeholder='Correo'
             value={formik.values.email}
             onChangeText={(text)=> formik.setFieldValue('email', text)}
-            style={Theme.input.basic}
+            style={Inputs.basic}
             
 
             />
           {formik.errors.password && <Text style={{color:'red'}}>{formik.errors.password}</Text>}
-          <View style={Theme.containers.containerInputPassword}>
+          <View style={Containers.containerInputPassword}>
           <TextInput
             placeholder='Contraseña'
             value={formik.values.password}
             onChangeText={(text)=> formik.setFieldValue('password', text)}
             secureTextEntry={visiblePassword ? false:true}
-            style={Theme.input.inputPassword}
+            style={Inputs.password}
            
             />
             {visiblePassword ? 
-          <MaterialIcons onPress={()=> setVisiblePassword(false)} name="visibility" size={24} color={Theme.colors.secondary} />
+          <MaterialIcons onPress={()=> setVisiblePassword(false)} name="visibility" size={24} color={Colors.secondary} />
           :
-          <MaterialIcons onPress={()=> setVisiblePassword(true)} name="visibility-off" size={24} color={Theme.colors.secondary} />
+          <MaterialIcons onPress={()=> setVisiblePassword(true)} name="visibility-off" size={24} color={Colors.secondary} />
 
         }
           </View>
@@ -92,14 +97,14 @@ export default function SignInScreen(){
             <TouchableOpacity
             onPress={formik.handleSubmit}
             disabled={loading}
-            style={{width:'100%',backgroundColor:Theme.colors.primary, height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
-                <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Iniciar Sesion</Text>
+            style={Buttons.primary}>
+                <Text style={Texts.title2RegularWhite}>Iniciar Sesion</Text>
             </TouchableOpacity>
             <TouchableOpacity
             disabled={loading}
             onPress={()=> navigation.navigate('SignUp')}
-            style={{width:'100%', height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
-                <Text style={{color:'#1b333d', fontSize:18, fontWeight:"600"}}>No tienes una cuenta? Registrate</Text>
+            style={Buttons.withoutBorder}>
+                <Text style={Texts.title2RegularRed}>No tienes una cuenta? Registrate</Text>
             </TouchableOpacity>
             
                 <Text onPress={()=> navigation.navigate('ForgotPassword')} style={{color:'#1b333d', fontSize:16, fontWeight:"600", textAlign:'center'}}>Olvidaste tu contraseña?</Text>

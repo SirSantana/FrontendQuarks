@@ -20,6 +20,7 @@ import DetailsStore from '../Components/StoreComponent/DetailsStore';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import PruebaCarScreen from '../Screens/Car/PruebaCarScreen';
 import ForgotPasswordScreen from '../Screens/Profile/ForgotPasswordScreen';
+import useAuth from '../hooks/useAuth';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -43,7 +44,7 @@ export const Navigation=()=>{
     <NavigationContainer >
       <Tab.Navigator initialRouteName='Profile' barStyle={{backgroundColor:'white'}} screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Store" component={StackStore} options={{tabBarIcon:()=><Image  style={{width:20, height:20}} source={require('../../assets/Logo.png')}/> }}/>
-        <Tab.Screen name="Car" component={StackCar} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='car'/>}}/>
+        <Tab.Screen name="Vehiculo" component={StackCar} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='car'/>}}/>
         {/* <Tab.Screen name="Home" component={StackHome} options={{tabBarIcon:()=><Image  style={{width:20, height:20}} source={require('../../assets/Logo.png')}/>}} /> */}
         <Tab.Screen name="Profile" component={StackProfile} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='user-alt'/>}}/>
 
@@ -79,6 +80,8 @@ function StackHome() {
   }
   
 function StackProfile() {
+  const{user, logout} = useAuth()
+
       return (
         <Stack.Navigator 
         
@@ -89,8 +92,7 @@ function StackProfile() {
             backgroundColor:'#464646'
           },
           headerTintColor: 'white'}}>
-            
-          <Stack.Screen name="Perfil" component={ProfileScreen} />
+          <Stack.Screen name="Perfil" component={ProfileScreen} options={{headerShown:user ? true:false}}/>
           <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
@@ -105,13 +107,13 @@ function StackProfile() {
         <Stack.Navigator screenOptions={{
           headerStyle: {
             shadowColor: "#000",
-            backgroundColor:'white'
-          },headerTintColor: '#1b333d'
+            backgroundColor:'#464646'
+          },headerTintColor: 'white'
           }}>
         <Stack.Screen name="Mi Vehiculo" component={CarScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Crear Vehiculo" component={PruebaCarScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Creando mi Vehiculo" component={FormCreateVehicule}  />
-        <Stack.Screen name="Vehiculo" component={VehiculeDataScreen}  />
+        <Stack.Screen name="Vehiculos" component={VehiculeDataScreen} options={{headerShown:false}} />
         <Stack.Screen name="Gastos" component={GastosScreen}  />
 
         </Stack.Navigator>

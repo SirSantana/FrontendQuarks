@@ -2,146 +2,87 @@ import { View, Text, Image, Button, TouchableOpacity, Pressable,StyleSheet, Moda
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { marcasCarros } from '../../Components/CarComponents/marcasCarros';
 import { Theme } from '../../theme';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { AntDesign } from '@expo/vector-icons';
+
 import { useNavigation } from '@react-navigation/native';
 import ModalCreateGasto from '../../Components/CarComponents/ModalCreateGasto';
-import FormCreateVehicule from '../../Components/CarComponents/FormCreateVehicule';
 import { gql, useLazyQuery, useQuery } from '@apollo/client';
-import { MaterialIcons } from '@expo/vector-icons';
 import { marcasMotos } from '../../Components/CarComponents/marcasMotos';
 import ModalCargando from '../../utils/ModalCargando';
-import { GET_GASTOS } from '../../graphql/querys';
+import { GET_ALL_GASTOS, GET_GASTOS } from '../../graphql/querys';
 import ModalImage from '../../utils/ModalImage';
+import { Texts } from '../../Themes/text';
 
-
+import ImageVehiculo from '../../Components/CarComponents/ImageVehiculo';
+import DatosVehiculo from '../../Components/CarComponents/DatosVehiculo';
+import CardMensual from '../../Components/CarComponents/CardMensual';
+import GastosRecientes from '../../Components/CarComponents/GastosRecientes';
+import Recordatorios from '../../Components/CarComponents/Recordatorios/Index';
 export default function VehiculeDataScreen({route}) {
   const navigation = useNavigation()
-    const item = route?.params?.item
+  const item = route?.params?.item
   const marca = marcasCarros.find(el=> el.marca === item?.marca)
   const marcaMoto = marcasMotos.find(el=> el.marca === item?.marca)
-  const [loading, setLoading] = useState({image:true, marcas:true})
+  const [loadingImage, setLoading] = useState({image:true, marcas:true})
   const [image, setImage] = useState({visible:false, image:null})
-
+  const {height} = Dimensions.get('screen')
 const [modalVisible2, setModalVisible2] = useState(false);
 
 const  result = useQuery(GET_GASTOS,{variables:{id:item.id}})
-const {height, width} = Dimensions.get('window')
 
-  useLayoutEffect(()=>{
-    if(item){
-      navigation.setOptions({
-        headerRight:()=>(
-          <Button
-          onPress={()=> navigation.navigate('Creando mi Vehiculo',{tipo:item?.tipo, itemData:item})}
-          title='Editar'
-          />
-        ),
-        title:item.marca +" "+ item.referencia
-      })
+const [getAll, {loading,data, error}] = useLazyQuery(GET_ALL_GASTOS)
 
+
+let yearsData = [[],[],[],[],[],[],[],[],[],[],[],[]]
+
+let monthActual = new Date().getMonth()
+let yearActual = new Date().getFullYear()
+
+let dataMonthActual
+if(data?.getAllGastos){
+  dataMonthActual = data.getAllGastos.filter(el=>{
+    let fecha = new Date(el.fecha).getMonth()
+    let year = new Date(el.fecha).getFullYear()
+    if(year === yearActual){
+      yearsData[0].push(el)
+    }else if(year === 2023){
+      yearsData[1].push(el)
+    }
+    return fecha === monthActual && year === yearActual
+  })
+}
+useLayoutEffect(()=>{
+    if(item?.id){
+        getAll({variables:{id:item?.id}})
     }
   },[])
+  let dineroGastado=0
+  if(dataMonthActual){
+    dataMonthActual.map(el=> dineroGastado+= Number(el.dineroGastado))
+  }
 
-  
   return (
-    <KeyboardAwareScrollView 
-    resetScrollToCoords={{ x: 0, y: 0 }}
-        keyboardShouldPersistTaps= 'always'
-        style= {{ flex:1, height:'100%' }}>
-        <View style={{backgroundColor:'white',height:height,marginBottom:'10%'}}>
+      <>
+        <ScrollView contentContainerStyle={{flexGrow: 1}}
+  keyboardShouldPersistTaps='handled'>
          
-          {item?.imagen
-           &&
-           <TouchableHighlight onPress={()=> setImage({image:item?.imagen, visible:true})} style={{width:'100%',height: '35%'}}>
-          <Image style={{height:'100%'}} resizeMode='cover' onLoadEnd={()=> setLoading({image:false})}  source={{uri:'data:image/png;base64,'+ item.imagen}}/>
-           </TouchableHighlight>
-           
-          // :
-          // <Image resizeMode='contain' onLoadEnd={()=> setLoading({image:false})} style={{position: 'absolute',opacity:.8, tintColor:'rgba(242,241,239,0.8)',
-          //   top: 30,
-          //   right:-50,
-          //   width: width,
-          //   height: 200}} source={require('../../../assets/carroBlanco.png')}/>}
-          //  {loading.image && <ActivityIndicator color={Theme.colors.primary}/>
-           }
+          <ImageVehiculo item={item} setLoading={setLoading} setImage={setImage} navigation={navigation}/> 
+           {loadingImage.image && <ActivityIndicator color={Theme.colors.primary}/>}
+
           
-          
-          <View style={{margin:20, flexDirection:'row', alignItems:'center',}}>
-          <Image  style={{height: 50, width:50, marginRight:20}} source={item.tipo === 'Carro' ?  marca?.src : marcaMoto?.src}/>
-          <View>
-          <Text style={Theme.fonts.titleBlue}>{item?.marca} {item?.referencia}</Text>
-          <Text style={Theme.fonts.descriptionGray}>{item?.modelo}</Text>
-          </View>
-          </View>
-          <View
-              style={{
-                borderBottomColor: 'black',
-                borderBottomWidth: StyleSheet.hairlineWidth,
-              }}
-            />
-          <View style={{padding:10}}>
-            <View style={{borderRadius:10,marginBottom:5, height:50, padding:5, justifyContent:'center'}}>
-              <View style={{justifyContent:'space-between', flexDirection:'row'}}>
-              <Text style={[Theme.fonts.titleBig,{fontSize:18}]}>Gastos Recientes</Text>
-              <Text onPress={()=> navigation.navigate('Gastos', {id:item.id})} style={Theme.fonts.descriptionBlue}>Ver Todo</Text>
-              </View>
+            <View style={{backgroundColor:'#fbfbfb', borderRadius:20, padding:'5%'}}>
+            
+            <DatosVehiculo item={item} marca={marca} navigation={navigation}/> 
 
-              
+            <CardMensual navigation={navigation} id={item.id} dineroGastado={dineroGastado} setModalVisible2={setModalVisible2}/>
+
+            <GastosRecientes navigation={navigation} prevGastos={result?.data?.getPrevGastos} loading={result?.loading} id={item.id}/>
+            <View style={{width:'100%', height:1, backgroundColor:'gray'}}/>
+            <Recordatorios id={item.id}/>
             </View>
-            
-              {result.loading&&
-              <View style={styles.containerGasto}>
-            <Text style={Theme.fonts.descriptionBlue}>Cargando...</Text>
-              </View>
-              }
-            { result?.data?.getPrevGastos?.map(el=>{
-          let fecha = new Date(el.fecha) 
-          let tipoGasto;
-          if(el.tipo === 'Tanqueada'){tipoGasto = 'fuel'}
-          if(el.tipo === 'Parqueadero'){tipoGasto = 'car-brake-parking'}
-          if(el.tipo === 'Lavada'){tipoGasto = 'local-car-wash'}
-          if(el.tipo === 'Repuestos'){tipoGasto = 'car-wrench'}
-          if(el.tipo === 'Mantenimiento'){tipoGasto = 'car-repair'}
-              return(
-                <View>
-        <View key={el.id} style={styles.containerGasto}>
-            <View style={{flexDirection:'row', alignItems:'center'}}>
-            {tipoGasto === 'fuel' || tipoGasto === 'car-brake-parking' || tipoGasto === "car-wrench"?
-           <MaterialCommunityIcons name={tipoGasto} size={32} color={Theme.colors.secondary}  />
-          : <MaterialIcons name={tipoGasto} size={32} color={Theme.colors.secondary} />}
-            <View style={{marginLeft:10}}>
-            <Text style={Theme.fonts.descriptionBlue}>{el.tipo}</Text>
-            <Text style={[Theme.fonts.descriptionGray,{lineHeight:20}]}>{fecha.toLocaleDateString()}</Text>
-            </View>
-            </View>
-            <View>
-            <Text style={[Theme.fonts.descriptionRed]}>$ {el.dineroGastado.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}</Text>
-              </View> 
-      
-          </View>
-            <View   style={{ width:'100%',height:1, backgroundColor:'#f1f1f1'}}/>
-                </View>
-              )
-            }) 
-            
-            }
-            
-            
-            
-            <TouchableOpacity style={[Theme.buttons.primary,{width:'100%'}]} onPress={()=> setModalVisible2(true)}>
-            <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Agregar Gasto</Text>
 
-            </TouchableOpacity>
 
-          </View>
-
-            
-            
-          
-            
-      {modalVisible2 &&
+    </ScrollView>
+    {modalVisible2 &&
       <Modal
         animationType="fade"
         transparent={true}
@@ -149,7 +90,6 @@ const {height, width} = Dimensions.get('window')
       >
           <ModalCreateGasto setModalVisible2={setModalVisible2} id={item.id} />
       </Modal>}
-      
       {image &&
       <Modal
       animationType="fade"
@@ -159,59 +99,6 @@ const {height, width} = Dimensions.get('window')
       >
           <ModalImage image={image.image} setImage={setImage}/>
       </Modal>}
-
-    </View>
-    
-    </KeyboardAwareScrollView>
+      </>
   )
 }
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor:'rgba(0,0,0,0.5)',
-    
-  },
-  modalView: {
-   
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    position: "absolute",
-    bottom: 0,
-    height: 180,
-    width:'100%',
-    borderTopLeftRadius: 20,
-    alignItems: "center",
-    borderTopRightRadius: 20,
-    backgroundColor: "#464646",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
-  },
-  containerGasto:{
-    backgroundColor:'white', width:'100%', flexDirection:'row',justifyContent:'space-between', borderRadius:10, height:50, padding:5, marginBottom:5, alignItems:'center'
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
-});

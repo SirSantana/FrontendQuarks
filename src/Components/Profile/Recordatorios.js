@@ -8,12 +8,13 @@ import ModalDetailsRecordatorio from './ModalDetailsRecordatorio'
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import {GET_RECORDATORIOS} from '../../graphql/querys'
 
-export default function Recordatorios({name}){
+export default function Recordatorios(){
     const [visibleCreate, setVisibleCreate] = useState(false)
     const result = useQuery(GET_RECORDATORIOS)
     const [modalVisible, setModalVisible] = useState(false)
     const [details, setDetails] = useState(null)
     const [recordatorios, setRecordatorios] = useState(null)
+
     const handleDetails=(el)=>{
         setModalVisible(true)
         setDetails(el?.id)

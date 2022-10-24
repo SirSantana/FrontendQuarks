@@ -1,10 +1,9 @@
 
-import { useState } from "react";
 import { View, Text, TouchableOpacity, Image, ActivityIndicator, TextInput } from "react-native";
-import { Theme } from "../../../theme";
+import { Texts } from "../../../Themes/text";
 
 
-export default function Screen5({pickImage, image, vehiculo, logo, form}){
+export default function Screen4({pickImage, image, vehiculo, logo, form}){
     return(
         
         <View style={{ alignItems:'center', height:'55%',marginBottom:'5%'}}>
@@ -17,8 +16,8 @@ export default function Screen5({pickImage, image, vehiculo, logo, form}){
             </TouchableOpacity>
         
         <View style={{ alignItems:"center", }}>
-        <Text style={[Theme.fonts.titleBlue,{fontSize:40,flexWrap:'wrap', margin:0, textAlign:'left'}]}>{form.referencia}</Text>
-        <Text onPress={()=> image?setImage(null): pickImage()} style={[Theme.fonts.descriptionRed]}>{image?"Eliminar foto":"Agregar una foto de tu vehiculo"}</Text>
+        <Text style={[Texts.titleBoldBlue,{flexWrap:'wrap'}]}>{form.referencia}</Text>
+        <Text onPress={()=> image?setImage(null): pickImage()} style={Texts.subtitleRegularRed}>{image?"Eliminar foto":"Agregar una foto de tu vehiculo"}</Text>
 
 
         </View>

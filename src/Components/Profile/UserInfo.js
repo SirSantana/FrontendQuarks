@@ -7,7 +7,7 @@ import { Theme } from '../../theme';
 export default function UserInfo({user}){
     const { width,height } = Dimensions.get('window');
     return(
-        <View style={{width:'90%',marginVertical:20, flexDirection:'row', alignItems:'center'}}>
+        <View style={{width:'90%',marginVertical:20,  alignItems:'center'}}>
             <View style={{marginRight:'5%'}}>
             {/* {user?.avatar
            ?<Image style={{

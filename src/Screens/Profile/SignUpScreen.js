@@ -12,6 +12,10 @@ import ModalCargando from '../../utils/ModalCargando'
 import { client } from '../../../apollo'
 import { SIGN_UP } from '../../graphql/mutations'
 import { MaterialIcons } from '@expo/vector-icons';
+import { Buttons } from '../../Themes/buttons'
+import { Texts } from '../../Themes/text'
+import { Containers } from '../../Themes/containers'
+import { Inputs } from '../../Themes/inputs'
 
 
 
@@ -66,18 +70,18 @@ useEffect(()=>{
     return(
       <KeyboardAwareScrollView 
       contentContainerStyle={{flexGrow: 1}}>
-        <View style={[Theme.containers.containerParent]}>
+        <View style={Containers.containerParent}>
           <Image style={{width:40, height:40}} source={require('../../../assets/LogoQuarks1PNG.png')}/>
-          <Text style={{fontSize:30, fontWeight:"700", color:'#f50057' }}>Registrate</Text>
+          <Text style={Texts.titleBoldRed}>Registrate</Text>
 
-          <View style={{width:'90%', marginTop:20}}>
+          <View style={{width:'90%', marginTop:'5%'}}>
 
           {formik.errors.name && <Text style={{color:'red'}}>{formik.errors.name}</Text>}
 
           <TextInput
           value={formik.values.name}
             placeholder='Nombre'
-            style={Theme.input.basic}
+            style={Inputs.basic}
             onChangeText={(text)=> formik.setFieldValue('name', text)}
             maxLength={15}
 
@@ -89,7 +93,7 @@ useEffect(()=>{
             placeholder='Apellido'
             maxLength={15}
 
-            style={Theme.input.basic}
+            style={Inputs.basic}
             onChangeText={(text)=> formik.setFieldValue('apellido', text)}
             />
           {formik.errors.email && <Text style={{color:'red'}}>{formik.errors.email}</Text>}
@@ -98,17 +102,17 @@ useEffect(()=>{
             autoCapitalize='none'
           value={formik.values.email}
             placeholder='Email'
-            style={Theme.input.basic}
+            style={Inputs.basic}
             onChangeText={(text)=> formik.setFieldValue('email', text)}
             />
           {formik.errors.password && <Text style={{color:'red'}}>{formik.errors.password}</Text>}
-          <View style={Theme.containers.containerInputPassword}>
+          <View style={Containers.containerInputPassword}>
           <TextInput
             placeholder='Contraseña'
             value={formik.values.password}
             onChangeText={(text)=> formik.setFieldValue('password', text)}
             secureTextEntry={visiblePassword ? false:true}
-            style={Theme.input.inputPassword}
+            style={Inputs.password}
            
             />
             {visiblePassword ? 
@@ -121,13 +125,13 @@ useEffect(()=>{
 
             
           {formik.errors.confirmPassword && <Text style={{color:'red'}}>{formik.errors.confirmPassword}</Text>}
-          <View style={Theme.containers.containerInputPassword}>
+          <View style={Containers.containerInputPassword}>
           <TextInput
             placeholder='Confirmar Contraseña'
             value={formik.values.confirmPassword}
             onChangeText={(text)=> formik.setFieldValue('confirmPassword', text)}
             secureTextEntry={visiblePassword ? false:true}
-            style={Theme.input.inputPassword}
+            style={Inputs.password}
            
             />
             {visiblePassword ? 
@@ -140,13 +144,13 @@ useEffect(()=>{
             
             <TouchableOpacity
             onPress={formik.handleSubmit}
-            style={{width:'100%',backgroundColor:Theme.colors.primary, height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
-                <Text style={{color:'white', fontSize:18, fontWeight:"600"}}>Registrate</Text>
+            style={[Buttons.primary,{width:'100%'}]}>
+                <Text style={Texts.title2RegularWhite}>Registrate</Text>
             </TouchableOpacity>
             <TouchableOpacity
             onPress={()=> navigation.navigate('SignIn')}
-            style={{width:'100%', height:50, borderRadius:10,justifyContent:'center', alignItems:'center'}}>
-                <Text style={{color:'#1b333d', fontSize:18, fontWeight:"600"}}>Ya tienes una cuenta? Inicia Sesion</Text>
+            style={Buttons.withoutBorder}>
+                <Text style={Texts.title2RegularRed}>Ya tienes una cuenta? Inicia Sesion</Text>
             </TouchableOpacity>
           </View>
             

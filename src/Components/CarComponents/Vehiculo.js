@@ -8,7 +8,6 @@ export default function Vehiculo({item}){
   const { width,height } = Dimensions.get('window');
   const marca = marcasCarros.find(el=> el.marca === item.marca)
   const marcaMoto = marcasMotos.find(el=> el.marca === item?.marca)
-
     return(
         <View style={{backgroundColor:"white", width:300, borderRadius:20, marginRight:20,height:"90%",maxHeight:350}}>
           <View style={{height: '100%',

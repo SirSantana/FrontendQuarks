@@ -100,7 +100,7 @@ export default function FormCreateVehicule({ route }) {
         
   useEffect(()=>{
      if(result?.data){
-      navigation.navigate('Vehiculo', {item: result?.data?.updateCar})
+      navigation.navigate('Vehiculos', {item: result?.data?.updateCar})
       }
     if(data){
         setVisibleSuccesfull(true)
