@@ -7,7 +7,7 @@ import { Negocios } from "../../utils/Negocios";
 
 
 let filtros = [
-    'Taller', 'Almacen', 'CDA', 'Lavadero','Accesorios',
+    'Taller', 'Almacen',
 ]
 export default function Buscador({setFiltro, filtro}){
 

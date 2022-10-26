@@ -116,7 +116,7 @@ export default function EditProfile({user, setVisibleEdit}){
            </View> */}
             <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:20}}>
             <TouchableOpacity onPress={()=> handleEdit()} disabled={form == initialForm ? true: false || loading && true} style={[Theme.buttons.primary, {backgroundColor: form == initialForm ? 'gray': Theme.colors.primary}]}>
-                <Text style={Theme.fonts.description}>Editar</Text>
+                <Text style={Theme.fonts.description}>Guardar</Text>
             </TouchableOpacity>
             <TouchableOpacity disabled={loading && true} onPress={()=> setVisibleEdit(false)} style={Theme.buttons.primaryOutlined}>
                 <Text style={Theme.fonts.descriptionRed}>Cancelar</Text>

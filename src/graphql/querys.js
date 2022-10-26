@@ -105,3 +105,33 @@ export const GET_ONE_USERS = gql`
 
   }
 `
+
+export const GET_NEGOCIOS= gql`
+query getNegocios{
+  getNegocios{
+    nombre
+    marcas
+    tipo
+    ciudad
+    pais
+    id
+    direccion
+    celular
+    repuestos
+  }
+}`
+
+export const GET_ONE_NEGOCIO = gql`
+  query getOneNegocio($id:ID){
+    getOneNegocio(id:$id){
+      nombre
+    marcas
+    tipo
+    ciudad
+    pais
+    celular
+    direccion
+    }
+
+  }
+`

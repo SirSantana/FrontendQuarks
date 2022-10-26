@@ -14,13 +14,13 @@ export default function IndexStores(){
         navigation.setOptions({
             headerTitle:'Busca',
             headerSearchBarOptions:{
-                placeholder:'Talleres, Almacenes, Lavaderos y mas',
+                placeholder:'Busca por Marcas, Nombres, Repuestos...',
                 onChangeText:(event)=>(
                     setFiltro(event.nativeEvent.text)
                 )
             },
         })
-    },[])
+    },[navigation])
     return(
         <SafeAreaView style={{justifyContent:'space-between', backgroundColor:'white'}}>
             

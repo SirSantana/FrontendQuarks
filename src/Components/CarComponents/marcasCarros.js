@@ -25,6 +25,14 @@ export const marcasCarros=[
         src:require("../../../assets/Volkswagen.png")
     },
     {
+        marca:'Mitsubishi',
+        src:require("../../../assets/Mitsubishi.png")
+    },
+    {
+        marca:'Hyundai',
+        src:require("../../../assets/Hyundai.png")
+    },
+    {
         marca:'Kia',
         src:require("../../../assets/Kia.png")
     },

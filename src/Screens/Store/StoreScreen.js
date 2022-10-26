@@ -14,11 +14,11 @@ export default function StoreScreen(){
          <Image onLoadEnd={()=> setLoading(false)} style={{width:'100%', height:'70%', marginBottom:'5%',resizeMode:'contain'}} source={require('../../../assets/StoreScreen.png')}/>
          {loading && <ActivityIndicator color={Theme.colors.primary}/>}
          <Text style={Texts.titleBoldBlue}>Servicios para tú Vehículo!</Text>
-     <Text style={Texts.subtitleRegularGray}>Encuentra Talleres, Almacenes, Lavaderos, y más</Text>
+     <Text style={Texts.subtitleRegularGray}>Encuentra Talleres, Almacenes y pronto, más...</Text>
 
      
-     <Pressable style={[Buttons.primary,{width:'90%',marginTop:'10%'}]}>
-      <Text style={Texts.title2RegularWhite}>Muy pronto!</Text>
+     <Pressable onPress={()=>navigation.navigate('IndexStores')} style={[Buttons.primary,{width:'90%',marginTop:'10%'}]}>
+      <Text style={Texts.title2RegularWhite}>Ver ahora!</Text>
      </Pressable>
 
         </View>
