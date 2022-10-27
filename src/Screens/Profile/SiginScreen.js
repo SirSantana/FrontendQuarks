@@ -44,11 +44,15 @@ export default function SignInScreen(){
       },
 
     })
-   useEffect(()=>{
-    if(error){
-      Alert.alert(error?.message)
-    }
-   },[error])
+    useEffect(()=>{
+      if(error){
+          if(error?.message === 'Network request failed'){
+            Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+          }else{
+            Alert.alert('Ha ocurrido un error',error?.message)
+          }
+        }
+    },[error])
 
     useEffect(()=>{
       if(data){

@@ -33,14 +33,23 @@ export default function EditProfile({user, setVisibleEdit}){
         editUser({variables:form})
     }
    
-    if(error){
-        Alert.alert(error)
-      }
+   
       useEffect(()=>{
         if(data){
           return setVisibleEdit(false)
         }
       },[data])
+
+      useEffect(()=>{
+        if(error){
+            if(error?.message === 'Network request failed'){
+              Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+            }else{
+              Alert.alert('Ha ocurrido un error',error?.message)
+            }
+          }
+          
+    },[error])
     
 
     const pickImage = async () => {

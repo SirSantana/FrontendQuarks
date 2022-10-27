@@ -43,9 +43,17 @@ export default function FormRecordatorio({setVisibleCreate, name, id}){
       const handleCreate= ()=>{
         createRecordatorio({variables:form})
       }
-      if(error){
-        Alert.alert(error)
-      }
+      useEffect(()=>{
+        if(error){
+          if(error?.message === 'Network request failed'){
+            Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+          }else{
+            Alert.alert('Ha ocurrido un error',error?.message)
+          }
+        }
+        
+      },[error ])
+      
       useEffect(()=>{
         if(data){
           return setVisibleCreate(false)

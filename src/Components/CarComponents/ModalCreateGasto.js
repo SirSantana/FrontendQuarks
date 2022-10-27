@@ -134,21 +134,34 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
     
     }
     
-    if(error|| result?.error){
-      Alert.alert(error?.message)
-    }
+    useEffect(()=>{
+      if(error){
+        if(error?.message === 'Network request failed'){
+          Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+        }else{
+          Alert.alert('Ha ocurrido un error',error?.message)
+        }
+      }
+      if(result?.error){
+        if(result?.error.message === 'Network request failed'){
+          Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+        }else{
+          Alert.alert('Ha ocurrido un error',result?.error?.message)
+        }
+      }
+      
+    },[error, result?.error])
+
     useEffect(()=>{
       if(data){
         setVisibleSuccesfull(true)
         setTimeout(()=>{
         setVisibleSuccesfull(false)
         setModalVisible2(false)
-
         },3000)
       }
       if(result?.data){
         setModalVisible2(false)
-        
       }
     },[data, result?.data])
     

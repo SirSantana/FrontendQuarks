@@ -80,9 +80,7 @@ export default function FormCreateVehicule({ route }) {
     setForm({...form, marca:itemMarca})
     setMarca(itemMarca)
   }
-  if(error){
-    Alert.alert('ERROR', error?.message)
-  }
+ 
   useLayoutEffect(()=>{
       navigation.setOptions({
         title:itemData ? 'Editar mi Vehiculo': 'Crear Vehiculo'
@@ -93,10 +91,21 @@ export default function FormCreateVehicule({ route }) {
   
 
   useEffect(()=>{
-     if(error){
-        Alert.alert('Ha ocurrido un error', error)
+    if(error){
+      if(error?.message === 'Network request failed'){
+        Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+      }else{
+        Alert.alert('Ha ocurrido un error',error?.message)
+      }
     }
-  },[error])
+    if(result?.error){
+      if(result?.error.message === 'Network request failed'){
+        Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+      }else{
+        Alert.alert('Ha ocurrido un error',result?.error?.message)
+      }
+    }
+  },[error, result?.error])
         
   useEffect(()=>{
      if(result?.data){
@@ -166,7 +175,7 @@ export default function FormCreateVehicule({ route }) {
             />
             }
             
-      <Text style={Theme.fonts.descriptionGray}>Referencia/Nombre</Text>
+      <Text style={Theme.fonts.descriptionGray}>Referencia / Nombre Vehiculo</Text>
       
       <TextInput
             placeholder={itemData && itemData?.marca }
@@ -176,10 +185,10 @@ export default function FormCreateVehicule({ route }) {
 
             />
             
-      <Text style={Theme.fonts.descriptionGray}>Modelo</Text>
+      <Text style={Theme.fonts.descriptionGray}>Modelo / Año</Text>
 
             <TextInput
-            placeholder={itemData&& itemData?.modelo}
+            placeholder={itemData?.modelo? itemData?.modelo:'2010'}
             onChangeText={(text)=> setForm({...form, modelo:text.trim()})}
             maxLength={4}
 
@@ -189,7 +198,7 @@ export default function FormCreateVehicule({ route }) {
 
             <TextInput
             onChangeText={(text)=> setForm({...form, cilindraje:text.trim()})}
-            placeholder={itemData&& itemData?.cilindraje}
+            placeholder={itemData?.cilindraje? itemData?.cilindraje:'1500'}
             style={Theme.input.basic}
             maxLength={5}
             />

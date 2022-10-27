@@ -3,9 +3,10 @@ import { View, Text,FlatList, TextInput, StyleSheet,ScrollView, TouchableOpacity
 import { Colors } from "../../Themes/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Containers } from "../../Themes/containers";
+import { MaterialIcons } from '@expo/vector-icons';
 
 
-export default function GastosRecientes({navigation, prevGastos, loading, id}){
+export default function GastosRecientes({navigation, prevGastos, loading, id, setModalVisible2}){
 
     return(
         <ScrollView 

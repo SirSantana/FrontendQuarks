@@ -38,6 +38,16 @@ export default function DetailsStore({route}){
             })
         }
     },[data])
+    useEffect(()=>{
+        if(error){
+            if(error?.message === 'Network request failed'){
+              Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+            }else{
+              Alert.alert('Ha ocurrido un error',error?.message)
+            }
+          }
+          
+    },[error])
     return(
         <ScrollView  contentContainerStyle={{backgroundColor:'white', flexGrow:1}} >
 

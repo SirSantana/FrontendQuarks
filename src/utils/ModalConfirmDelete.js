@@ -1,14 +1,17 @@
 import { gql, useMutation } from '@apollo/client';
-import {Modal, View, Text, StyleSheet, Pressable, Image,TouchableOpacity} from 'react-native'
+import {Modal, View, Text, StyleSheet, Pressable, Image,TouchableOpacity, Alert} from 'react-native'
 import { Theme } from '../theme';
 import ModalCargando from './ModalCargando';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DELETE_GASTO, DELETE_RECORDATORIO } from '../graphql/mutations';
 import { GET_ALL_GASTOS, GET_GASTOS, GET_RECORDATORIOS } from '../graphql/querys';
+import ModalSuccesfull from './ModalSuccesfull';
 
 
 
 export default function ModalConfirmDelete({setVisibleDelete, id, idVehiculo, setModalVisible,idVehiculo2 }){
+  const [visibleSuccesfull, setVisibleSuccesfull] = useState(false)
+  
   const [deleteGasto, {data, loading, error}] = useMutation(DELETE_GASTO,{
     update(cache, {data}){
   const {getAllGastos} = cache.readQuery({
@@ -38,19 +41,41 @@ export default function ModalConfirmDelete({setVisibleDelete, id, idVehiculo, se
 
   const Delete=()=>{
     if(idVehiculo2){
+      console.log('hola');
       deleteRecordatorio({variables:{id:id}})
 
     }else{
+      console.log('hola222');
 
       deleteGasto({variables:{id:id, idVehiculo:idVehiculo}})
     }
   }
   useEffect(() => {
     if(data || result?.data){
-      setModalVisible(false)
-      setVisibleDelete(false)
+      setVisibleSuccesfull(true)
+      setTimeout(()=>{
+        setModalVisible(false)
+        setVisibleDelete(false)
+      },3000)
     }
   }, [data,result?.data])
+  useEffect(()=>{
+    if(error){
+      if(error?.message === 'Network request failed'){
+        Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+      }else{
+        Alert.alert('Ha ocurrido un error',error?.message)
+      }
+    }
+    if(result?.error){
+      if(result?.error.message === 'Network request failed'){
+        Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+      }else{
+        Alert.alert('Ha ocurrido un error',result?.error?.message)
+      }
+    }
+    
+  },[error, result?.error])
   
     return(
         
@@ -59,7 +84,7 @@ export default function ModalConfirmDelete({setVisibleDelete, id, idVehiculo, se
           <Image  style={{width:30, height:30}} source={require('../../assets/LogoQuarks1PNG.png')}/>
               <Text style={[Theme.fonts.descriptionRed,{marginVertical:20}]}>¿Estas seguro de eliminarlo?</Text>
               <View style={{flexDirection:'row', justifyContent:'space-between', width:'100%'}}>
-              <TouchableOpacity onPress={()=> setVisibleDelete(false)} style={[Theme.buttons.primaryOutlined,{width:"45%"}]}><Text style={Theme.fonts.descriptionRed}>Cancelar</Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=> setVisibleDelete(false)} style={[Theme.buttons.primaryOutlined,{width:"45%"}]}><Text style={Theme.fonts.descriptionRed}>Regresar</Text></TouchableOpacity>
               <TouchableOpacity disabled={loading} onPress={()=>Delete()}  style={[Theme.buttons.primary,{width:"45%"}]}><Text style={Theme.fonts.description}>Eliminar</Text></TouchableOpacity>
               
               </View>
@@ -74,6 +99,16 @@ export default function ModalConfirmDelete({setVisibleDelete, id, idVehiculo, se
             <ModalCargando text={'Eliminando Recordatorio...'}/>
           </Modal>
           }
+          {visibleSuccesfull &&
+         <Modal
+         animationType="fade"
+         visible={visibleSuccesfull}
+         transparent={true}
+
+       >
+          <ModalSuccesfull text={'Eliminado'} description={data?'Gasto Eliminado':'Recordatorio Eliminado'}/>
+       </Modal>
+         }
         </View>
     )
 }

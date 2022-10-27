@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Pressable, Image, Button, Modal, ScrollView, ActivityIndicator} from "react-native";
+import { View, StyleSheet, Text, Pressable, Image, Button, Modal, ScrollView, ActivityIndicator, Alert} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -41,6 +41,16 @@ export default function ModalDetailsGasto({id, setModalVisible}){
     const handleEdit=()=>{
       setModalVisible2(true)
     }
+    console.log('hdasdasda');
+    useEffect(()=>{
+      if(error){
+          if(error?.message === 'Network request failed'){
+            Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+          }else{
+            Alert.alert('Ha ocurrido un error',error?.message)
+          }
+        }
+    },[error])
 
     return(
       <>
@@ -115,13 +125,15 @@ export default function ModalDetailsGasto({id, setModalVisible}){
          >
              <ModalCreateGasto setModalVisible2={setModalVisible2} id={id} item={getOneGasto}/>
          </Modal>
-         <Modal
-           animationType="fade"
-           transparent={true}
-           visible={visibleDelete}
-         >
-             <ModalConfirmDelete setVisibleDelete={setVisibleDelete} id={id} idVehiculo={getOneGasto?.vehiculo} setModalVisible={setModalVisible}/>
-         </Modal>
+               {visibleDelete &&
+               <Modal
+               animationType="fade"
+               transparent={true}
+               visible={visibleDelete}
+             >
+                 <ModalConfirmDelete setVisibleDelete={setVisibleDelete} id={id} idVehiculo={getOneGasto?.vehiculo} setModalVisible={setModalVisible}/>
+             </Modal>
+             }
          {image &&
       <Modal
       animationType="fade"

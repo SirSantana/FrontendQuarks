@@ -31,7 +31,7 @@ const validationSchema ={
   name:Yup.string().required('Debes colocar un nombre'),
   apellido:Yup.string().required('Debes colocar un apellido'),
   email: Yup.string().required('Debes colocar un email').email('Debe ser un email valido'),
-  password: Yup.string().required('Debes colocar una password'),
+  password: Yup.string().required('Debes colocar una password').min(6, 'Debe tener minimo 6 caracteres'),
   confirmPassword:Yup.string()
   .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir'),
 
@@ -55,9 +55,14 @@ export const SignUpScreen = () => {
 })
 useEffect(()=>{
   if(error){
-    Alert.alert('Ha ocurrido un error')
-  }
+      if(error?.message === 'Network request failed'){
+        Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+      }else{
+        Alert.alert('Ha ocurrido un error',error?.message)
+      }
+    }
 },[error])
+
 
 useEffect(()=>{
   if(data){

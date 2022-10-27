@@ -17,6 +17,8 @@ import DatosVehiculo from '../../Components/CarComponents/DatosVehiculo';
 import CardMensual from '../../Components/CarComponents/CardMensual';
 import GastosRecientes from '../../Components/CarComponents/GastosRecientes';
 import Recordatorios from '../../Components/CarComponents/Recordatorios/Index';
+
+
 export default function VehiculeDataScreen({route}) {
   const navigation = useNavigation()
   const item = route?.params?.item
@@ -75,7 +77,7 @@ useLayoutEffect(()=>{
 
             <CardMensual navigation={navigation} id={item.id} dineroGastado={dineroGastado} setModalVisible2={setModalVisible2}/>
 
-            <GastosRecientes navigation={navigation} prevGastos={result?.data?.getPrevGastos} loading={result?.loading} id={item.id}/>
+            <GastosRecientes navigation={navigation} prevGastos={result?.data?.getPrevGastos} loading={result?.loading} id={item.id} setModalVisible2={setModalVisible2}/>
             <View style={{width:'100%', height:1, backgroundColor:'gray'}}/>
             <Recordatorios id={item.id}/>
             </View>
