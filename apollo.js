@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const URI = proccess.env.BUILD
+const URI = 'https://quarks-api.vercel.app/'
 // const URI = proccess.env.DEV
 
 
