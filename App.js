@@ -29,6 +29,7 @@ export default function App() {
            transparent={true}
            visible={!connect}
          >
+          
           <ModalCargando text={'Revisa tu Conexion'}/>
          </Modal>}
           
