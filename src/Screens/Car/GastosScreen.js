@@ -24,14 +24,18 @@ export default function GastosScreen({route}){
       dataMonthActual = data.getAllGastos.filter(el=>{
         let fecha = new Date(el.fecha).getMonth()
         let year = new Date(el.fecha).getFullYear()
-        if(year === yearActual){
+        if(year === 2022){
           yearsData[0].push(el)
+          console.log('Hola121');
+
         }else if(year === 2023){
+          console.log('Hola');
           yearsData[1].push(el)
         }
         return fecha === monthActual && year === yearActual
       })
     }
+    console.log(yearsData);
    useLayoutEffect(()=>{
         if(id){
             getAll({variables:{id:id}})

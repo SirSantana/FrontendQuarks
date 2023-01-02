@@ -232,7 +232,7 @@ export default function ModalCreateGasto({ setModalVisible2, id, item}){
                     mode="date"
                     onConfirm={handleConfirm}
                     onCancel={hideDatePicker}
-                    maximumDate={new Date(2022, 11, 31)}
+                    maximumDate={new Date(2023, 11, 31)}
                     minimumDate={new Date(2022, 0, 1)}
                     /> 
             </Pressable>

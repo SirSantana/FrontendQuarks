@@ -6,6 +6,8 @@ import { useState } from 'react'
 export default function AñoGastos({data}){
     let meses =[[],[],[],[],[],[],[],[],[],[],[],[]]
     let totalesGastos = [[],[],[],[],[],[],[],[],[],[],[],[]]
+    console.log('data',data);
+    
     let [year, setYear] = useState(0)
     data[year]?.filter(el=> {
         let month = new Date(el.fecha).getMonth()
@@ -37,11 +39,11 @@ export default function AñoGastos({data}){
             <Pressable onPress={()=> setYear(0)} style={[Theme.containers.containerTiempo, {backgroundColor:year === 0 ? 'white': null}]}>
             <Text style={Theme.fonts.descriptionBlue}>2022</Text>
             </Pressable>
-            {/* {data.length >0 &&
+            {data.length >0 &&
              <Pressable onPress={()=> setYear(1)} style={[Theme.containers.containerTiempo, {backgroundColor:year === 1 ?'white': null}]}>
              <Text style={Theme.fonts.descriptionBlue}>2023</Text>
              </Pressable>
-            } */}
+            }
            
         </View>
     

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Quarks - Tu Vehiculo en tu Bolsillo",
     "slug": "Quarks",
-    "version": "1.0.29",
+    "version": "1.0.31",
     "orientation": "portrait",
     "icon": "./assets/Logo1.png",
     "userInterfaceStyle": "light",
@@ -23,7 +23,7 @@
     },
     "android": {
       "package": "com.quarks.vehiculo",
-      "versionCode": 30,
+      "versionCode": 32,
       "adaptiveIcon": {
         "foregroundImage": "./assets/Logo1.png",
         "backgroundColor": "#FFFFFF"
