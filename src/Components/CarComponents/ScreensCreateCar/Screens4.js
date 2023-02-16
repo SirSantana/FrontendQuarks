@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, ActivityIndicator, TextInput } fro
 import { Texts } from "../../../Themes/text";
 
 
-export default function Screen4({pickImage, image, vehiculo, logo, form}){
+export default function Screen4({pickImage, image, vehiculo, logo, form,setImage}){
     return(
         
         <View style={{ alignItems:'center', height:'55%',marginBottom:'5%'}}>
@@ -17,7 +17,7 @@ export default function Screen4({pickImage, image, vehiculo, logo, form}){
         
         <View style={{ alignItems:"center", }}>
         <Text style={[Texts.titleBoldBlue,{flexWrap:'wrap'}]}>{form.referencia}</Text>
-        <Text onPress={()=> image?setImage(null): pickImage()} style={Texts.subtitleRegularRed}>{image?"Eliminar foto":"Agregar una foto de tu vehiculo"}</Text>
+        <Text onPress={()=> image ?setImage(''): pickImage()} style={Texts.subtitleRegularRed}>{image?"Eliminar foto":"Agregar una foto de tu vehiculo"}</Text>
 
 
         </View>

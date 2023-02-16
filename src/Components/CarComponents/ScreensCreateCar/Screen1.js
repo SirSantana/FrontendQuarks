@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { Containers } from "../../../Themes/containers";
 import { Texts } from "../../../Themes/text";
 
@@ -46,3 +46,4 @@ export default function Screen1({ setScreens, setVehiculo, setForm, form }) {
     </View>
   );
 }
+

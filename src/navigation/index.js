@@ -1,52 +1,95 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import { Image } from 'react-native';
-import { Foundation } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import {CarScreen} from '../Screens/Car/CarScreen'
-import { getFocusedRouteNameFromRoute, NavigationContainer } from '@react-navigation/native';
-import SignInScreen from '../Screens/Profile/SiginScreen';
-import { SignUpScreen } from '../Screens/Profile/SignUpScreen';
-import { HomeScreen } from '../Screens/Home/HomeScreen';
-import { ProfileScreen } from '../Screens/Profile/ProfileScreen';
-import FormCreateVehicule from '../Components/CarComponents/FormCreateVehicule';
-import VehiculeDataScreen from '../Screens/Car/VehiculeDataScreen';
-import GastosScreen from '../Screens/Car/GastosScreen';
-import ChatScreen from '../Screens/Home/ChatScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import StoreScreen from '../Screens/Store/StoreScreen';
-import { MaterialIcons } from '@expo/vector-icons';
-import IndexStores from '../Screens/Store/IndexStores';
-import DetailsStore from '../Components/StoreComponent/DetailsStore';
-import { useEffect, useLayoutEffect, useState } from 'react';
-import PruebaCarScreen from '../Screens/Car/PruebaCarScreen';
-import ForgotPasswordScreen from '../Screens/Profile/ForgotPasswordScreen';
+import HomeScreenIndex from '../Screens/HomeScreens';
+import ProfileScreenIndex from '../Screens/ProfileScreens';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { StatusBar,ActivityIndicator } from 'react-native';
+import { Colors } from '../Contants/Colors';
+import LoginScreen from '../Screens/ProfileScreens/LoginScreen';
+import RegisterScreen from '../Screens/ProfileScreens/RegisterScreen';
+import {  useState } from 'react';
 import useAuth from '../hooks/useAuth';
+import OnBoardingScreens from '../Screens/OnBoardScreens';
+import PruebaCarScreen from '../Screens/CarScreens/PruebaCarScreen';
+import VehiculeDataScreen from '../Screens/CarScreens/VehiculeDataScreen';
+import GastosScreen from '../Screens/CarScreens/GastosScreen';
+import FormCreateVehicule from '../Components/CarComponents/Car/FormCreateVehicule';
+import RecordatoriosScreen from '../Screens/CarScreens/RecordatoriosScreen';
+import CotizacionesScreen from '../Screens/HomeScreens/CotizacionesScreen';
+
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 
-const TabBarIcon=({color, name})=>{
-  if(name === 'home'){
+
+const TabBarIcon = ({ color, name }) => {
+  if (name === 'home') {
     return <Foundation name={name} size={24} color={color} />
   }
-  if(name=== 'car'|| name ==='user-alt'){
+  if (name === 'car' || name === 'user-alt') {
     return <FontAwesome5 name={name} size={24} color={color} />
   }
-  if(name === 'store'){
+  if (name === 'store') {
     return <MaterialIcons name="store" size={24} color={color} />
   }
 }
 
-export const Navigation=()=>{
-  
+export const Navigation = () => {
+  const { user, logout,loading } = useAuth()
+  const [showRealApp, setShowRealApp] = useState(false)
 
-  return(
+  if(loading){
+    return <ActivityIndicator color={Colors.primary}/>
+  }
+  if(showRealApp && !user){
+    return <RegisterScreen />
+  }
+  if(!user){
+    return <OnBoardingScreens setShowRealApp={setShowRealApp} />
+  }
+  
+  return (
     <NavigationContainer >
-      <Tab.Navigator initialRouteName='Profile' barStyle={{backgroundColor:'white'}} screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Store" component={StackStore} options={{tabBarIcon:()=><Image  style={{width:20, height:20}} source={require('../../assets/Logo.png')}/> }}/>
-        <Tab.Screen name="Vehiculo" component={StackCar} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='car'/>}}/>
-        {/* <Tab.Screen name="Home" component={StackHome} options={{tabBarIcon:()=><Image  style={{width:20, height:20}} source={require('../../assets/Logo.png')}/>}} /> */}
-        <Tab.Screen name="Profile" component={StackProfile} options={{tabBarIcon:({color})=><TabBarIcon color={color} name='user-alt'/>}}/>
+      <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
+      <Tab.Navigator initialRouteName={user?.vehiculos.length>0?'Vehiculo':'Mi perfil'} barStyle={{ backgroundColor: 'white' }} 
+      screenOptions={{
+        headerShown: false, 
+        tabBarStyle: {
+          height: 60,
+        },
+        tabBarActiveTintColor: Colors.primary
+      }}>
+        <Tab.Screen name="Cotizar" component={StackHome} options={{
+          tabBarIcon: ({ focused }) => <Icon
+            name={focused ? 'search' : 'search-outline'}
+            color={focused ? Colors.primary : Colors.gray2}
+            size={24}
+          />
+        }} />
+        <Tab.Screen name="Vehiculo" component={StackCar} options={({ route }) => ({
+          tabBarIcon: ({ color, focused }) => <Icon
+            name={focused ? 'car-sport':"car-sport-outline"}
+            color={focused ? Colors.primary : Colors.gray2}
+            size={24}
+          />,
+          // tabBarStyle: ((route) => {
+          //   const routeName = getFocusedRouteNameFromRoute(route) ?? "CarScreen"
+          //   if (routeName === 'CarScreen') {
+          //     return { display: "none" }
+          //   }
+          //   return
+          // })(route)
+         
+        })} />
+        <Tab.Screen name="Mi perfil" component={StackProfile} options={{
+          tabBarIcon: ({ focused }) => <Icon
+            name={focused ? 'person':"person-outline"}
+            color={focused ? Colors.primary : Colors.gray2}
+            size={24}
+          />,
+        }} />
 
       </Tab.Navigator>
 
@@ -55,82 +98,59 @@ export const Navigation=()=>{
 
 }
 
-function StackHome() {
+function StackHome({ navigation, route }) {
 
-    return (
-      <Stack.Navigator >
-        <Stack.Screen name="Inicio" component={HomeScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="Chat" component={ChatScreen} options={{tabBarVisible:false}}/>
-
-      </Stack.Navigator>
-    );
-  }
-  function StackStore({ navigation, route }) {
+  return (
+    <Stack.Navigator   screenOptions={{
+      headerShown: true,
+      headerStyle: {
+        shadowColor: "#000",
+        backgroundColor:'#f50057'
+      },
+      headerTintColor: 'white'}} >
+      <Stack.Screen name="HomeScreen" component={HomeScreenIndex}  options={{ title:'', headerShown:false}}/>
+      <Stack.Screen name="CotizacionesScreen" component={CotizacionesScreen}options={{ title:'Cotizaciones',}}/>
     
-    return (
-      <Stack.Navigator  >
-        <Stack.Screen name="Stores" component={StoreScreen} options={{headerShown:false}}/>
-        <Tab.Screen name="IndexStores" component={IndexStores} options={{
-            tabBarStyle: { display: "none" },
-          }}/>
-        <Stack.Screen name="DetailStore" component={DetailsStore}/>
+    </Stack.Navigator>
+  );
+}
 
-      </Stack.Navigator>
-    );
-  }
-  
 function StackProfile() {
-  const{user, logout} = useAuth()
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: {
+          shadowColor: "#000",
+          backgroundColor: '#464646'
+        },
+        headerTintColor: 'white'
+      }}>
+      <Stack.Screen name="ProfileScreen" component={ProfileScreenIndex} options={{ headerShown: false }} />
+      <Stack.Screen name="SignIn" component={LoginScreen} />
+      <Stack.Screen name="SignUp" component={RegisterScreen} />
+    </Stack.Navigator>
+  );
+}
 
-      return (
-        <Stack.Navigator 
-        
-        screenOptions={{
-          headerShown: true,
-          headerStyle: {
-            shadowColor: "#000",
-            backgroundColor:'#464646'
-          },
-          headerTintColor: 'white'}}>
-          <Stack.Screen name="Perfil" component={ProfileScreen} options={{headerShown:user ? true:false}}/>
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+function StackCar() {
+  
+  return (
+    <Stack.Navigator initialRouteName='Vehiculos' screenOptions={{
+      
+      headerStyle: {
+        shadowColor: "#000",
+        backgroundColor: '#464646'
+      }, headerTintColor: 'white'
+    }}>
+      <Stack.Screen name="Vehiculos" component={VehiculeDataScreen} options={{headerShown:false}} />
+      {/* <Stack.Screen name="CarScreen" component={CarScreenIndex} options={{ headerShown: false, }} /> */}
+      <Stack.Screen name="Crear Vehiculo" component={PruebaCarScreen} options={{headerShown:false}}/>
+      <Stack.Screen name="Gastos" component={GastosScreen}  options={{headerShown:false}}/>
+      <Stack.Screen name="Creando mi Vehiculo" component={FormCreateVehicule}  />
+      <Stack.Screen name="Recordatorios" component={RecordatoriosScreen}  />
 
+    </Stack.Navigator>
+  );
+}
 
-        </Stack.Navigator>
-      );
-    }
-
-    function StackCar() {
-      return (
-        <Stack.Navigator screenOptions={{
-          headerStyle: {
-            shadowColor: "#000",
-            backgroundColor:'#464646'
-          },headerTintColor: 'white'
-          }}>
-        <Stack.Screen name="Mi Vehiculo" component={CarScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="Crear Vehiculo" component={PruebaCarScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="Creando mi Vehiculo" component={FormCreateVehicule}  />
-        <Stack.Screen name="Vehiculos" component={VehiculeDataScreen} options={{headerShown:false}} />
-        <Stack.Screen name="Gastos" component={GastosScreen}  />
-
-        </Stack.Navigator>
-      );
-    }
-
-
-// const Stack = createNativeStackNavigator();
-
-// export const Navigation = () => {
-//   return (
-//     <Stack.Navigator initialRouteName="Root">
-//       <Stack.Screen
-//         name="Root"
-//         component={BottomTabNavigator}
-//         options={{ headerShown: false }}
-//       />
-//       </Stack.Navigator>
-//   )
-// }

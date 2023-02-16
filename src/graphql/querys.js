@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 
+
+//GASTO
 export const GET_ONE_GASTO = gql`
   query getOneGasto($id:ID){
     getOneGasto(id:$id){
@@ -14,63 +16,12 @@ export const GET_ONE_GASTO = gql`
     }
   }
 `
-export const GET_MENSAJES = gql`
-  query getMensajes($marca:String){
-    getMensajes(marca:$marca){
-      texto
-    user
-    fecha
-    marca
-    avatar
-    name
-    }
-  }  
-`
-export const GET_RECORDATORIO = gql`
-    query getOneRecordatorio($id:ID){
-        getOneRecordatorio(id:$id){
-            titulo
-            description
-            fecha
-            id
-        }
-    }
-`
-export const GET_RECORDATORIOS =gql`
-    query getRecordatorios($id:ID){
-        getRecordatorios(id:$id){
-            titulo
-            description
-            fecha
-            id
-        }
-    }
-`
-export const GET_USER = gql`
-    query getUser{
-        getUser{
-            name
-            apellido
-            email
-            vehiculos
-            avatar
-            role
-            ciudad 
-            pais
-            id
-        }
-    }
-`
-export const GET_VEHICLES= gql`
-  query getCars{
-    getCars{
+export const GET_GASTOS_MONTH = gql`
+  query getGastosMonth($id:ID){
+    getGastosMonth(id:$id){
       tipo
-      marca
+      dineroGastado
       id
-      imagen
-      cilindraje
-      referencia
-      modelo
     }
   }
 `
@@ -96,6 +47,40 @@ export const GET_GASTOS = gql`
     }
   }
 `
+
+
+//USER
+export const GET_USER = gql`
+    query getUser{
+        getUser{
+            name
+            apellido
+            email
+            vehiculos
+            avatar
+            role
+            ciudad 
+            pais
+            id
+            puntos
+            premium
+        }
+    }
+`
+export const GET_VEHICLES = gql`
+  query getCars{
+    getCars{
+      tipo
+      marca
+      id
+      imagen
+      cilindraje
+      referencia
+      modelo
+      presupuesto
+    }
+  }
+`
 export const GET_ONE_USERS = gql`
   query getOneUser($id:ID){
     getOneUser(id:$id){
@@ -105,8 +90,46 @@ export const GET_ONE_USERS = gql`
 
   }
 `
+export const GET_AVATAR_USER = gql`
+query getAvatar($id:ID) {
+  getAvatar(id:$id) {
+            avatar
+            name
+            ciudad
+            celular
+            
+  }
+}
+`
 
-export const GET_NEGOCIOS= gql`
+
+//RECORDATORIO
+export const GET_RECORDATORIO = gql`
+    query getOneRecordatorio($id:ID){
+        getOneRecordatorio(id:$id){
+            titulo
+            description
+            fecha
+            id
+        }
+    }
+`
+export const GET_RECORDATORIOS = gql`
+    query getRecordatorios($id:ID){
+        getRecordatorios(id:$id){
+            tipo
+            fechaInicial
+            fechaFinal
+            kilometrajeInicial
+            kilometrajeFinal
+            id
+        }
+    }
+`
+
+
+//NEGOCIOS
+export const GET_NEGOCIOS = gql`
 query getNegocios{
   getNegocios{
     nombre
@@ -119,8 +142,8 @@ query getNegocios{
     celular
     repuestos
   }
-}`
-
+}
+`
 export const GET_ONE_NEGOCIO = gql`
   query getOneNegocio($id:ID){
     getOneNegocio(id:$id){
@@ -134,4 +157,76 @@ export const GET_ONE_NEGOCIO = gql`
     }
 
   }
+`
+
+//PREGUNTAS / COTIZACIONES
+export const GET_PREGUNTAS = gql`
+query getBusquedaPreguntas($word:String) {
+  getBusquedaPreguntas(word:$word) {
+   titulo
+   marca
+   userName
+   referencia
+   id
+   fecha
+  }
+}
+`
+export const GET_PREGUNTAS_USER = gql`
+query getPreguntasUser {
+  getPreguntasUser{
+   titulo
+   marca
+   userName
+   referencia
+   id
+   fecha
+   cotizaciones
+  }
+}
+`
+export const GET_LAST_PREGUNTAS = gql`
+query getLastPreguntas {
+  getLastPreguntas {
+   titulo
+   marca
+   userName
+   referencia
+   id
+   fecha
+   cotizaciones
+
+  }
+}
+`
+
+export const GET_COTIZACIONES = gql`
+query getCotizaciones($id:ID) {
+  getCotizaciones(id:$id) {
+   descripcion
+   marca
+   garantia
+   precio
+   id
+   user
+   celular
+   stock
+   envio
+   estado
+  }
+}
+`
+
+
+export const GET_MENSAJES = gql`
+  query getMensajes($marca:String){
+    getMensajes(marca:$marca){
+      texto
+    user
+    fecha
+    marca
+    avatar
+    name
+    }
+  }  
 `

@@ -1,44 +1,44 @@
 
 
-export const marcasCarros=[
+export const marcasCarros = [
     {
-        marca:'Nissan',
-        src:require("../../../assets/Nissan.png")
+        marca: 'Nissan',
+        src: require("../../../assets/Nissan.png")
     },
     {
-        marca:'Ford',
-        src:require("../../../assets/Ford.png")
+        marca: 'Ford',
+        src: require("../../../assets/Ford.png")
     },
     {
-        marca:'Mazda',
-        src:require("../../../assets/Mazda.png")
-    },{
-        marca:'Chevrolet',
-        src:require("../../../assets/Chevrolet.png")
+        marca: 'Mazda',
+        src: require("../../../assets/Mazda.png")
+    }, {
+        marca: 'Chevrolet',
+        src: require("../../../assets/Chevrolet.png")
     },
     {
-        marca:'Toyota',
-        src:require("../../../assets/Toyota.png")
+        marca: 'Toyota',
+        src: require("../../../assets/Toyota.png")
     },
     {
-        marca:'Volkswagen',
-        src:require("../../../assets/Volkswagen.png")
+        marca: 'Volkswagen',
+        src: require("../../../assets/Volkswagen.png")
     },
     {
-        marca:'Mitsubishi',
-        src:require("../../../assets/Mitsubishi.png")
+        marca: 'Mitsubishi',
+        src: require("../../../assets/Mitsubishi.png")
     },
     {
-        marca:'Hyundai',
-        src:require("../../../assets/Hyundai.png")
+        marca: 'Hyundai',
+        src: require("../../../assets/Hyundai.png")
     },
     {
-        marca:'Kia',
-        src:require("../../../assets/Kia.png")
+        marca: 'Kia',
+        src: require("../../../assets/Kia.png")
     },
     {
-        marca:'Renault',
-        src:require("../../../assets/Renault.png")
+        marca: 'Renault',
+        src: require("../../../assets/Renault.png")
     },
-    
+
 ]

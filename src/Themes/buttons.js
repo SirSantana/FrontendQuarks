@@ -5,7 +5,7 @@ export const Buttons={
         height:50, backgroundColor:Colors.primary, borderRadius:10, color:'white', alignItems:'center', justifyContent:'center'
     },
     primaryOutlined:{
-        height:50, borderColor:Colors.primary, borderRadius:10, color:Colors.primary, alignItems:'center', justifyContent:'center'
+        height:50, borderColor:'red', borderRadius:10, alignItems:'center', justifyContent:'center'
     },
     secondary:{
         height:50, backgroundColor:Colors.secondary, borderRadius:10, color:'white', alignItems:'center', justifyContent:'center'

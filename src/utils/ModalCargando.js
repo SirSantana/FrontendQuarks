@@ -1,54 +1,45 @@
-import {Modal, View, Text, StyleSheet, Pressable, Image, ActivityIndicator} from 'react-native'
-import { Theme } from '../theme';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
 
 
-export default function ModalCargando({text}){
-    return(
-        
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-          <ActivityIndicator  color={Theme.colors.primary}/>
-              <Text style={Theme.fonts.titleRed}>{text}</Text>
-          </View>
-        </View>
-    )
+export default function ModalCargando({ text }) {
+  return (
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+        <ActivityIndicator color={'white'} size={32} />
+        <Text style={styles.titleRed}>{text}</Text>
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-    centeredView: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor:'rgba(0,0,0,0.5)',
-
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#F8AB53',
+    borderRadius: 5,
+    position: 'absolute',
+    top: 10,
+    width: '90%',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    flexDirection: 'row',
+    shadowOffset: {
+      width: 0,
+      height: 2
     },
-    modalView: {
-      margin: 20,
-      backgroundColor: '#f3f3f3',
-      borderRadius: 20,
-      padding: 35,
-      alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      // shadowOpacity: 0.25,
-      // shadowRadius: 4,
-      // elevation: 5
-      // position: "absolute",
-      // bottom: 0,
-      // height: 250,
-      // width:'100%',
-      // borderTopLeftRadius: 20,
-      // justifyContent: "center",
-      // alignItems: "center",
-      // borderTopRightRadius: 20,
-      // backgroundColor: "white"
-    },
-  
-    modalText: {
-      marginBottom: 15,
-      textAlign: "center"
-    }
-  });
+  },
+  titleRed: {
+    marginLeft: 20,
+    fontSize: 18,
+    fontWeight: "600",
+    color: 'white',
+  },
+});
