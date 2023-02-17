@@ -86,7 +86,7 @@ export default function LoginScreen() {
               value={formik.values.password}
               onChangeText={(text) => formik.setFieldValue('password', text)}
               secureTextEntry={visiblePassword ? false : true}
-              style={{ paddingHorizontal: 10, fontSize: 18 }}
+              style={{ paddingHorizontal: 10, fontSize: 18, width:'80%' }}
               placeholder='******'
             />
           </View>

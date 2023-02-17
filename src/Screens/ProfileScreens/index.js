@@ -43,7 +43,6 @@ export default function ProfileScreenIndex() {
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
           style={{borderTopRightRadius:20, borderTopLeftRadius:20, height:'100%'}}
-
         >
           <OptionsMenu setTab={setTab} tab={tab} />
 

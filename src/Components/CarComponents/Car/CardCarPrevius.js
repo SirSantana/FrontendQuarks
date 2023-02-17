@@ -4,7 +4,6 @@ import { Colors } from "../../../Contants/Colors";
 
 
 export default function CardCarPrevius({pickImage, setVisibleModalDetailsCars,visibleModalDetailsCars,  image, logo, form,}){
-  console.log(logo);  
   return(
       <View style={{ backgroundColor: '#76022c', borderRadius: 20, padding: 20, height: '40%', width: '100%' }}>
       <ImageBackground onLoadStart={() => <ActivityIndicator color={Colors.primary} />} style={{ width: '100%', height: '80%', opacity: 0.8, justifyContent: 'center', borderRadius: 10, alignItems: 'center' }} source={image ? { uri: image } : require('../../../../assets/Carro.png')} >

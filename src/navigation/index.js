@@ -39,11 +39,12 @@ const TabBarIcon = ({ color, name }) => {
 export const Navigation = () => {
   const { user, logout,loading } = useAuth()
   const [showRealApp, setShowRealApp] = useState(false)
-
+  console.log(user);
   if(loading){
     return <ActivityIndicator color={Colors.primary}/>
   }
   if(showRealApp && !user){
+    console.log('OTra');
     return <RegisterScreen />
   }
   if(!user){
@@ -53,7 +54,7 @@ export const Navigation = () => {
   return (
     <NavigationContainer >
       <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
-      <Tab.Navigator initialRouteName={user?.vehiculos.length>0?'Vehiculo':'Mi perfil'} barStyle={{ backgroundColor: 'white' }} 
+      <Tab.Navigator initialRouteName={user?.vehiculos?.length>0?'Vehiculo':'Mi perfil'} barStyle={{ backgroundColor: 'white' }} 
       screenOptions={{
         headerShown: false, 
         tabBarStyle: {
