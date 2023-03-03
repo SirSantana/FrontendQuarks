@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { useEffect, useState } from 'react';
 import ModalCreateRecordatorio from '../../Components/CarComponents/Recordatorios/ModalCreateRecordatorios';
 import { Pressable } from 'react-native';
@@ -15,33 +16,50 @@ import { options } from '../../utils/dateEs';
 import PriceFormat from '../../utils/priceFormat';
 import ModalConfirmDelete from '../../utils/ModalConfirmDelete';
 import ModalScreenRecordatorio from '../../Components/CarComponents/Car/ModalScreenRecordatorio';
+import useAuth from '../../hooks/useAuth';
+import ModalPremium from '../../utils/ModalPremium';
 
 export default function RecordatoriosScreen({ route }) {
-  const id = route?.params?.id
+  const item = route?.params?.item
   const [tipoRecordatorio, setTipoRecordatorio] = useState()
   const [modalVisible, setModalVisible] = useState(false)
   const [edit, setEdit] = useState(false)
-  const { loading, data, error } = useQuery(GET_RECORDATORIOS, { variables: { id: id } })
+  const { loading, data, error } = useQuery(GET_RECORDATORIOS, { variables: { id: item } })
   const [visibleDelete, setVisibleDelete] = useState(false)
   const [modalQuarks, setModalQuarks] = useState(false)
-  let recordatorios = [[], [], [], []]
+  const [premiumModal, setPremiumModal] = useState(false)
+  const { user } = useAuth()
+  let recordatorios = [[], [], [], [], [], []]
   if (data) {
     data?.getRecordatorios.map(el => {
       if (el.tipo === 'Revision tecnico mecanica') recordatorios[0].push(el)
       if (el.tipo === 'Seguro') recordatorios[1].push(el)
       if (el.tipo === 'Impuestos') recordatorios[2].push(el)
       if (el.tipo === 'Cambio de aceite') recordatorios[3].push(el)
+      if (el.tipo === 'Recarga Extintor') recordatorios[4].push(el)
+      if (el.tipo === 'Rotacion Llantas') recordatorios[5].push(el)
     })
   }
-  useEffect(()=>{
-    if(data?.getRecordatorios.length<=0){
+  useEffect(() => {
+    if (data?.getRecordatorios.length <= 0) {
       return setModalQuarks(true)
     }
-  },[data])
+  }, [data])
   const handleCreateRecordatorio = (tipo, edit) => {
-    if (edit) setEdit(edit)
-    setTipoRecordatorio(tipo)
-    setModalVisible(true)
+    if (!user?.premium > 0) {
+      if (tipo === 'Recarga Extintor' || tipo === 'Seguro' || tipo === 'Rotacion Llantas') {
+        return setPremiumModal(true)
+      } else {
+        if (edit) setEdit(edit)
+        setTipoRecordatorio(tipo)
+        setModalVisible(true)
+      }
+    } else {
+      if (edit) setEdit(edit)
+      setTipoRecordatorio(tipo)
+      setModalVisible(true)
+    }
+
   }
   function Dias(el) {
     let fecha = new Date(el?.fechaFinal)
@@ -50,16 +68,23 @@ export default function RecordatoriosScreen({ route }) {
     let dias = Math.round(diasFaltantes / (1000 * 60 * 60 * 24))
     return dias
   }
-  if (loading) {
-    return <ActivityIndicator style={{ flex: 1 }} color={Colors.primary} size='large' />
-  }
-  if (error) {
-    if (error?.message === 'Network request failed') {
-      Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
-    } else {
-      Alert.alert('Ha ocurrido un error', error?.message)
+  
+  useEffect(() => {
+    if (loading) {
+     <ActivityIndicator style={{ flex: 1 }} color={Colors.primary} size='large' />
     }
-  }
+  }, [loading])
+  useEffect(() => {
+    if (error) {
+      if (error?.message === 'Network request failed') {
+        Alert.alert('Ha ocurrido un error', 'Revisa tu conexion a internet')
+      } else {
+        Alert.alert('Ha ocurrido un error', error?.message)
+      }
+    }
+  }, [error])
+
+  
   return (
     <>
       <ScrollView style={{ backgroundColor: 'white', height: '100%' }}>
@@ -128,41 +153,6 @@ export default function RecordatoriosScreen({ route }) {
           </View>
           <View style={{ backgroundColor: '#f3f3f3', width: '100%', height: 2, marginVertical: 15 }} />
 
-
-          <View style={{ flexDirection: 'column' }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
-              <Text style={styles.Title1}>Seguro</Text>
-              {recordatorios[1].length > 0 &&
-                <View style={{ flexDirection: 'row' }}>
-                  <Icon onPress={() => handleCreateRecordatorio('Seguro', recordatorios[1][0].id)} name="create-outline" color={Colors.primary} size={24} />
-                  <Icon onPress={() => { setVisibleDelete(true), setEdit(recordatorios[1][0].id) }} name="trash-outline" color={Colors.primary} size={24} />
-                </View>
-              }
-
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View style={{ backgroundColor: '#FFEBF0', justifyContent: 'center', borderBottomLeftRadius: 20, borderBottomRightRadius: 20, borderTopRightRadius: 20, alignItems: 'center', width: 50, height: 50, }}>
-                <FontAwesome5 name="car-crash" size={18} color={Colors.primary} />
-              </View>
-              {recordatorios[1].length > 0
-                ?
-                <View style={{ flexDirection: 'column', marginLeft: '10%' }}>
-                  <Text style={{ color: Colors.gray, fontSize: 16, marginBottom: 5 }}>Proximo pago</Text>
-                  <Text style={{ color: Colors.secondary, fontWeight: 'bold', fontSize: 18 }}>El {new Date(recordatorios[1][0]?.fechaFinal).toLocaleDateString('es-ES', options)}</Text>
-                  <Text style={{ color: Colors.multaColor, fontWeight: '600', fontSize: 16 }}>Faltan {Dias(recordatorios[1][0])} Días</Text>
-                </View>
-                :
-                <TouchableOpacity onPress={() => handleCreateRecordatorio('Seguro')} style={{ flexDirection: 'row', marginLeft: '10%', alignItems: 'center' }}>
-                  <Icon name="add-outline" color={Colors.primary} size={32} />
-                  <Text style={{ color: Colors.primary, fontSize: 16 }}>Agregar Seguro</Text>
-                </TouchableOpacity>
-              }
-
-            </View>
-          </View>
-          <View style={{ backgroundColor: '#f3f3f3', width: '100%', height: 2, marginVertical: 15 }} />
-
-
           <View style={{ flexDirection: 'column' }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
               <Text style={styles.Title1}>Impuestos</Text>
@@ -197,6 +187,102 @@ export default function RecordatoriosScreen({ route }) {
 
             </View>
           </View>
+          <View style={{ backgroundColor: '#f3f3f3', width: '100%', height: 2, marginVertical: 15 }} />
+
+          <View style={{ flexDirection: 'column' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
+              <Text style={styles.Title1}>Seguro <Icon name={'star'} color={'#F6DE0A'} size={20} /></Text>
+              {recordatorios[1].length > 0 &&
+                <View style={{ flexDirection: 'row' }}>
+                  <Icon onPress={() => handleCreateRecordatorio('Seguro', recordatorios[1][0].id)} name="create-outline" color={Colors.primary} size={24} />
+                  <Icon onPress={() => { setVisibleDelete(true), setEdit(recordatorios[1][0].id) }} name="trash-outline" color={Colors.primary} size={24} />
+                </View>
+              }
+
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ backgroundColor: '#FFEBF0', justifyContent: 'center', borderBottomLeftRadius: 20, borderBottomRightRadius: 20, borderTopRightRadius: 20, alignItems: 'center', width: 50, height: 50, }}>
+                <FontAwesome5 name="car-crash" size={18} color={Colors.primary} />
+              </View>
+              {recordatorios[1].length > 0
+                ?
+                <View style={{ flexDirection: 'column', marginLeft: '10%' }}>
+                  <Text style={{ color: Colors.gray, fontSize: 16, marginBottom: 5 }}>Proximo pago</Text>
+                  <Text style={{ color: Colors.secondary, fontWeight: 'bold', fontSize: 18 }}>El {new Date(recordatorios[1][0]?.fechaFinal).toLocaleDateString('es-ES', options)}</Text>
+                  <Text style={{ color: Colors.multaColor, fontWeight: '600', fontSize: 16 }}>Faltan {Dias(recordatorios[1][0])} Días</Text>
+                </View>
+                :
+                <TouchableOpacity onPress={() => handleCreateRecordatorio('Seguro')} style={{ flexDirection: 'row', marginLeft: '10%', alignItems: 'center' }}>
+                  <Icon name="add-outline" color={Colors.primary} size={32} />
+                  <Text style={{ color: Colors.primary, fontSize: 16 }}>Agregar Seguro</Text>
+                </TouchableOpacity>
+              }
+
+            </View>
+          </View>
+          <View style={{ backgroundColor: '#f3f3f3', width: '100%', height: 2, marginVertical: 15 }} />
+
+          <View style={{ flexDirection: 'column', }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
+              <Text style={styles.Title1}>Rotacion Llantas <Icon name={'star'} color={'#F6DE0A'} size={20} /></Text>
+              {recordatorios[5].length > 0 && <View style={{ flexDirection: 'row' }}>
+                <Icon onPress={() => handleCreateRecordatorio('Rotacion Llantas', recordatorios[5][0].id)} name="create-outline" color={Colors.primary} size={24} />
+                <Icon onPress={() => { setVisibleDelete(true), setEdit(recordatorios[5][0].id) }} name="trash-outline" color={Colors.primary} size={24} />
+              </View>}
+
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ backgroundColor: '#FFEBF0', justifyContent: 'center', borderBottomLeftRadius: 20, borderBottomRightRadius: 20, borderTopRightRadius: 20, alignItems: 'center', width: 50, height: 50, }}>
+                <MaterialCommunityIcons name="tire" size={24} color={Colors.primary} />
+              </View>
+              {recordatorios[5].length > 0
+                ?
+                <View style={{ flexDirection: 'column', marginLeft: '10%' }}>
+                  <Text style={{ color: Colors.gray, fontSize: 16, marginBottom: 5 }}>Proxima Rotacion</Text>
+                  <Text style={{ color: Colors.secondary, fontWeight: 'bold', fontSize: 18 }}>El {new Date(recordatorios[5][0]?.fechaFinal).toLocaleDateString('es-ES', options)}</Text>
+                  <Text style={{ color: Dias(recordatorios[5][0]) < 10 ? Colors.primary : Colors.multaColor, fontWeight: '600', fontSize: 16 }}>Faltan {Dias(recordatorios[5][0])} Días</Text>
+                </View>
+                :
+                <TouchableOpacity onPress={() => handleCreateRecordatorio('Rotacion Llantas')} style={{ flexDirection: 'row', marginLeft: '10%', alignItems: 'center' }}>
+                  <Icon name="add-outline" color={Colors.primary} size={32} />
+                  <Text style={{ color: Colors.primary, fontSize: 16 }}>Agregar Rotacion</Text>
+                </TouchableOpacity>
+              }
+
+            </View>
+          </View>
+          <View style={{ backgroundColor: '#f3f3f3', width: '100%', height: 2, marginVertical: 15 }} />
+
+          <View style={{ flexDirection: 'column', }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
+              <Text style={styles.Title1}>Recarga Extintor <Icon name={'star'} color={'#F6DE0A'} size={20} /></Text>
+              {recordatorios[4].length > 0 && <View style={{ flexDirection: 'row' }}>
+                <Icon onPress={() => handleCreateRecordatorio('Recarga Extintor', recordatorios[4][0].id)} name="create-outline" color={Colors.primary} size={24} />
+                <Icon onPress={() => { setVisibleDelete(true), setEdit(recordatorios[4][0].id) }} name="trash-outline" color={Colors.primary} size={24} />
+              </View>}
+
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ backgroundColor: '#FFEBF0', justifyContent: 'center', borderBottomLeftRadius: 20, borderBottomRightRadius: 20, borderTopRightRadius: 20, alignItems: 'center', width: 50, height: 50, }}>
+                <FontAwesome5 name="fire-extinguisher" size={24} color={Colors.primary} />
+              </View>
+              {recordatorios[4].length > 0
+                ?
+                <View style={{ flexDirection: 'column', marginLeft: '10%' }}>
+                  <Text style={{ color: Colors.gray, fontSize: 16, marginBottom: 5 }}>Proxima Revision</Text>
+                  <Text style={{ color: Colors.secondary, fontWeight: 'bold', fontSize: 18 }}>El {new Date(recordatorios[4][0]?.fechaFinal).toLocaleDateString('es-ES', options)}</Text>
+                  <Text style={{ color: Dias(recordatorios[4][0]) < 10 ? Colors.primary : Colors.multaColor, fontWeight: '600', fontSize: 16 }}>Faltan {Dias(recordatorios[4][0])} Días</Text>
+                </View>
+                :
+                <TouchableOpacity onPress={() => handleCreateRecordatorio('Recarga Extintor')} style={{ flexDirection: 'row', marginLeft: '10%', alignItems: 'center' }}>
+                  <Icon name="add-outline" color={Colors.primary} size={32} />
+                  <Text style={{ color: Colors.primary, fontSize: 16 }}>Agregar Recarga</Text>
+                </TouchableOpacity>
+              }
+
+            </View>
+          </View>
+
         </View>
 
         <Modal
@@ -207,7 +293,7 @@ export default function RecordatoriosScreen({ route }) {
             setModalVisible(!modalVisible);
           }}
         >
-          <ModalCreateRecordatorio setModalVisible={setModalVisible} tipoRecordatorio={tipoRecordatorio} idVehiculo={id} edit={edit} setEdit={setEdit} />
+          <ModalCreateRecordatorio setModalVisible={setModalVisible} tipoRecordatorio={tipoRecordatorio} idVehiculo={item} edit={edit} setEdit={setEdit} />
         </Modal>
         {visibleDelete &&
           <Modal
@@ -215,7 +301,7 @@ export default function RecordatoriosScreen({ route }) {
             transparent={true}
             visible={visibleDelete}
           >
-            <ModalConfirmDelete setEdit={setEdit} setModalVisible={setModalVisible} setVisibleDelete={setVisibleDelete} id={edit} idVehiculo2={id} />
+            <ModalConfirmDelete setEdit={setEdit} setModalVisible={setModalVisible} setVisibleDelete={setVisibleDelete} id={edit} idVehiculo2={item} />
           </Modal>
         }
 
@@ -227,7 +313,14 @@ export default function RecordatoriosScreen({ route }) {
             setModalQuarks(false);
           }}
         >
-          <ModalScreenRecordatorio setVisibleModal={setModalQuarks}/>
+          <ModalScreenRecordatorio setVisibleModal={setModalQuarks} />
+        </Modal>
+        <Modal
+          animationType="fade"
+          visible={premiumModal}
+          transparent={true}
+        >
+          <ModalPremium setPremiumModal={setPremiumModal} />
         </Modal>
       </ScrollView>
       <TouchableOpacity onPress={() => setModalQuarks(true)} style={styles.ContainerIconAdd}>

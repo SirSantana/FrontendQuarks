@@ -24,6 +24,7 @@ export default function App() {
   const netinfo = useNetInfo()
   const [internet, setInternet] = useState(false)
   useEffect(() => {
+    console.log('connect',netinfo.isConnected);
     setInternet(netinfo.isConnected)
   }, [netinfo.isConnected])
 

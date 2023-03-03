@@ -4,11 +4,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../../../Contants/Colors';
 
 
-export default function IconsAction({ icon,text, id, navigate}) {
+export default function IconsAction({ icon,text, item, navigate}) {
 
   const navigation = useNavigation()
   return (
-    <TouchableOpacity onPress={() => navigation.navigate(navigate, { id:id })} style={{ flexDirection: 'column', width: '33%', justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+    <TouchableOpacity onPress={() => navigation.navigate(navigate, { item:item })} style={{ flexDirection: 'column', width: '33%', justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
       <View style={{ padding: 10, borderRadius: 25, backgroundColor: 'white', width: 50, height: 50, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Icon name={icon} color={Colors.primary} size={24} />
       </View>

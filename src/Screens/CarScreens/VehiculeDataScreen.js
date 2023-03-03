@@ -40,11 +40,11 @@ export default function VehiculeDataScreen({ route }) {
     if (!item) {
       getCars()
     }
-    if(user?.puntos === 150){
+    if(user?.puntos <= 150){
       setModalQuarks(true)
-      Alert.alert('Vehículo correctamente. Agrégale una imagen si no lo has hecho!')
     }
   }, [route])
+  console.log('item', item);
   return (
     <SafeAreaView style={styles.container}>
       {loading && <ActivityIndicator color={Colors.primary} />}
@@ -68,8 +68,8 @@ export default function VehiculeDataScreen({ route }) {
                     </View>
                     <Text style={{ color: 'white', fontWeight: '500' }}>Crear gasto</Text>
                   </TouchableOpacity>
-                  <IconsAction icon={'cash-outline'} text={'Gastos'} id={item.id} navigate={'Gastos'} />
-                  <IconsAction icon={'notifications-outline'} text={'Recordatorios'} id={item.id} navigate={'Recordatorios'} />
+                  <IconsAction icon={'cash-outline'} text={'Gastos'} item={item} navigate={'Gastos'} />
+                  <IconsAction icon={'notifications-outline'} text={'Recordatorios'} item={item.id} navigate={'Recordatorios'} />
                 </View>
               </View>
               <CardLimitGasto id={item.id} presupuestoMes={item?.presupuesto}/>
@@ -121,7 +121,7 @@ export default function VehiculeDataScreen({ route }) {
                     </View>
                     <Text style={{ color: 'white', fontWeight: '500' }}>Crear gasto</Text>
                   </TouchableOpacity>
-                  <IconsAction icon={'cash-outline'} text={'Gastos'} id={data?.getCars[0]?.id} navigate={'Gastos'} />
+                  <IconsAction icon={'cash-outline'} text={'Gastos'} item={data?.getCars[0]} navigate={'Gastos'} />
                   <IconsAction icon={'notifications-outline'} text={'Recordatorios'} id={data?.getCars[0]?.id} navigate={'Recordatorios'} />
                 </View>
               </View>

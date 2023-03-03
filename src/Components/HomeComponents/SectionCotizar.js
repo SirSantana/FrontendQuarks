@@ -1,15 +1,17 @@
-import { View, Text, Modal, Alert, StyleSheet, Pressable, TextInput, Image, ActivityIndicator,TouchableOpacity} from "react-native"
+import { View, Text, Modal, Alert, StyleSheet, Pressable, TextInput, Image, ActivityIndicator, TouchableOpacity } from "react-native"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Colors } from "../../Contants/Colors"
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Buttons } from "../../Themes/buttons";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
-import { GET_VEHICLES } from "../../graphql/querys";
+import { GET_PREGUNTAS_USER, GET_VEHICLES } from "../../graphql/querys";
 import { CREATE_PREGUNTA } from "../../graphql/mutations";
-import {  useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import SelectCar from "./SelectCar";
+import ModalCargando from "../../utils/ModalCargando";
+import ModalSuccesfull from "../../utils/ModalSuccesfull";
 
 const initialForm = {
   celular: '',
@@ -19,14 +21,15 @@ const initialForm = {
   imagen: ''
 }
 
-export default function SectionCotizar() {
+export default function SectionCotizar({setTab}) {
   const [image, setImage] = useState(null);
   const [form, setForm] = useState(initialForm)
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleMarca, setModalVisibleMarca] = useState(false);
   const { loading, data, error } = useQuery(GET_VEHICLES)
-  const [createPregunta, result] = useMutation(CREATE_PREGUNTA)
+  const [createPregunta, result] = useMutation(CREATE_PREGUNTA,{ refetchQueries: [{ query: GET_PREGUNTAS_USER }] })
   const [manualmente, setManualmente] = useState(false)
+  const [visibleSuccesfull, setVisibleSuccesfull] = useState(false)
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -40,21 +43,31 @@ export default function SectionCotizar() {
     if (!result.cancelled && result.type === 'image') {
       Alert.alert('Archivo seleccionado')
       setImage(result.uri);
-      setForm({ ...form, imagen: result.base64 })
+      let image = 'data:image/jpg;base64,' + result.base64
+      setForm({ ...form, imagen: image })
     }
     if (!result.cancelled && result?.type !== 'image') {
       return Alert.alert('Solo puedes seleccionar imagenes')
     }
   };
 
-  const handleSubmit=()=>{
-    createPregunta({variables:form})
+  const handleSubmit = () => {
+    createPregunta({ variables: form })
   };
+  useEffect(() => {
+    if (result?.data) {
+      setVisibleSuccesfull(true)
+      setTimeout(() => {
+        setVisibleSuccesfull(false)
+        setTab('cotizaciones')
+      }, 2000)
+    }
+  }, [result?.data])
   return (
     <KeyboardAwareScrollView
       resetScrollToCoords={{ x: 0, y: 0 }}
       keyboardShouldPersistTaps='always'
-      >
+    >
       <View style={{ padding: 20, backgroundColor: '#f7f7f7' }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
           <View>
@@ -72,11 +85,11 @@ export default function SectionCotizar() {
           </View>
           :
           <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Pressable onPress={()=> setModalVisibleMarca(true)} style={{ width: '35%', }}>
+            <Pressable onPress={() => setModalVisibleMarca(true)} style={{ width: '35%', }}>
               <Text style={styles.labelText}>Marca</Text>
               <View style={{ backgroundColor: 'white', elevation: 2, height: 50, paddingHorizontal: 10, alignItems: 'center', flexDirection: 'row', marginBottom: 10 }}>
                 <Icon name="car-sport-outline" color={Colors.gray} size={24} />
-                <Text style={{  fontSize: 16, width: '90%', marginLeft: 10 }}>{form?.marca}</Text>
+                <Text style={{ fontSize: 16, width: '90%', marginLeft: 10 }}>{form?.marca}</Text>
               </View>
             </Pressable>
             <View style={{ width: '60%', }}>
@@ -113,9 +126,9 @@ export default function SectionCotizar() {
         </View>
 
         <TouchableOpacity
-          style={[Buttons.primary, { width: '100%',backgroundColor:form.marca === initialForm.marca || form.referencia=== initialForm.referencia || form.celular=== initialForm.celular || form.titulo=== initialForm.titulo ? 'gray': '#f50057'}]}
+          style={[Buttons.primary, { width: '100%', backgroundColor: form.marca === initialForm.marca || form.referencia === initialForm.referencia || form.celular === initialForm.celular || form.titulo === initialForm.titulo ? 'gray' : '#f50057' }]}
           onPress={handleSubmit}
-          disabled={form === initialForm}
+          disabled={form.marca === initialForm.marca || form.referencia === initialForm.referencia || form.celular === initialForm.celular || form.titulo === initialForm.titulo ?true:false}
         >
           <Text style={{ color: 'white', fontSize: 18, fontWeight: "600" }}>Cotizar</Text>
         </TouchableOpacity>
@@ -137,7 +150,7 @@ export default function SectionCotizar() {
               {data?.getCars ?
                 <>
                   {data?.getCars.map(item => <SelectCar key={item.id} item={item} setForm={setForm} form={form} setModalVisible={setModalVisible} />)}
-                  <Text  onPress={() => { setForm(initialForm), setModalVisible(false), setManualmente(true) }} style={{ color: Colors.primary, alignSelf: 'center', fontSize: 18, fontWeight: "600", marginBottom: 20 }}>Cotizar manualmente</Text>
+                  <Text onPress={() => { setForm(initialForm), setModalVisible(false), setManualmente(true) }} style={{ color: Colors.primary, alignSelf: 'center', fontSize: 18, fontWeight: "600", marginBottom: 20 }}>Cotizar manualmente</Text>
                 </>
                 :
                 <Pressable onPress={() => { setModalVisible(false), setManualmente(true) }} style={{ marginVertical: 20, justifyContent: 'center', alignItems: 'center' }}>
@@ -160,18 +173,34 @@ export default function SectionCotizar() {
       >
         <Pressable onPress={() => setModalVisibleMarca(false)} style={styles.centeredView}>
 
-        <View style={styles.modalView2}>
-          <View style={{ backgroundColor: 'gray', height: 3, width: '20%', alignSelf: 'center', marginVertical: 10 }} />
-          <View style={{margin:20, alignItems:'center', justifyContent:'center'}}>
-          <Text onPress={()=> {setForm({...form, marca:'Chevrolet'}),setModalVisibleMarca(false)}} style={{ color: Colors.gray, alignSelf: 'center', fontSize: 18, fontWeight: "600" }}>Chevrolet</Text>
-          <View style={{ backgroundColor: 'blue', height: 1, width: '100%', alignSelf: 'center', marginVertical: 10 }} />
+          <View style={styles.modalView2}>
+            <View style={{ backgroundColor: 'gray', height: 3, width: '20%', alignSelf: 'center', marginVertical: 10 }} />
+            <View style={{ margin: 20, alignItems: 'center', justifyContent: 'center' }}>
+              <Text onPress={() => { setForm({ ...form, marca: 'Chevrolet' }), setModalVisibleMarca(false) }} style={{ color: Colors.gray, alignSelf: 'center', fontSize: 18, fontWeight: "600" }}>Chevrolet</Text>
+              <View style={{ backgroundColor: 'blue', height: 1, width: '100%', alignSelf: 'center', marginVertical: 10 }} />
 
-          <Text onPress={()=> {setForm({...form, marca:'Mazda'}), setModalVisibleMarca(false)}}style={{ color: Colors.gray, alignSelf: 'center', fontSize: 18, fontWeight: "600" }}>Mazda</Text>
+              <Text onPress={() => { setForm({ ...form, marca: 'Mazda' }), setModalVisibleMarca(false) }} style={{ color: Colors.gray, alignSelf: 'center', fontSize: 18, fontWeight: "600" }}>Mazda</Text>
+            </View>
+
           </View>
-
-        </View>
         </Pressable>
       </Modal>
+      <Modal
+        animationType="fade"
+        visible={result?.loading}
+        transparent={true}
+      >
+        <ModalCargando text='Creando cotizacion...' />
+      </Modal>
+      {visibleSuccesfull &&
+        <Modal
+          animationType="fade"
+          visible={visibleSuccesfull}
+          transparent={true}
+        >
+          <ModalSuccesfull text={'+2 pts'} description={'Cotizacion creada'} />
+        </Modal>
+      }
     </KeyboardAwareScrollView>
   )
 }

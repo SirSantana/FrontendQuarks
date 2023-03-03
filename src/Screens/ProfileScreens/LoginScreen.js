@@ -108,6 +108,7 @@ export default function LoginScreen() {
             fontSize: 18
           }}>No tienes una cuenta? Registrate</Text>
         </TouchableOpacity>
+        
       </View>
 
     </ImageBackground>

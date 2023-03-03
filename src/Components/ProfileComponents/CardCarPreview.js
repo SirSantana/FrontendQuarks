@@ -7,12 +7,18 @@ export default function CardCarPreview() {
   const {loading, data, error}=useQuery(GET_VEHICLES)
   const navigation = useNavigation()
   
-  if(loading){
-    return <ActivityIndicator/>
-  }
-  if(error){
-    return Alert.alert('Ha ocurrido un error, revisa tú conexión')
-  }
+  useEffect(() => {
+    if (loading) {
+     <ActivityIndicator style={{ flex: 1 }} color={Colors.primary} size='large' />
+    }
+  }, [loading])
+  useEffect(() => {
+    if(error){
+       Alert.alert('Ha ocurrido un error, revisa tú conexión')
+    }
+  }, [error])
+  
+  
   return (
       data && data?.getCars.map(el=>(
         <TouchableOpacity onPress={()=> navigation.navigate('Vehiculos', { item: el })} style={{ height: 250, marginVertical: '5%', backgroundColor: 'white', borderRadius: 20 }}>

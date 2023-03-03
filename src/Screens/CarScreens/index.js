@@ -22,7 +22,7 @@ export default function CarScreenIndex() {
       return navigation.navigate('Crear Vehiculo')
     }
     else {
-      return navigation.navigate('Profile')
+      return navigation.navigate('Mi perfil')
     }
   }
   useEffect(() => {

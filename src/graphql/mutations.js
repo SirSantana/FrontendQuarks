@@ -184,3 +184,10 @@ mutation createPregunta($marca:String, $celular:String, $referencia:String, $tit
     }
   }
 `
+
+
+export const RECURRENT_USER=gql`
+mutation userRecurrent{
+  userRecurrent
+}
+`

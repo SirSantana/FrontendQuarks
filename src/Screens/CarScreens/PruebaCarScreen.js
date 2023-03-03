@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { View, Image, Text, Pressable, TouchableOpacity, StyleSheet, TextInput, Alert, Modal } from "react-native";
 import { marcasCarros } from "../../Components/CarComponents/marcasCarros";
 import { marcasMotos } from "../../Components/CarComponents/marcasMotos";
@@ -88,6 +88,9 @@ export default function PruebaCarScreen() {
       }, 2000)
     }
   }, [data])
+  useLayoutEffect(()=>{
+    setVisibleModalDetailsCars({...visibleModalDetailsCars, marca:true})
+  },[])
 
   const handleChange = (itemMarca, src) => {
     setForm({ ...form, marca: itemMarca })
@@ -100,6 +103,7 @@ export default function PruebaCarScreen() {
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
       style={{ height: '100%', padding: 20 }}
+      
     >
       <View style={{ height: '20%', marginTop: '10%' }}>
         <Text style={{ fontWeight: '700', fontSize: 30, color: 'white', }}>Crea tú vehiculo </Text>
@@ -121,11 +125,12 @@ export default function PruebaCarScreen() {
           setVisibleModalDetailsCars({ ...visibleModalDetailsCars, marca: false });
         }}
       >
-        <Pressable onPress={() => setVisibleModalDetailsCars({ ...visibleModalDetailsCars, marca: false })} style={styles.centeredView}>
+        <Pressable onPress={() => setVisibleModalDetailsCars({ ...visibleModalDetailsCars, marca: false })} style={[styles.centeredView, {backgroundColor: 'rgba(0,0,0,0.5)',}]}>
           <View style={styles.modalView2}>
             <View style={{ backgroundColor: 'gray', height: 3, width: '20%', alignSelf: 'center', marginVertical: 10 }} />
             <View style={{ flexDirection: 'column', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginVertical: 20, }}>
+            <Text style={{ fontSize: 18, color: '#7a7a7a', marginBottom: 5 }}>Selecciona la marca de tu auto</Text>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, }}>
                 {marcasCarros?.map(el => (
                   <TouchableOpacity key={el.marca} onPressOut={() => { handleChange(el.marca, el.src), setVisibleModalDetailsCars({ ...visibleModalDetailsCars, marca: false }) }} style={{ width: 50, height: 50, margin: 10, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', borderRadius: 10, elevation: marca.marca === el.marca ? 5 : 0 }}>
                     <Image style={{ width: 40, height: 40 }} source={el.src} />

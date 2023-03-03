@@ -41,7 +41,7 @@ export default function ModalSettings({ setSettings, item }) {
       setSettings(false)
       setTimeout(() => {
         setVisibleSuccesfull(false)
-        navigation.navigate('Profile', { screen: 'ProfileScreen' })
+        navigation.navigate('Mi perfil', { screen: 'ProfileScreen' })
       }, 2000)
     }
   }, [data])

@@ -60,7 +60,7 @@ export default function CardLimitGasto({ id, presupuestoMes }) {
       setTimeout(() => {
         setVisibleSuccesfull(false)
         setVisibleInput(false)
-        navigation.navigate('Profile')
+        navigation.navigate('Mi perfil')
       }, 2000)
     }
   }, [result?.data])
@@ -133,16 +133,14 @@ export default function CardLimitGasto({ id, presupuestoMes }) {
           </View>
         </Pressable>
       </Modal>
-      {result?.loading &&
+        {result?.loading &&
         <Modal
-          animationType="fade"
-          visible={result?.loading}
-          transparent={true}
-
-        >
-          <ModalCargando text='Creando presupuesto...' />
-        </Modal>
-      }
+        animationType="fade"
+        visible={result?.loading}
+        transparent={true}
+      >
+        <ModalCargando text='Creando presupuesto...' />
+      </Modal>}
       <Modal
         animationType="fade"
         visible={premiumModal}

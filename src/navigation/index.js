@@ -39,12 +39,10 @@ const TabBarIcon = ({ color, name }) => {
 export const Navigation = () => {
   const { user, logout,loading } = useAuth()
   const [showRealApp, setShowRealApp] = useState(false)
-  console.log(user);
   if(loading){
-    return <ActivityIndicator color={Colors.primary}/>
+    return <ActivityIndicator style={{flex:1}} size={'large'} color={Colors.primary}/>
   }
   if(showRealApp && !user){
-    console.log('OTra');
     return <RegisterScreen />
   }
   if(!user){
@@ -54,7 +52,7 @@ export const Navigation = () => {
   return (
     <NavigationContainer >
       <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
-      <Tab.Navigator initialRouteName={user?.vehiculos?.length>0?'Vehiculo':'Mi perfil'} barStyle={{ backgroundColor: 'white' }} 
+      <Tab.Navigator initialRouteName={'Mi perfil'} barStyle={{ backgroundColor: 'white' }} 
       screenOptions={{
         headerShown: false, 
         tabBarStyle: {
@@ -62,13 +60,13 @@ export const Navigation = () => {
         },
         tabBarActiveTintColor: Colors.primary
       }}>
-        <Tab.Screen name="Cotizar" component={StackHome} options={{
+        {/* <Tab.Screen name="Cotizar" component={StackHome} options={{
           tabBarIcon: ({ focused }) => <Icon
             name={focused ? 'search' : 'search-outline'}
             color={focused ? Colors.primary : Colors.gray2}
             size={24}
           />
-        }} />
+        }} /> */}
         <Tab.Screen name="Vehiculo" component={StackCar} options={({ route }) => ({
           tabBarIcon: ({ color, focused }) => <Icon
             name={focused ? 'car-sport':"car-sport-outline"}

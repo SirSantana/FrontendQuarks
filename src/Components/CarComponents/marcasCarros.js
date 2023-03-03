@@ -26,7 +26,7 @@ export const marcasCarros = [
     },
     {
         marca: 'Mitsubishi',
-        src: require("../../../assets/Mitsubishi.png")
+        src: require("../../../assets/Mitsubishi1.png")
     },
     {
         marca: 'Hyundai',

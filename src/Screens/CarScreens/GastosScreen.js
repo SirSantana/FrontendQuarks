@@ -5,7 +5,7 @@ import Gasto from "../../Components/CarComponents/Gastos/Gasto";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors } from "../../Contants/Colors";
 import CardToGasto from "../../Components/CarComponents/Gastos/CardToGasto";
-import { useLayoutEffect, useRef, useState, } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, } from "react";
 import ModalCreateGasto from "../../Components/CarComponents/Gastos/ModalCreateGasto";
 import { GET_ALL_GASTOS } from "../../graphql/querys";
 import { useLazyQuery } from "@apollo/client";
@@ -16,7 +16,7 @@ export default function GastosScreen({ route }) {
   const [modalVisible2, setModalVisible2] = useState(false)
   const scrollViewRef = useRef(null)
   const navigation = useNavigation()
-  const id = route?.params?.id
+  const item = route?.params?.item
   const [resumenYear, setResumenYear] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [details, setDetails] = useState(null)
@@ -26,6 +26,7 @@ export default function GastosScreen({ route }) {
   const [yearActual, setYearActual] = useState(new Date().getFullYear())
 
   let gastosSeparados = [0, 0, 0, 0, 0, 0, 0, 0,]
+  let numeroGastosSeparados = [0, 0, 0, 0, 0, 0, 0, 0,]
   let yearsData = [[], [], [], [], [], [], [], [], [], [], [], []]
   let dataMonthActual
   let yearData;
@@ -45,21 +46,21 @@ export default function GastosScreen({ route }) {
   if (dataMonthActual) {
     for (let i = 0; i < dataMonthActual?.length; i++) {
       switch (dataMonthActual[i].tipo) {
-        case 'Tanqueada': gastosSeparados[0] += Number(dataMonthActual[i].dineroGastado)
+        case 'Tanqueada': {gastosSeparados[0] += Number(dataMonthActual[i].dineroGastado),numeroGastosSeparados[0]++}
           break;
-        case 'Mantenimiento': gastosSeparados[1] += Number(dataMonthActual[i].dineroGastado)
+        case 'Mantenimiento': {gastosSeparados[1] += Number(dataMonthActual[i].dineroGastado), numeroGastosSeparados[1]++}
           break;
-        case 'Lavada': gastosSeparados[2] += Number(dataMonthActual[i].dineroGastado)
+        case 'Lavada': {gastosSeparados[2] += Number(dataMonthActual[i].dineroGastado), numeroGastosSeparados[2]++}
           break;
-        case 'Repuestos': gastosSeparados[3] += Number(dataMonthActual[i].dineroGastado)
+        case 'Repuestos': {gastosSeparados[3] += Number(dataMonthActual[i].dineroGastado), numeroGastosSeparados[3]++}
           break;
-        case 'Parqueadero': gastosSeparados[4] += Number(dataMonthActual[i].dineroGastado)
+        case 'Parqueadero': {gastosSeparados[4] += Number(dataMonthActual[i].dineroGastado), numeroGastosSeparados[4]++}
           break;
-        case 'Peaje': gastosSeparados[5] += Number(dataMonthActual[i].dineroGastado)
+        case 'Peaje': {gastosSeparados[5] += Number(dataMonthActual[i].dineroGastado), numeroGastosSeparados[5]++}
           break;
-        case 'Multa': gastosSeparados[6] += Number(dataMonthActual[i].dineroGastado)
+        case 'Multa': {gastosSeparados[6] += Number(dataMonthActual[i].dineroGastado), numeroGastosSeparados[6]++}
           break;
-        case 'Otros': gastosSeparados[7] += Number(dataMonthActual[i].dineroGastado)
+        case 'Otros': {gastosSeparados[7] += Number(dataMonthActual[i].dineroGastado), numeroGastosSeparados[7]++}
           break;
       }
     }
@@ -68,28 +69,28 @@ export default function GastosScreen({ route }) {
     yearData = yearActual === 2022 ? yearsData[0] : yearsData[1]
     for (let i = 0; i < yearData?.length; i++) {
       switch (yearData[i].tipo) {
-        case 'Tanqueada': gastosSeparados[0] += Number(yearData[i].dineroGastado)
+        case 'Tanqueada': {gastosSeparados[0] += Number(yearData[i].dineroGastado),numeroGastosSeparados[0]++}
           break;
-        case 'Mantenimiento': gastosSeparados[1] += Number(yearData[i].dineroGastado)
+        case 'Mantenimiento': {gastosSeparados[1] += Number(yearData[i].dineroGastado),numeroGastosSeparados[1]++}
           break;
-        case 'Lavada': gastosSeparados[2] += Number(yearData[i].dineroGastado)
+        case 'Lavada': {gastosSeparados[2] += Number(yearData[i].dineroGastado),numeroGastosSeparados[2]++}
           break;
-        case 'Repuestos': gastosSeparados[3] += Number(yearData[i].dineroGastado)
+        case 'Repuestos': {gastosSeparados[3] += Number(yearData[i].dineroGastado),numeroGastosSeparados[3]++}
           break;
-        case 'Parqueadero': gastosSeparados[4] += Number(yearData[i].dineroGastado)
+        case 'Parqueadero': {gastosSeparados[4] += Number(yearData[i].dineroGastado),numeroGastosSeparados[4]++}
           break;
-        case 'Peaje': gastosSeparados[5] += Number(yearData[i].dineroGastado)
+        case 'Peaje': {gastosSeparados[5] += Number(yearData[i].dineroGastado),numeroGastosSeparados[5]++}
           break;
-        case 'Multa': gastosSeparados[6] += Number(yearData[i].dineroGastado)
+        case 'Multa': {gastosSeparados[6] += Number(yearData[i].dineroGastado),numeroGastosSeparados[6]++}
           break;
-        case 'Otros': gastosSeparados[7] += Number(yearData[i].dineroGastado)
+        case 'Otros': {gastosSeparados[7] += Number(yearData[i].dineroGastado),numeroGastosSeparados[7]++}
           break;
       }
     }
   }
   useLayoutEffect(() => {
-    if (id) {
-      getAll({ variables: { id: id } })
+    if (item) {
+      getAll({ variables: { id: item?.id } })
     }
   }, [])
 
@@ -98,9 +99,11 @@ export default function GastosScreen({ route }) {
     setDetails(item?.id)
     setModalVisible(true)
   }
-  if (loading) {
-    return <ActivityIndicator style={{ flex: 1 }} color={Colors.primary} />
-  }
+  useEffect(() => {
+    if (loading) {
+     <ActivityIndicator style={{ flex: 1 }} color={Colors.primary} />
+    }
+  }, [loading])
 
   let gastosFiltrados;
   if (filtro && !yearData) {
@@ -120,8 +123,10 @@ export default function GastosScreen({ route }) {
         <Icon onPress={() => navigation.goBack()} name="chevron-back-outline" color={Colors.secondary} size={32} style={{ position: 'absolute', top: Platform.OS === 'android' ? 20 : 30, left: 20, zIndex: 999 }} />
         <View style={styles.ViewTime}>
           <TimeSelectTime setResumenYear={setResumenYear} resumenYear={resumenYear} setMonthActual={setMonthActual} setYearActual={setYearActual} yearActual={yearActual} monthActual={monthActual} />
-          {gastosSeparados && <Detail gastosSeparados={gastosSeparados} />}
+          {gastosSeparados && <Detail gastosSeparados={gastosSeparados} numeroGastosSeparados={numeroGastosSeparados} car={item}/>}
+
         </View>
+
         <View style={styles.ViewAddGasto}>
           <Text style={styles.Title1}>Tus gastos</Text>
           <TouchableOpacity onPress={() => setModalVisible2(true)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -182,7 +187,7 @@ export default function GastosScreen({ route }) {
           transparent={true}
           visible={modalVisible2}
         >
-          <ModalCreateGasto setModalVisible2={setModalVisible2} id={id} />
+          <ModalCreateGasto setModalVisible2={setModalVisible2} id={item?.id} />
         </Modal>}
       <Modal
         animationType="fade"

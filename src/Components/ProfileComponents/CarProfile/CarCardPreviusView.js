@@ -7,7 +7,7 @@ import { marcasCarros } from "../../CarComponents/marcasCarros";
 import { marcasMotos } from "../../CarComponents/marcasMotos";
 import useAuth from "../../../hooks/useAuth";
 import ModalPremium from "../../../utils/ModalPremium";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function CarCardPreviusView() {
@@ -16,14 +16,18 @@ export default function CarCardPreviusView() {
   const { user } = useAuth()
   const [premiumModal, setPremiumModal] = useState(false)
 
-  if (loading) {
-    return <ActivityIndicator />
-  }
-  if (error) {
-    return Alert.alert('Ha ocurrido un error, revisa tú conexión')
-  }
+  useEffect(()=>{
+    if (error) {
+     Alert.alert('Ha ocurrido un error, revisa tú conexión')
+    }
+  },[error])
+  useEffect(()=>{
+    if (loading) {
+     <ActivityIndicator />
+    }
+  },[loading])
   const onNavigate = () => {
-    if (data.getCars.length > 0 && user?.premium <= 0) {
+    if (data.getCars.length > 0 && user?.premium < 2) {
       setPremiumModal(true)
     }else{
       navigation.navigate('Vehiculo', { screen: 'Vehiculos', params: { crear: 'Crear' } })
@@ -42,8 +46,8 @@ export default function CarCardPreviusView() {
                 <Image style={{ height: 40, width: 40, marginRight: 5 }} source={el?.tipo === 'Carro' ? marca?.src : marcaMoto?.src} />
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>{el.referencia}</Text>
-                    <Text style={{ fontSize: 14, color: 'white' }}>{el.modelo}</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>{el?.referencia}</Text>
+                    <Text style={{ fontSize: 14, color: 'white' }}>{el?.modelo}</Text>
                   </View>
                 </View>
               </View>
@@ -64,6 +68,7 @@ export default function CarCardPreviusView() {
       >
         <ModalPremium setPremiumModal={setPremiumModal} />
       </Modal>
+      
     </>
 
   )

@@ -12,7 +12,7 @@ export default function HomeScreenIndex() {
     <View style={{ backgroundColor: '#f7f7f7', width: '100%', }}>
       <OptionsMenuHome tab={tab} setTab={setTab}/>
       {tab === 'cotizaciones' && <CotizacionesUser setTab={setTab}/>}
-      {tab === 'search' && <SectionCotizar/>}
+      {tab === 'search' && <SectionCotizar setTab={setTab}/>}
       {tab === 'comunidad' && <CotizacionesComunidad/>}
     </View>
   )

@@ -27,7 +27,10 @@ const tipo = {
   "Seguro": 'Seguro',
   "Aceite": 'Cambio de aceite',
   "Impuestos": 'Impuestos',
-  "Tecnicomecanica": 'Revision tecnico mecanica'
+  "Tecnicomecanica": 'Revision tecnico mecanica',
+  "Recarga Extintor": 'Recarga Extintor',
+  'Rotacion Llantas': 'Rotacion Llantas'
+
 }
 export default function ModalCreateRecordatorio({ setModalVisible, tipoRecordatorio, idVehiculo, edit, setEdit }) {
   const [visibleSuccesfull, setVisibleSuccesfull] = useState(false)
@@ -38,18 +41,22 @@ export default function ModalCreateRecordatorio({ setModalVisible, tipoRecordato
   const [proxCambio, setProxCambio] = useState(new Date())
   const [createRecordatorio, { loading, data, error }] = useMutation(CREATE_RECORDATORIO, { refetchQueries: [{ query: GET_RECORDATORIOS, variables: { id: idVehiculo } }] })
   const [editRecordatorio, result] = useMutation(EDIT_RECORDATORIO, { refetchQueries: [{ query: GET_RECORDATORIOS, variables: { id: idVehiculo } }] })
-
+console.log(tipoRecordatorio);
   const title1 = {
     "Seguro": 'Ultimo Pago',
     "Aceite": 'Ultimo Cambio',
     "Impuestos": 'Ultimo Pago',
-    "Tecnicomecanica": 'Ultima revision'
+    "Tecnicomecanica": 'Ultima Revision',
+    'Recarga Extintor': 'Ultima Recarga',
+    'Rotacion Llantas': 'Ultimo Cambio'
   }
   const title2 = {
     "Seguro": 'Proximo Pago',
     "Aceite": 'Proximo Cambio',
     "Impuestos": 'Proximo Pago',
-    "Tecnicomecanica": 'Proxima revision'
+    "Tecnicomecanica": 'Proxima Revision',
+    'Recarga Extintor': 'Proxima Recarga',
+    'Rotacion Llantas': 'Proximo Cambio'
   }
 
   const showDatePicker = () => {
@@ -161,6 +168,16 @@ export default function ModalCreateRecordatorio({ setModalVisible, tipoRecordato
               <>
                 <MaterialCommunityIcons name="file-percent" size={24} color={Colors.primary} />
                 <Text style={styles.title}>{edit && 'Editar '}Impuestos</Text></>
+            }{
+              tipoRecordatorio === 'Recarga Extintor' &&
+              <>
+                <FontAwesome5 name="fire-extinguisher" size={24} color={Colors.primary} />
+                <Text style={styles.title}>{edit && 'Editar '}Recarga Extintor</Text></>
+            }{
+              tipoRecordatorio === 'Rotacion Llantas' &&
+              <>
+                <MaterialCommunityIcons name="tire" size={24} color={Colors.primary} />
+                <Text style={styles.title}>{edit && 'Editar '}Rotacion Llantas</Text></>
             }
 
           </View>
@@ -219,7 +236,7 @@ export default function ModalCreateRecordatorio({ setModalVisible, tipoRecordato
             </Pressable>
           }
           <TouchableOpacity
-            disabled={tipoRecordatorio === 'Aceite' && disabled ? true : false}
+            disabled={tipoRecordatorio === 'Aceite' && disabled ? true : false }
             onPress={handleSubmit}
             style={[Buttons.primary, { width: '100%', marginTop: 20, backgroundColor: tipoRecordatorio === 'Aceite' && disabled ? 'gray' : Colors.primary }]}
           >

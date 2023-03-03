@@ -7,7 +7,6 @@ import { slides } from "./slides";
 
 
 export default function OnBoardingScreens({ setShowRealApp }) {
-  console.log('Hola');
   const renderItem = ({ item }) => {
     return (
       <View

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ImageBackground, Pressable, ActivityIndicator, Image, Linking, Alert } from "react-native"
+import { View, Text, TouchableOpacity, ImageBackground, Pressable, ActivityIndicator, Image, Linking, Alert, ScrollView } from "react-native"
 import { Colors } from "../../Contants/Colors"
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useQuery } from "@apollo/client";
@@ -17,7 +17,7 @@ export default function CotizacionesUser({ setTab }) {
     }
   }, [error])
   return (
-    <View style={{ backgroundColor: 'white' }}>
+    <ScrollView style={{ backgroundColor: 'white', marginBottom: 100 }}>
       <Text style={{ color: '#7a7a7a', fontSize: 18, fontWeight: '400', marginRight: 5, marginVertical: 20, marginLeft: '5%', }}>Tus cotizaciones</Text>
       {loading && <ActivityIndicator color={Colors.primary} />}
       {data?.getPreguntasUser ?
@@ -53,6 +53,6 @@ export default function CotizacionesUser({ setTab }) {
           </ImageBackground>
         </TouchableOpacity>
       }
-    </View>
+    </ScrollView>
   )
 }

@@ -1,6 +1,7 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React, { useState, createContext, useEffect } from 'react';
 import { client } from '../../apollo';
+import { RECURRENT_USER } from '../graphql/mutations';
 import { GET_USER } from '../graphql/querys';
 
 export const AuthContext = createContext({
@@ -15,6 +16,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false)
 
   const result = useQuery(GET_USER)
+  const [userRecurrent, {loadingData, data, error}] = useMutation(RECURRENT_USER)
   const login = () => {
     if (result?.data?.getUser) {
       setUser(result?.data?.getUser)
@@ -23,6 +25,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setUser(null)
   }
+  
   const getUser = async () => {
     try {
       setUser(result?.data?.getUser)
@@ -41,6 +44,9 @@ export function AuthProvider({ children }) {
     getUser()
     if (!token) {
       client.resetStore()
+    }
+    if(result?.data){
+      userRecurrent()
     }
 
   }, [result, token])

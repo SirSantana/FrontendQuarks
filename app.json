@@ -2,14 +2,14 @@
   "expo": {
     "name": "Quarks - Tu Vehiculo en tu Bolsillo",
     "slug": "Quarks",
-    "version": "2.0.1",
+    "version": "2.0.10",
     "orientation": "portrait",
     "icon": "./assets/Logo1.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/SplashScreen.png",
       "resizeMode": "contain",
-      "backgroundColor": "#FFFFFF"
+      "backgroundColor": "#f1f1fb"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,9 +23,9 @@
     },
     "android": {
       "package": "com.quarks.vehiculo",
-      "versionCode": 35,
+      "versionCode": 44,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/Logo1.png",
+        "foregroundImage": "./assets/LogoApp.png",
         "backgroundColor": "#fbfbfb"
       },
       "permissions": [
