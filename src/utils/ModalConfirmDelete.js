@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { Modal, View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
 import { useEffect, useState } from 'react';
-import { GET_ALL_GASTOS, GET_RECORDATORIOS } from '../graphql/querys';
+import { GET_ALL_GASTOS, GET_GASTOS, GET_GASTOS_MONTH, GET_RECORDATORIOS } from '../graphql/querys';
 import { DELETE_GASTO, DELETE_RECORDATORIO } from '../graphql/mutations';
 import { Buttons } from '../Themes/buttons';
 import ModalCargando from './ModalCargando';
@@ -15,20 +15,37 @@ export default function ModalConfirmDelete({ setEdit, setVisibleDelete, id, idVe
 
   const [deleteGasto, { data, loading, error }] = useMutation(DELETE_GASTO, {
     update(cache, { data }) {
-      const { getAllGastos } = cache.readQuery({
-        query: GET_ALL_GASTOS,
-        variables: { id: idVehiculo },
-      })
+      const cah1 = cache.readQuery({query: GET_ALL_GASTOS,variables: { id: idVehiculo }})
+      if (cah1 !== null) {
       cache.writeQuery({
         query: GET_ALL_GASTOS,
         variables: { id: idVehiculo },
         data: {
-          getAllGastos: getAllGastos.filter(el => el.id !== data.deleteGasto)
+          getAllGastos: cah1?.getAllGastos.filter(el => el.id !== data.deleteGasto)
         }
       })
-
     }
-  })
+    const cah2 = cache.readQuery({query: GET_GASTOS_MONTH, variables: { id: idVehiculo },})
+    if (cah2 !== null) {
+    cache.writeQuery({
+      query: GET_GASTOS_MONTH,
+      variables: { id: idVehiculo },
+      data: {
+        getGastosMonth: cah2?.getGastosMonth.filter(el => el.id !== data.deleteGasto)
+      }
+    })
+  }
+    const cah3 = cache.readQuery({query: GET_GASTOS, variables: { id: idVehiculo },})
+    if (cah3 !== null) {
+    cache.writeQuery({
+      query: GET_GASTOS,
+      variables: { id: idVehiculo },
+      data: {
+        getPrevGastos: cah3?.getPrevGastos.filter(el => el.id !== data.deleteGasto)
+      }
+    })
+  }
+}})
   const [deleteRecordatorio, result] = useMutation(DELETE_RECORDATORIO, { refetchQueries: [{ query: GET_RECORDATORIOS, variables: { id: idVehiculo2 } }] })
 
   const Delete = () => {

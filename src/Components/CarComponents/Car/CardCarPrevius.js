@@ -1,4 +1,3 @@
-import { useLayoutEffect } from "react";
 import { View,ImageBackground,TouchableOpacity,Text,Pressable,Image,ActivityIndicator} from "react-native";
 import { Colors } from "../../../Contants/Colors";
 
@@ -15,10 +14,10 @@ export default function CardCarPrevius({pickImage, setVisibleModalDetailsCars,vi
       </ImageBackground>
       <View style={{ flexDirection: 'row', alignItems: 'center', height: '20%' }}>
         <Pressable style={{ marginRight: 10 }} onPress={() => setVisibleModalDetailsCars({...visibleModalDetailsCars, marca:true})}>
-          <Image style={{ width: 50, height: 50,}} source={logo ? logo.src : 5} />
+          <Image style={{ width: 50, height: 50,}} source={logo ? logo.src : require('../../../../assets/Mazda.png')} />
         </Pressable>
         <View>
-          <Text onPress={() => setVisibleModalDetailsCars({...visibleModalDetailsCars, referencia:true})} style={{ fontWeight: 'bold', fontSize: 18, color: 'white' }}>{form?.referencia.length > 0 ? form.referencia : "(Aquí tu referencia)"}</Text>
+          <Text onPress={() => setVisibleModalDetailsCars({...visibleModalDetailsCars, referencia:true})} style={{ fontWeight: 'bold', fontSize: 18, color: 'white', marginBottom:4 }}>{form?.referencia.length > 0 ? form.referencia : "(Aquí tu referencia)"}</Text>
           <Text onPress={() => setVisibleModalDetailsCars({...visibleModalDetailsCars, modelo:true})} style={{ fontWeight: '400', fontSize: 14, color: 'white' }}>{form?.modelo.length > 0 ? form.modelo : "(Aquí tu modelo)"}</Text>
         </View>
       </View>

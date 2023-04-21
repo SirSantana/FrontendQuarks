@@ -85,7 +85,9 @@ export const GET_ONE_USERS = gql`
   query getOneUser($id:ID){
     getOneUser(id:$id){
       name
-      email
+      premium
+      vehiculos
+      puntos
     }
 
   }
@@ -229,4 +231,16 @@ export const GET_MENSAJES = gql`
     name
     }
   }  
+`
+
+export const GET_SCORE = gql`
+  query getScore{
+    getScore{
+      name
+      puntos
+      id
+      
+    }
+
+  }
 `

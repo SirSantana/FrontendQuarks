@@ -119,6 +119,32 @@ mutation signUp($email: String!, $password:String!, $name:String!,  $confirmPass
   }
 }
 `
+export const ADD_EMAIL_USER = gql`
+mutation addEmailUser($email: String!, $password:String!,   $confirmPassword:String!) {
+  addEmailUser(input:{email: $email, password:$password, confirmPassword:$confirmPassword,}) {
+    name
+    apellido
+    pais
+    avatar
+    ciudad
+    id
+    role
+    email
+  }
+}
+`
+export const SIGN_UP_WITHOUT_EMAIL = gql`
+mutation signUpWithoutEmail($name: String) {
+  signUpWithoutEmail(name:$name) {
+    user {
+      name
+      id
+    }
+    token
+  }
+}
+`
+
 export const SEND_MESSAGE_PASSWORD = gql`
 mutation sendMessagePassword($email:String!, $codigo:Int){
   sendMessagePassword(email:$email, codigo:$codigo)
@@ -190,4 +216,11 @@ export const RECURRENT_USER=gql`
 mutation userRecurrent{
   userRecurrent
 }
+`
+
+
+export const INTERESADO_PREMIUM = gql`
+  mutation interesadoPremium($celular:String){
+    interesadoPremium(celular:$celular)
+  }
 `

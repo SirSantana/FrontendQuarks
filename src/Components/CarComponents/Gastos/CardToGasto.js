@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PriceFormat from "../../../utils/priceFormat";
@@ -13,7 +13,6 @@ export default function CardToGasto({ data, gasto, color, setFiltro }) {
   if (gasto === 'Peaje') { tipoGasto= 'highway' }
   if (gasto === 'Multa')  { tipoGasto= 'local-police'}
   if (gasto === 'Otros') { tipoGasto='add' }
-  const dineroGastado = PriceFormat({price:data.toString()})
   return (
     <TouchableOpacity onPress={()=>setFiltro(gasto)} style={{ backgroundColor: color, width: 120, height: 150, marginRight: 20, borderRadius: 20, alignItems: 'flex-end', justifyContent: 'flex-end', padding: 10 }}>
       {tipoGasto === 'fuel' || tipoGasto === 'car-brake-parking' || tipoGasto === "car-wrench" ||tipoGasto === 'highway' ?

@@ -3,6 +3,7 @@ import React, { useState, createContext, useEffect } from 'react';
 import { client } from '../../apollo';
 import { RECURRENT_USER } from '../graphql/mutations';
 import { GET_USER } from '../graphql/querys';
+import OnBoardingScreens from '../Screens/OnBoardScreens';
 
 export const AuthContext = createContext({
   user: undefined,
@@ -14,6 +15,8 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [showRealApp, setShowRealApp] = useState(false)
+
 
   const result = useQuery(GET_USER)
   const [userRecurrent, {loadingData, data, error}] = useMutation(RECURRENT_USER)
@@ -30,7 +33,6 @@ export function AuthProvider({ children }) {
     try {
       setUser(result?.data?.getUser)
     } catch (error) {
-      console.log(error);
     }
   };
   useEffect(() => {

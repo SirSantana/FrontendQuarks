@@ -8,6 +8,7 @@ import { EDIT_USER } from '../../graphql/mutations';
 import { Colors } from '../../Contants/Colors';
 import { Buttons } from '../../Themes/buttons';
 import ModalSuccesfull from '../../utils/ModalSuccesfull';
+import ModalSecurityUser from '../../utils/ModalSecurityUser';
 
 const initialForm = {
   nombre: "",
@@ -23,6 +24,8 @@ export default function EditProfile({ user, setVisibleEdit }) {
   const [editUser, { loading, data, error }] = useMutation(EDIT_USER)
   const { width, height } = Dimensions.get('window');
   const [visibleSuccesfull, setVisibleSuccesfull] = useState(false)
+  const [visibleAddEmail, setVisibleAddEmail] = useState(false)
+
 
   const handleEdit = () => {
     for (let property in form) {
@@ -99,6 +102,8 @@ export default function EditProfile({ user, setVisibleEdit }) {
             <Pressable style={{ backgroundColor: 'white', width: '100%', height: 50, paddingHorizontal: 5, alignItems: 'center', flexDirection: 'row', marginBottom: 10 }}>
               <TextInput maxLength={15} onChangeText={(text) => setForm({ ...form, pais: text.trim() })} placeholder={user?.pais? user?.pais: 'Colombia'}  style={[styles.labelText, { width: '80%', marginHorizontal: 10 }]} />
             </Pressable>
+
+            {!user?.email && <Text onPress={()=> setVisibleAddEmail(true)} style={styles.labelTextEmail}>Agregar Email</Text>}
             {/* <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
            {user?.avatar &&!image && <Image source={{uri:'data:image/png;base64,'+ user.avatar}} style={{ width: 50, height: 50 }} />}
 
@@ -118,7 +123,7 @@ export default function EditProfile({ user, setVisibleEdit }) {
            </View> */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
               <TouchableOpacity onPress={() => handleEdit()} disabled={form == initialForm ? true : false || loading && true} style={[Buttons.primary, { width: "45%", backgroundColor: form === initialForm ? 'gray' : Colors.primary }]}>
-                <Text style={{ color: 'white', fontWeight: '600' }}>Editar perfil</Text>
+                <Text style={{ color: 'white', fontWeight: '600' }}>Guardar Cambios</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => setVisibleEdit(false)} style={[Buttons.primaryOutlined, { width: "45%" }]}>
                 <Text style={{ color: Colors.primary, fontWeight: '600' }}>Regresar</Text>
@@ -143,6 +148,15 @@ export default function EditProfile({ user, setVisibleEdit }) {
 
           >
             <ModalSuccesfull text={'Perfecto!'} description={'Usuario editado'} />
+          </Modal>
+        }
+        {visibleAddEmail &&
+          <Modal
+            animationType="fade"
+            visible={visibleAddEmail}
+            transparent={true}
+          >
+            <ModalSecurityUser setVisibleAddEmail={setVisibleAddEmail} />
           </Modal>
         }
       </KeyboardAwareScrollView>
@@ -180,5 +194,8 @@ const styles = StyleSheet.create({
   },
   labelText: {
     marginBottom: 5, color: Colors.gray
+  },
+  labelTextEmail: {
+    marginBottom: 5, color: '#f50057', fontSize:16
   },
 });

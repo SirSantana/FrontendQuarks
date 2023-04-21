@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Quarks - Tu Vehiculo en tu Bolsillo",
+    "name": "Contabilidad de tu carro - Quarks",
     "slug": "Quarks",
-    "version": "2.0.10",
+    "version": "3.0.1",
     "orientation": "portrait",
-    "icon": "./assets/Logo1.png",
+    "icon": "./assets/LogoApp.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/SplashScreen.png",
@@ -23,7 +23,7 @@
     },
     "android": {
       "package": "com.quarks.vehiculo",
-      "versionCode": 44,
+      "versionCode": 46,
       "adaptiveIcon": {
         "foregroundImage": "./assets/LogoApp.png",
         "backgroundColor": "#fbfbfb"

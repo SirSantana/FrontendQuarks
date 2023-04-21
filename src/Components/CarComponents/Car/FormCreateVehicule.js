@@ -55,7 +55,6 @@ export default function FormCreateVehicule({ route }) {
       updateCar({ variables: { ...form, id: itemData.id } })
       setForm(initialForm)
     } else {
-      console.log('Create vehiculo');
     }
   }
   const handleChange = (itemMarca) => {
@@ -80,7 +79,7 @@ export default function FormCreateVehicule({ route }) {
 
   useEffect(() => {
     if (result?.data) {
-      navigation.navigate('Vehiculos', { item: result?.data?.updateCar })
+      navigation.navigate('Vehiculo', {screen:'CarScreen'})
     }
   }, [result?.data])
 

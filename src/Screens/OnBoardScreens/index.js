@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -36,7 +35,7 @@ export default function OnBoardingScreens({ setShowRealApp }) {
   const renderDoneButton = () => {
     return (
       <TouchableOpacity onPress={()=> setShowRealApp(true)} style={styles.buttonRegister}>
-        <Text style={{ color: '#f50057', fontSize: 18, fontWeight: '600' }}>Registrate</Text>
+        <Text style={{ color: '#f50057', fontSize: 18, fontWeight: '600' }}>Empezar</Text>
       </TouchableOpacity>
     );
   };

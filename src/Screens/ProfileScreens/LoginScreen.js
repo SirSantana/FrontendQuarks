@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { Text, View, TextInput, ImageBackground, StatusBar, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TextInput, ImageBackground, StatusBar, StyleSheet, TouchableOpacity, Alert, Modal } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SIGN_IN_MUTATION } from '../../graphql/mutations';
 import { useMutation } from '@apollo/client'
 import GET_USER from '../../Context/AuthContext'
 import { Colors } from "../../Contants/Colors";
-import RegisterScreen from "./RegisterScreen";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { client } from '../../../apollo';
 import useAuth from '../../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ModalPutName from "../../utils/ModalPutName";
 
 const initialForm = {
   email: '',
@@ -26,7 +26,6 @@ export default function LoginScreen() {
   const [register, setRegister] = useState(false)
   const [signIn, { data, error, loading }] = useMutation(SIGN_IN_MUTATION, { refetchQueries: [{ query: GET_USER }] })
   const { login } = useAuth()
-
   const formik = useFormik({
     initialValues: initialForm,
     validateOnChange: false,
@@ -53,9 +52,7 @@ export default function LoginScreen() {
     }
   }, [data])
 
-  if (register) {
-    return <RegisterScreen />
-  }
+ 
   return (
     <ImageBackground
       source={require(`../../../assets/backRotate.png`)}
@@ -106,11 +103,16 @@ export default function LoginScreen() {
           <Text style={{
             color: Colors.primary,
             fontSize: 18
-          }}>No tienes una cuenta? Registrate</Text>
+          }}>Regresar</Text>
         </TouchableOpacity>
         
       </View>
-
+      <Modal animationType="fade"
+      transparent={true}
+      visible={register}
+      >
+      <ModalPutName/>
+    </Modal>
     </ImageBackground>
   )
 }

@@ -1,16 +1,16 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, ScrollView, FlatList, TouchableOpacity, Alert, StyleSheet, ActivityIndicator, Platform, Modal } from "react-native";
-import Detail from "../../Components/CarComponents/Car/Detail";
+import Detail from "../../Components/CarComponents/Gastos/Detail";
 import Gasto from "../../Components/CarComponents/Gastos/Gasto";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors } from "../../Contants/Colors";
 import CardToGasto from "../../Components/CarComponents/Gastos/CardToGasto";
 import { useEffect, useLayoutEffect, useRef, useState, } from "react";
-import ModalCreateGasto from "../../Components/CarComponents/Gastos/ModalCreateGasto";
+import ModalCreateGasto from "../../Components/CarComponents/Modals/ModalCreateGasto";
 import { GET_ALL_GASTOS } from "../../graphql/querys";
 import { useLazyQuery } from "@apollo/client";
-import ModalDetailsGasto from "../../Components/CarComponents/Gastos/ModalDetailsGasto";
-import TimeSelectTime from "../../Components/CarComponents/Gastos/TabSelectTime";
+import ModalDetailsGasto from "../../Components/CarComponents/Modals/ModalDetailsGasto";
+import TimeSelectTime from "../../Components/CarComponents/TabSelectTime";
 
 export default function GastosScreen({ route }) {
   const [modalVisible2, setModalVisible2] = useState(false)

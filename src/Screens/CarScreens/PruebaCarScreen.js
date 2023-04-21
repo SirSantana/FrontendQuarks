@@ -1,19 +1,18 @@
 import { useState, useEffect, useLayoutEffect } from "react";
 import { View, Image, Text, Pressable, TouchableOpacity, StyleSheet, TextInput, Alert, Modal } from "react-native";
-import { marcasCarros } from "../../Components/CarComponents/marcasCarros";
-import { marcasMotos } from "../../Components/CarComponents/marcasMotos";
 import * as ImagePicker from 'expo-image-picker';
-import { getFileInfo, isLessThanTheMB } from "../../utils/actions";
+import { getFileInfo,  } from "../../utils/actions";
 import {  useMutation } from "@apollo/client";
 import { CREATE_CAR } from "../../graphql/mutations";
 import { GET_USER, GET_VEHICLES } from "../../graphql/querys";
 import { useNavigation } from "@react-navigation/native";
 import { Buttons } from "../../Themes/buttons";
 import { LinearGradient } from 'expo-linear-gradient';
-import Icon from 'react-native-vector-icons/Ionicons';
-import CardCarPrevius from "../../Components/CarComponents/Car/CardCarPrevius";
 import ModalSuccesfull from "../../utils/ModalSuccesfull";
 import ModalCargando from "../../utils/ModalCargando";
+import CardCarPrevius from "../../Components/CarComponents/Car/CardCarPrevius";
+import { marcasMotos } from "../../Components/CarComponents/marcasMotos";
+import { marcasCarros } from "../../Components/CarComponents/marcasCarros";
 
 const initialForm = {
   marca: 'Mazda',
@@ -51,11 +50,6 @@ export default function PruebaCarScreen() {
       return Alert.alert('Solo puedes seleccionar imagenes')
     }
     if (!result.cancelled) {
-      // const isLt15MB = isLessThanTheMB(fileInfo.size, 2)
-      // if (!isLt15MB) {
-      //   Alert.alert(`Elige una imagen con un tamaño inferior a 2MB!`)
-      //   return
-      // }
       setImage(result.uri);
       let image = 'data:image/jpg;base64,' + result.base64
       setForm({ ...form, imagen: image })
@@ -84,7 +78,7 @@ export default function PruebaCarScreen() {
       setVisibleSuccesfull(true)
       setTimeout(() => {
         setVisibleSuccesfull(false)
-        navigation.navigate('Vehiculo', { screen: 'Vehiculos', params: { item: data?.createCar } })
+        navigation.navigate('Vehiculo', { screen: 'CarScreen' })
       }, 2000)
     }
   }, [data])
@@ -112,9 +106,9 @@ export default function PruebaCarScreen() {
 
       <CardCarPrevius form={form} image={image} logo={logo} pickImage={pickImage} setVisibleModalDetailsCars={setVisibleModalDetailsCars} visibleModalDetailsCars={visibleModalDetailsCars} />
 
-      <Pressable onPress={handleSubmit} style={[Buttons.primary, { width: '100%', marginTop: '20%' }]}>
+      <TouchableOpacity disabled={loading} onPress={handleSubmit} style={[Buttons.primary, { width: '100%', marginTop: '20%' }]}>
         <Text style={{ color: 'white', fontSize: 18, fontWeight: "600" }}>Crear vehiculo</Text>
-      </Pressable>
+      </TouchableOpacity>
 
       <Modal
         animationType="slide"

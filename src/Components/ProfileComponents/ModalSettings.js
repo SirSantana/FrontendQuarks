@@ -5,7 +5,7 @@ import { Colors } from "../../Contants/Colors"
 import useAuth from "../../hooks/useAuth"
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useState } from "react"
-import Sugerencias from "./Sugerencias"
+// import Sugerencias from "./Sugerencias"
 import EditProfile from "./EditProfile"
 import OptionSetting from "../../utils/OptionSetting"
 import ModalPremium from "../../utils/ModalPremium"
@@ -19,11 +19,12 @@ export default function ModalSettings({ setSettings }) {
   const [visibleEdit, setVisibleEdit] = useState(false)
   const [premiumModal, setPremiumModal] = useState(false)
 
+
   const handleLogout = () => {
     AsyncStorage.clear().then(() => logout())
     navigation.reset({
       index: 0,
-      routes: [{ name: 'SignUp' }]
+      routes: [{ name: 'Vehiculo' }]
     })
   }
   return (
@@ -32,21 +33,25 @@ export default function ModalSettings({ setSettings }) {
         <View style={[styles.separador]} />
         <Text style={{ fontSize: 16, margin: 10, fontWeight: 'bold', color: user?.premium > 0 ? "#E9D200" : Colors.secondary }}>Cuenta nivel {user?.premium <= 0 && 'Gratuito'} {user?.premium === 1 && 'Premium'} {user?.premium === 2 && 'Premium +'} </Text>
         <OptionSetting setVisible={setPremiumModal} text={user?.premium > 0 ? 'Ya eres premium' : 'Conviertete en Premium'} icon={'star'} />
+        {/* <OptionSetting setVisible={setVisibleProfile} text={'Ver perfil'} icon={'send-outline'} /> */}
         <OptionSetting setVisible={setVisibleEdit} text={'Editar perfil'} icon={'create-outline'} />
         <OptionSetting setVisible={setVisibleSugerencia} text={'Enviar Sugerencias'} icon={'send-outline'} />
         <View style={[styles.separador, { backgroundColor: '#f3f3f3', width: '90%', height: 2 }]} />
-        <TouchableOpacity onPress={handleLogout} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 16, margin: 10, color: Colors.primary }} >Cerrar Sesion </Text>
-          <Icon name="log-out-outline" color={Colors.primary} size={24} style={{ marginLeft: 10, alignSelf: 'center' }} />
-        </TouchableOpacity>
+        {user?.email &&
+          <TouchableOpacity onPress={handleLogout} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 16, margin: 10, color: Colors.primary }} >Cerrar Sesion </Text>
+            <Icon name="log-out-outline" color={Colors.primary} size={24} style={{ marginLeft: 10, alignSelf: 'center' }} />
+          </TouchableOpacity>
+        }
+
       </View>
-      <Modal
+      {/* <Modal
         animationType="fade"
         visible={visibleSugerencia}
         transparent={true}
       >
         <Sugerencias setVisibleSugerencia={setVisibleSugerencia} />
-      </Modal>
+      </Modal> */}
       <Modal
         animationType="slide"
         visible={visibleEdit}
@@ -61,6 +66,7 @@ export default function ModalSettings({ setSettings }) {
       >
         <ModalPremium setPremiumModal={setPremiumModal} />
       </Modal>
+
     </Pressable>
 
   )

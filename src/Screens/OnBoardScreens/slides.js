@@ -8,15 +8,15 @@ export const slides = [
     },
     {
       key: 2,
-      title: 'Servicios para tu vehiculo',
-      text: 'Pronto encontrarás talleres, almacenes y más...',
+      title: 'Recordatorios ',
+      text: 'Agrega recordatorios para los mantenimientos...',
       image: require('../../../assets/screen2.png'),
       // backgroundImage:require(`../../../assets/back2.png`)
     },
     {
       key: 3,
       title: 'Crea tu perfil gratis!',
-      text: 'No te tomara más de 2 minutos.',
+      text: 'Y empieza a controlar tu vehiculo y tu bolsillo.',
       image: require('../../../assets/screen3.png'),
       // backgroundImage:require(`../../../assets/back3.png`)
     }
